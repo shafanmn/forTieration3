@@ -1,0 +1,34 @@
+*********** FORMS **********
+	Font		:Cambria 10pt
+	Color		:Black
+	BG Color	:Default(white) //We can change it later if we want
+	
+	*Rename forms to their desired function name
+	 Do not use Form1. Form2 as the name.	
+	*Set MaximizeBox property to false
+	
+	
+*********** BUTTONS **********
+	Font		:Cambria 12pt
+	Fore Color	:HotTrack
+	BG Color	:GradientActiveCaption
+	
+
+*********** DataGridView **********
+	GridColor	:ActiveCaption
+	
+	*Set Selection mode to 'FullRowSelect'
+	*Disable cell adding,editing,deleting,reordering(unless you really need it)
+	*Set AutoSizeColumnMode to 'Fill'
+	*To load details from DB to dgv, try to use the function 'LoadToDatagridview' in Homepage (this is not necessary)
+	
+*********** General Guidelines **********
+
+*Restrict some functionalities to 'User' over 'Admin'
+ Use 'currentUserAccess' variable in Homepage {'2' == User; '1' == Admin}
+ 
+*Only edit your Form, and upload only your 3 files (*.cs,*.designer.cs,*.resx)
+
+*Before uploading the SQL, rename it to "<yourname-exportedDate>.sql"
+
+*Pull it to GitHub or upload it to cloud and send the link to the group
