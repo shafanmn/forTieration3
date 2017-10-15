@@ -607,6 +607,8 @@ namespace Delivery
             LoadToDatagridview(dgvCustomer, "SELECT * FROM to_customers");
             LoadToDatagridview(dgvService, "SELECT * FROM service_details");
             LoadvechileNo();
+            LoadDriver();
+            LoadDriverSup();
         }
 
         private void buttnSave_Click_1(object sender, EventArgs e)
@@ -983,6 +985,77 @@ namespace Delivery
                 MessageBox.Show(e.Message);
 
             }
+
+
+        }
+        public void LoadDriver()
+        {
+
+            MySqlConnection conn = new MySqlConnection(connString);
+            try
+            {
+                conn.Open();
+
+
+            }
+            catch (Exception ex) {
+                MessageBox.Show(ex.Message);
+
+
+            }
+            //"SELECT s.fName 'First Name', s.lname 'Last Name' FROM staff s, designation d WHERE s.desig = d.id AND d.id
+            string query = "select  s.fName from staff s, designation d WHERE s.desig = d.id AND d.id=8";
+            MySqlCommand cmd = new MySqlCommand(query,conn);
+            try
+            {
+
+                var read = cmd.ExecuteReader();
+                while (read.Read())
+                    comboBoxCustomer.Items.Add(read.GetString("fName"));
+            }
+            catch (Exception ex)
+            {
+
+                MessageBox.Show(ex.Message);
+            }
+
+
+
+
+        }
+        public void LoadDriverSup()
+        {
+
+            MySqlConnection conn = new MySqlConnection(connString);
+            try
+            {
+                conn.Open();
+
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+
+
+            }
+            //"SELECT s.fName 'First Name', s.lname 'Last Name' FROM staff s, designation d WHERE s.desig = d.id AND d.id
+            string query = "select  s.fName from staff s, designation d WHERE s.desig = d.id AND d.id=8";
+            MySqlCommand cmd = new MySqlCommand(query, conn);
+            try
+            {
+
+                var read = cmd.ExecuteReader();
+                while (read.Read())
+                    comboBoxStaffS.Items.Add(read.GetString("fName"));
+            }
+            catch (Exception ex)
+            {
+
+                MessageBox.Show(ex.Message);
+            }
+
+
 
 
         }

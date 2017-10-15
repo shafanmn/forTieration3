@@ -25,6 +25,8 @@ namespace EwingInventory
         public frm_users()
         {
             InitializeComponent();
+            dateJoined.Value = DateTime.Now;
+            dateJoined.MaxDate = DateTime.Now;
         }
         
         public void clearFields()
@@ -108,7 +110,7 @@ namespace EwingInventory
 
         public bool isFilled()
         {
-            if (txt_fName.Text == "" || txt_lName.Text == "" || txt_nic.Text == "" || comboBox3.Text == "")
+            if (txt_fName.Text == "" || txt_lName.Text == "" || txt_nic.Text == "") // || comboBox3.Text == ""
             {
                 lbl_validBasic.Text = "*Please fill basic details";
                 lbl_validBasic.Visible = true;
@@ -297,7 +299,7 @@ namespace EwingInventory
                 tab_user.TabPages.Remove(tabPage2); //MyAccount
                 tab_user.TabPages.Remove(tabPage3); //Requests
                 home.LoadToDatagridview(dgvStaff, "SELECT sId 'ID',fName 'NAME' FROM staff WHERE sId > 0");
-                dgvStaff.Columns[0].Width = 20;
+                dgvStaff.Columns[0].Width = 30;
                 home.fillCombo(cmb_desig, "SELECT name FROM designation WHERE id > 0;", "name");
             }
             else if(this.currentUseraccess == "2")
@@ -305,7 +307,7 @@ namespace EwingInventory
                 //User mode staff
                 tab_user.TabPages.Remove(tabPage1);
                 tab_user.TabPages.Remove(tabPage3);
-                home.LoadToDatagridview(dgvRequest, "SELECT onDate 'On', type 'Type', FORMAT(amount,2) 'Amount', status 'Status', reqDate 'Requested on' FROM requests WHERE sId=" + this.currentUID + ";");
+                home.LoadToDatagridview(dgvRequest, "SELECT onDate 'On', type 'Type', FORMAT(amount,2) 'Amount', status 'Status', reqDate 'Requested on' FROM requests WHERE sId=" + this.currentUID + " ORDER BY status desc, onDate desc;");
                 home.chanfeDGVColor(dgvRequest, 3, "APPROVED","PENDING");
                 userDetails();
                 attDetails();
@@ -315,11 +317,12 @@ namespace EwingInventory
                 //Admin mode staff
                 home.LoadToDatagridview(dgvStaff, "SELECT sId 'ID',fName 'NAME' FROM staff WHERE sId > 0");
                 home.fillCombo(cmb_desig, "SELECT name FROM designation WHERE id > 0;", "name");
-                dgvStaff.Columns[0].Width = 20;
-                home.LoadToDatagridview(dgvRequest, "SELECT onDate 'On', type 'Type', FORMAT(amount,2) 'Amount', status 'Status', reqDate 'Requested on' FROM requests WHERE sId=" + this.currentUID + ";");
+                dgvStaff.Columns[0].Width = 30;
+                home.LoadToDatagridview(dgvRequest, "SELECT onDate 'On', type 'Type', FORMAT(amount,2) 'Amount', status 'Status', reqDate 'Requested on' FROM requests WHERE sId=" + this.currentUID + " ORDER BY status desc, onDate desc;");
                 home.chanfeDGVColor(dgvRequest, 3, "APPROVED", "PENDING");
-                home.LoadToDatagridview(dgvReqMg, "SELECT sId 'ID', onDate 'On', type 'Type' FROM requests ORDER BY onDate");
-               // dgvReqMg.Columns[0].Width = 20;
+                home.LoadToDatagridview(dgvReqMg, "SELECT sId 'ID', onDate 'On', type 'Type' FROM requests WHERE status = 'PENDING' ORDER BY onDate");
+                dgvReqMg.Columns[0].Width = 20;
+                comboBox2.Text = "Pending";
                 userDetails();
                 attDetails();
             }
@@ -386,7 +389,7 @@ namespace EwingInventory
                     string[] b = dr["joined"].ToString().Split(' ');
 
                     string[] dob = a[0].Split('-');
-                    string[] dj = a[0].Split('-');
+                    string[] dj = b[0].Split('-');
 
                     lbl_id.Text = dr["sId"].ToString();
                     lbl_age.Text = (DateTime.Now.Year - Convert.ToInt32(dob[0])).ToString();
@@ -404,7 +407,7 @@ namespace EwingInventory
                     this.selectedUser = txt_user.Text.ToString();
                     cmb_access.SelectedItem = cmb_access.Items[Convert.ToInt32(dr["access"].ToString())];
                     cmb_desig.SelectedItem = cmb_desig.Items[Convert.ToInt32(dr["desig"].ToString())-1];
-                    comboBox3.SelectedItem = comboBox3.Items[Convert.ToInt32(dr["religion"].ToString())];
+                    //comboBox3.SelectedItem = comboBox3.Items[Convert.ToInt32(dr["religion"].ToString())];
 
                 }
                 conn.Close();
@@ -449,15 +452,15 @@ namespace EwingInventory
                         {
                             ms = "Added ";
                             opt = MessageBox.Show("Do you want to add new staff details?", "Confirm",MessageBoxButtons.OKCancel);
-                            q = "INSERT INTO staff(uName,pass,fName,lName,add1,add2,religion,mob,email,nic,access,joined,dob,desig)"+
-                                "VALUES(@uName,@pass,@fName,@lName,@add1,@add2,@religion,@mob,@email,@nic,@access,@joined,@dob,@desig)";
+                            q = "INSERT INTO staff(uName,pass,fName,lName,add1,add2,mob,email,nic,access,joined,dob,desig)"+
+                                "VALUES(@uName,@pass,@fName,@lName,@add1,@add2,@mob,@email,@nic,@access,@joined,@dob,@desig)";
                         }
                         else
                         {
                             ms = "Modified ";
                             opt = MessageBox.Show("Do you want to modify staff details?", "Confirm",MessageBoxButtons.OKCancel);
                             q = "UPDATE staff SET uName=@uName, pass=@pass, fName=@fName, lName=@lName, add1=@add1, add2=@add2,"+
-                                "religion=@religion, mob=@mob, email=@email, nic=@nic, access=@access,joined=@joined, dob=@dob, desig=@desig WHERE sId="+id+";";
+                                "mob=@mob, email=@email, nic=@nic, access=@access,joined=@joined, dob=@dob, desig=@desig WHERE sId="+id+";";
                         }
 
                         if(opt == DialogResult.OK)
@@ -473,7 +476,7 @@ namespace EwingInventory
                             cmd.Parameters.Add("@lName", MySqlDbType.VarChar).Value = txt_lName.Text;
                             cmd.Parameters.Add("@add1", MySqlDbType.VarChar).Value = txt_addr1.Text;
                             cmd.Parameters.Add("@add2", MySqlDbType.VarChar).Value = txt_addr2.Text;
-                            cmd.Parameters.Add("@religion", MySqlDbType.Int32).Value = comboBox3.SelectedIndex;
+                            //cmd.Parameters.Add("@religion", MySqlDbType.Int32).Value = comboBox3.SelectedIndex;
                             cmd.Parameters.Add("@mob", MySqlDbType.VarChar).Value = txt_mob.Text;
                             cmd.Parameters.Add("@email", MySqlDbType.VarChar).Value = txt_email.Text;
                             cmd.Parameters.Add("@nic", MySqlDbType.VarChar).Value = txt_nic.Text;
@@ -523,6 +526,7 @@ namespace EwingInventory
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
             int select = comboBox1.SelectedIndex;
+            reqDate.MinDate = DateTime.Now;
 
             if(select == 0)
             {
@@ -741,74 +745,101 @@ namespace EwingInventory
 
         private void button4_Click(object sender, EventArgs e)
         {
-            string date = reqDate.Value.ToShortDateString();
-            int type = comboBox1.SelectedIndex;
+            DialogResult res =  MessageBox.Show("Do You want to apply for "+ comboBox1.SelectedItem.ToString() +" ?", "Confirm", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
-            string q = "INSERT INTO requests(sId,onDate,type,forDays,amount,reqDate) VALUES(@sId,@on,@type,@for,@amt,@req);";
-
-            MySqlCommand cmd = new MySqlCommand(q, conn);
-            cmd.Parameters.Add("@sId", MySqlDbType.Int32).Value = Convert.ToInt32(this.currentUID);
-            cmd.Parameters.Add("@on",MySqlDbType.VarChar).Value = reqDate.Value.ToShortDateString();
-            cmd.Parameters.Add("@type", MySqlDbType.VarChar).Value = comboBox1.SelectedItem;
-            cmd.Parameters.Add("@req", MySqlDbType.VarChar).Value = DateTime.Now.ToShortDateString();
-
-            switch (type)
+            if (res == DialogResult.Yes)
             {
-                case 0: cmd.Parameters.AddWithValue("@for", reqDays.Value);
-                        cmd.Parameters.AddWithValue("@amt",null);
-                        break;
-                case 1: cmd.Parameters.AddWithValue("@amt", null);
-                        cmd.Parameters.AddWithValue("@for", null);
-                        break;
-                case 2: 
-                case 3: cmd.Parameters.Add("@amt", MySqlDbType.Double).Value = Convert.ToDouble(reqAmt.Value);
-                        cmd.Parameters.AddWithValue("@for", null);
-                        break;
-            }
+                string date = reqDate.Value.ToShortDateString();
+                int type = comboBox1.SelectedIndex;
 
-            try
-            {
-                conn.Open();
-                if (cmd.ExecuteNonQuery() > 0)
+                string q = "INSERT INTO requests(sId,onDate,type,forDays,amount,reqDate) VALUES(@sId,@on,@type,@for,@amt,@req);";
+
+                MySqlCommand cmd = new MySqlCommand(q, conn);
+                cmd.Parameters.Add("@sId", MySqlDbType.Int32).Value = Convert.ToInt32(this.currentUID);
+                cmd.Parameters.Add("@on", MySqlDbType.VarChar).Value = reqDate.Value.ToShortDateString();
+                cmd.Parameters.Add("@type", MySqlDbType.VarChar).Value = comboBox1.SelectedItem;
+                cmd.Parameters.Add("@req", MySqlDbType.VarChar).Value = DateTime.Now.ToShortDateString();
+
+                //add parameters
+                switch (type)
                 {
-                    MessageBox.Show("Request added successfully!");
-                    home.LoadToDatagridview(dgvRequest, "SELECT onDate 'On', type 'Type', FORMAT(amount,2) 'Amount', status 'Status', reqDate 'Requested' FROM requests WHERE sId=" + this.currentUID + ";");
-                    home.chanfeDGVColor(dgvRequest, 3, "APPROVED", "PENDING");
-                    //disable
-                    lbl_leaveOn.Visible = false;
-                    lbl_nOdays.Visible = false;
-                    lbl_amount.Visible = false;
-                    reqDate.Visible = false;
-                    reqDays.Visible = false;
-                    reqAmt.Visible = false;
-                    button4.Visible = false;
-                    comboBox1.Text = "";
+                    case 0:
+                        cmd.Parameters.AddWithValue("@for", reqDays.Value);
+                        cmd.Parameters.AddWithValue("@amt", null);
+                        break;
+                    case 1:
+                        cmd.Parameters.AddWithValue("@amt", null);
+                        cmd.Parameters.AddWithValue("@for", null);
+                        break;
+                    case 2:
+                    case 3:
+                        cmd.Parameters.Add("@amt", MySqlDbType.Double).Value = Convert.ToDouble(reqAmt.Value);
+                        cmd.Parameters.AddWithValue("@for", null);
+                        break;
                 }
 
-            }catch(Exception ex)
-            {
-                MessageBox.Show(ex.ToString());
-            }
-            finally
-            {
-                conn.Close();
-            }
+                //execute query
+                try
+                {
+                    conn.Open();
+                    if (cmd.ExecuteNonQuery() > 0)
+                    {
+                        MessageBox.Show("Request added successfully!");
+                        home.LoadToDatagridview(dgvRequest, "SELECT onDate 'On', type 'Type', FORMAT(amount,2) 'Amount', status 'Status', reqDate 'Requested on' FROM requests WHERE sId=" + this.currentUID + " ORDER BY status desc, onDate desc;");
+                        home.chanfeDGVColor(dgvRequest, 3, "APPROVED", "PENDING");
+                        //disable
+                        lbl_leaveOn.Visible = false;
+                        lbl_nOdays.Visible = false;
+                        lbl_amount.Visible = false;
+                        reqDate.Visible = false;
+                        reqDays.Visible = false;
+                        reqAmt.Visible = false;
+                        button4.Visible = false;
+                        comboBox1.Text = "";
+                    }
+
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.ToString());
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }//End If
         }
         
         private void tab_user_SelectedIndexChanged(object sender, EventArgs e)
         {
             if(tab_user.SelectedIndex == 1)
             {
+                home.LoadToDatagridview(dgvRequest, "SELECT onDate 'On', type 'Type', FORMAT(amount,2) 'Amount', status 'Status', reqDate 'Requested on' FROM requests WHERE sId=" + this.currentUID + " ORDER BY status desc, onDate desc;");
                 home.chanfeDGVColor(dgvRequest, 3, "APPROVED", "PENDING");
-            }else if(tab_user.SelectedIndex == 2)
+
+            }
+            else if(tab_user.SelectedIndex == 2)
             {
                 label34.Visible = false;
                 label38.Visible = false;
                 numericUpDown3.Visible = false;
+
+                //Refresh RequestMgt Table
+                string qr = "SELECT sId 'ID', onDate 'On', type 'Type' FROM requests";
+                int index = comboBox2.SelectedIndex;
+                switch (index)
+                {
+                    case 0: qr += ";"; break;
+                    case 1: qr += " WHERE status = 'PENDING';"; break;
+                    case 2: qr += " WHERE status = 'APPROVED';"; break;
+                    case 3: qr += " WHERE status = 'REJECTED';"; break;
+                }
+                home.LoadToDatagridview(dgvReqMg, qr);
+                dgvReqMg.Columns[0].Width = 20;
             }
         }
-
-        private void dgvReqMg_CellContentClick(object sender, DataGridViewCellEventArgs e)
+                
+        private void dgvReqMg_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             string sid = dgvReqMg.SelectedCells[0].Value.ToString();
             string date = dgvReqMg.SelectedCells[1].Value.ToString();
@@ -821,13 +852,230 @@ namespace EwingInventory
             cmd.Parameters.Add("@date", MySqlDbType.VarChar).Value = date;
             cmd.Parameters.Add("@type", MySqlDbType.VarChar).Value = type;
 
-            MySqlDataReader dr =  cmd.ExecuteReader();
-            while (dr.Read())
+            try
             {
-                lblsId.Text = dr[0].ToString();
-                lblOn.Text = dr[1].ToString();
-                lblType.Text = dr[2].ToString();
+                conn.Open();
+                MySqlDataReader dr = cmd.ExecuteReader();
+                while (dr.Read())
+                {
+                    lblsId.Text = dr[0].ToString();
+                    lblOn.Text = dr[1].ToString();
+                    lblType.Text = dr[2].ToString();
+                    lblForDays.Text = dr[3].ToString();
+                    lblSt.Text = dr[6].ToString();
+                    //Change BackColor
+                    if (lblSt.Text == "APPROVED")
+                        lblSt.BackColor = Color.LightGreen;
+                    else
+                        lblSt.BackColor = Color.Transparent;
 
+                    lblAmt.Text = dr[4].ToString();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            finally
+            {
+                conn.Close();
+            }
+
+            if(type == "Loan")
+            {
+                label34.Visible = true;
+                label38.Visible = true;
+                numericUpDown3.Visible = true;
+            }
+            else
+            {
+                label34.Visible = false;
+                label38.Visible = false;
+                numericUpDown3.Visible = false;
+            }
+
+            if(lblSt.Text == "PENDING")
+            {
+                btn_approve.Visible = true;
+                btn_decline.Visible = true;
+            }
+            else
+            {
+                btn_approve.Visible = false;
+                btn_decline.Visible = false;
+            }
+                
+                
+        }
+
+        private void dgvRequest_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (dgvRequest.SelectedCells[3].Value.ToString() == "PENDING")
+                btnCancelReq.Visible = true;
+            else
+                btnCancelReq.Visible = false;
+        }
+
+        private void btnCancelReq_Click(object sender, EventArgs e)
+        {
+            DialogResult res =  MessageBox.Show("Do you want to cancell this request?", "Confirm", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if(res == DialogResult.Yes)
+            {
+                
+                string sid = this.currentUID.ToString();
+                string on = dgvRequest.SelectedCells[0].Value.ToString();
+                string type = dgvRequest.SelectedCells[1].Value.ToString();
+
+
+                string q = "DELETE FROM requests WHERE sId=@sid AND type=@type AND onDate=@on;";
+                MySqlCommand cmd = new MySqlCommand(q, conn);
+
+                cmd.Parameters.Add("@sid", MySqlDbType.Int32).Value = Convert.ToInt32(sid);
+                cmd.Parameters.Add("@type", MySqlDbType.VarChar).Value = type;
+                cmd.Parameters.Add("@on", MySqlDbType.VarChar).Value = on;
+
+                try
+                {
+                    conn.Open();
+                    if(cmd.ExecuteNonQuery() > 0)
+                    {
+                        MessageBox.Show("Request Deleted Successfully!");
+                        home.LoadToDatagridview(dgvRequest, "SELECT onDate 'On', type 'Type', FORMAT(amount,2) 'Amount', status 'Status', reqDate 'Requested on' FROM requests WHERE sId=" + this.currentUID + " ORDER BY status desc, onDate desc;");
+                        btnCancelReq.Visible = false;
+                    }
+
+                }catch(Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+        }
+
+        private void comboBox2_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            string q = "SELECT sId 'ID', onDate 'On', type 'Type' FROM requests";
+            int index = comboBox2.SelectedIndex;
+            switch (index)
+            {
+                case 0: q += ";";break;
+                case 1: q += " WHERE status = 'PENDING';";break;
+                case 2: q += " WHERE status = 'APPROVED';";break;
+                case 3: q += " WHERE status = 'REJECTED';";break;
+            }
+            home.LoadToDatagridview(dgvReqMg, q);
+            dgvReqMg.Columns[0].Width = 20;
+        }
+
+        private void btn_approve_Click(object sender, EventArgs e)
+        {
+            DialogResult res = MessageBox.Show("Do you want to Approve request?", "Confirm", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if(res == DialogResult.Yes)
+            {
+                string q = "UPDATE requests SET status='APPROVED' WHERE sId=@sid AND onDate=@date AND type=@type;";
+                MySqlCommand cmd = new MySqlCommand(q, conn);
+                cmd.Parameters.Add("@sid", MySqlDbType.Int32).Value = Convert.ToInt32(lblsId.Text);
+                cmd.Parameters.Add("@date", MySqlDbType.VarChar).Value = lblOn.Text;
+                cmd.Parameters.Add("@type", MySqlDbType.VarChar).Value = lblType.Text;
+
+                try
+                {
+                    conn.Open();
+                    if(cmd.ExecuteNonQuery() > 0)
+                    {
+                        MessageBox.Show("Request Approved Successfully!");
+                        
+                        //Refresh RequestMgt Table
+                        string qr = "SELECT sId 'ID', onDate 'On', type 'Type' FROM requests";
+                        int index = comboBox2.SelectedIndex;
+                        switch (index)
+                        {
+                            case 0: qr += ";"; break;
+                            case 1: qr+= " WHERE status = 'PENDING';"; break;
+                            case 2: qr += " WHERE status = 'APPROVED';"; break;
+                            case 3: qr += " WHERE status = 'REJECTED';"; break;
+                        }
+                        home.LoadToDatagridview(dgvReqMg, qr);
+                        dgvReqMg.Columns[0].Width = 20;
+
+                        //Clear Labels
+                        lblsId.Text = "";
+                        lblOn.Text = "";
+                        lblForDays.Text = "";
+                        lblType.Text = "";
+                        lblSt.Text = "";
+                        lblAmt.Text = "";
+                        label34.Visible = false;
+                        label38.Visible = false;
+                        numericUpDown3.Visible = false;
+                    }
+
+                }catch(Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+        }
+
+        private void btn_decline_Click(object sender, EventArgs e)
+        {
+            DialogResult res = MessageBox.Show("Do you want to Reject request?", "Confirm", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if(res == DialogResult.Yes)
+            {
+                string q = "UPDATE requests SET status='REJECTED' WHERE sId=@sid AND onDate=@date AND type=@type;";
+                MySqlCommand cmd = new MySqlCommand(q, conn);
+                cmd.Parameters.Add("@sid", MySqlDbType.Int32).Value = Convert.ToInt32(lblsId.Text);
+                cmd.Parameters.Add("@date", MySqlDbType.VarChar).Value = lblOn.Text;
+                cmd.Parameters.Add("@type", MySqlDbType.VarChar).Value = lblType.Text;
+
+                try
+                {
+                    conn.Open();
+                    if (cmd.ExecuteNonQuery() > 0)
+                    {
+                        MessageBox.Show("Request Rejected Successfully!");
+
+                        //Refresh RequestMgt Table
+                        string qr = "SELECT sId 'ID', onDate 'On', type 'Type' FROM requests";
+                        int index = comboBox2.SelectedIndex;
+                        switch (index)
+                        {
+                            case 0: qr += ";"; break;
+                            case 1: qr += " WHERE status = 'PENDING';"; break;
+                            case 2: qr += " WHERE status = 'APPROVED';"; break;
+                            case 3: qr += " WHERE status = 'REJECTED';"; break;
+                        }
+                        home.LoadToDatagridview(dgvReqMg, qr);
+                        dgvReqMg.Columns[0].Width = 20;
+
+                        //Clear Labels
+                        lblsId.Text = "";
+                        lblOn.Text = "";
+                        lblForDays.Text = "";
+                        lblType.Text = "";
+                        lblSt.Text = "";
+                        lblAmt.Text = "";
+                        label34.Visible = false;
+                        label38.Visible = false;
+                        numericUpDown3.Visible = false;
+                    }
+
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+                finally
+                {
+                    conn.Close();
+                }
             }
         }
     }

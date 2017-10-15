@@ -67,6 +67,7 @@
             this.mdgv_production1 = new System.Windows.Forms.DataGridView();
             this.buttonpup = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.textBoxjob = new System.Windows.Forms.TextBox();
             this.textBoxbatchno = new System.Windows.Forms.TextBox();
             this.textBoxworkinghrs = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
@@ -143,7 +144,6 @@
             this.button3 = new System.Windows.Forms.Button();
             this.dataGridViewMonitor = new System.Windows.Forms.DataGridView();
             this.tabPage_Report = new System.Windows.Forms.TabPage();
-            this.textBoxjob = new System.Windows.Forms.TextBox();
             this.tab_manufact.SuspendLayout();
             this.tabPage1_RawMaterial.SuspendLayout();
             this.groupBox6.SuspendLayout();
@@ -165,7 +165,6 @@
             this.groupBox5.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.img)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewMonitor)).BeginInit();
-            this.tabPage_Report.SuspendLayout();
             this.SuspendLayout();
             // 
             // tab_manufact
@@ -675,6 +674,14 @@
             this.groupBox2.TabIndex = 100;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "BATCH";
+            // 
+            // textBoxjob
+            // 
+            this.textBoxjob.Font = new System.Drawing.Font("Cambria", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBoxjob.Location = new System.Drawing.Point(141, 45);
+            this.textBoxjob.Name = "textBoxjob";
+            this.textBoxjob.Size = new System.Drawing.Size(163, 23);
+            this.textBoxjob.TabIndex = 47;
             // 
             // textBoxbatchno
             // 
@@ -1367,7 +1374,7 @@
             // 
             this.datePickerdeliverdate.AllowDrop = true;
             this.datePickerdeliverdate.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.datePickerdeliverdate.CustomFormat = "dd-MM-yyyy";
+            this.datePickerdeliverdate.CustomFormat = "yyyy-MM-dd";
             this.datePickerdeliverdate.Font = new System.Drawing.Font("Cambria", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.datePickerdeliverdate.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
             this.datePickerdeliverdate.Location = new System.Drawing.Point(145, 252);
@@ -1550,18 +1557,6 @@
             this.tabPage_Report.Text = "Report";
             this.tabPage_Report.UseVisualStyleBackColor = true;
             // 
-            // reportViewer1
-            // 
-            
-            // 
-            // textBoxjob
-            // 
-            this.textBoxjob.Font = new System.Drawing.Font("Cambria", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBoxjob.Location = new System.Drawing.Point(141, 45);
-            this.textBoxjob.Name = "textBoxjob";
-            this.textBoxjob.Size = new System.Drawing.Size(163, 23);
-            this.textBoxjob.TabIndex = 47;
-            // 
             // form_ManufactMgt
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1604,7 +1599,6 @@
             this.groupBox5.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.img)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewMonitor)).EndInit();
-            this.tabPage_Report.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }

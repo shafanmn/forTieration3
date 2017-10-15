@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.dgvStaff = new System.Windows.Forms.DataGridView();
             this.button1 = new System.Windows.Forms.Button();
             this.txt_serach = new System.Windows.Forms.TextBox();
@@ -85,6 +85,7 @@
             this.label24 = new System.Windows.Forms.Label();
             this.label23 = new System.Windows.Forms.Label();
             this.groupBox7 = new System.Windows.Forms.GroupBox();
+            this.btnCancelReq = new System.Windows.Forms.Button();
             this.dgvRequest = new System.Windows.Forms.DataGridView();
             this.groupBox6 = new System.Windows.Forms.GroupBox();
             this.reqAmt = new System.Windows.Forms.NumericUpDown();
@@ -114,6 +115,8 @@
             this.txt_password = new System.Windows.Forms.TextBox();
             this.label18 = new System.Windows.Forms.Label();
             this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.lblForDays = new System.Windows.Forms.Label();
+            this.label19 = new System.Windows.Forms.Label();
             this.groupBox10 = new System.Windows.Forms.GroupBox();
             this.label49 = new System.Windows.Forms.Label();
             this.label50 = new System.Windows.Forms.Label();
@@ -141,12 +144,9 @@
             this.label32 = new System.Windows.Forms.Label();
             this.lblsId = new System.Windows.Forms.Label();
             this.label30 = new System.Windows.Forms.Label();
-            this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.label28 = new System.Windows.Forms.Label();
             this.comboBox2 = new System.Windows.Forms.ComboBox();
             this.dgvReqMg = new System.Windows.Forms.DataGridView();
-            this.label12 = new System.Windows.Forms.Label();
-            this.label19 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dgvStaff)).BeginInit();
             this.tab_user.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -488,6 +488,7 @@
             this.comboBox3.Name = "comboBox3";
             this.comboBox3.Size = new System.Drawing.Size(121, 23);
             this.comboBox3.TabIndex = 33;
+            this.comboBox3.Visible = false;
             // 
             // label41
             // 
@@ -498,6 +499,7 @@
             this.label41.Size = new System.Drawing.Size(65, 19);
             this.label41.TabIndex = 32;
             this.label41.Text = "Religion";
+            this.label41.Visible = false;
             // 
             // txt_nic
             // 
@@ -817,6 +819,7 @@
             // 
             // groupBox7
             // 
+            this.groupBox7.Controls.Add(this.btnCancelReq);
             this.groupBox7.Controls.Add(this.dgvRequest);
             this.groupBox7.Font = new System.Drawing.Font("Cambria", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox7.Location = new System.Drawing.Point(8, 234);
@@ -826,26 +829,45 @@
             this.groupBox7.TabStop = false;
             this.groupBox7.Text = "Request Details";
             // 
+            // btnCancelReq
+            // 
+            this.btnCancelReq.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
+            this.btnCancelReq.Font = new System.Drawing.Font("Cambria", 10F);
+            this.btnCancelReq.ForeColor = System.Drawing.SystemColors.HotTrack;
+            this.btnCancelReq.Location = new System.Drawing.Point(6, 164);
+            this.btnCancelReq.Name = "btnCancelReq";
+            this.btnCancelReq.Size = new System.Drawing.Size(84, 30);
+            this.btnCancelReq.TabIndex = 42;
+            this.btnCancelReq.Text = "Cancel";
+            this.btnCancelReq.UseVisualStyleBackColor = false;
+            this.btnCancelReq.Visible = false;
+            this.btnCancelReq.Click += new System.EventHandler(this.btnCancelReq_Click);
+            // 
             // dgvRequest
             // 
             this.dgvRequest.AllowUserToAddRows = false;
             this.dgvRequest.AllowUserToDeleteRows = false;
+            this.dgvRequest.AllowUserToResizeColumns = false;
+            this.dgvRequest.AllowUserToResizeRows = false;
             this.dgvRequest.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dgvRequest.BackgroundColor = System.Drawing.SystemColors.GradientInactiveCaption;
             this.dgvRequest.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle5.BackColor = System.Drawing.Color.Lime;
-            dataGridViewCellStyle5.Font = new System.Drawing.Font("Cambria", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle5.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgvRequest.DefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.Color.Lime;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Cambria", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgvRequest.DefaultCellStyle = dataGridViewCellStyle2;
             this.dgvRequest.Location = new System.Drawing.Point(6, 18);
             this.dgvRequest.Name = "dgvRequest";
             this.dgvRequest.ReadOnly = true;
             this.dgvRequest.RowHeadersVisible = false;
-            this.dgvRequest.Size = new System.Drawing.Size(482, 130);
+            this.dgvRequest.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dgvRequest.Size = new System.Drawing.Size(482, 143);
             this.dgvRequest.TabIndex = 0;
+            this.dgvRequest.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvRequest_CellClick);
             // 
             // groupBox6
             // 
@@ -871,13 +893,13 @@
             this.reqAmt.DecimalPlaces = 2;
             this.reqAmt.Font = new System.Drawing.Font("Cambria", 10F);
             this.reqAmt.Increment = new decimal(new int[] {
-            1000,
+            500,
             0,
             0,
             0});
             this.reqAmt.Location = new System.Drawing.Point(95, 125);
             this.reqAmt.Maximum = new decimal(new int[] {
-            50000,
+            150000,
             0,
             0,
             0});
@@ -894,6 +916,7 @@
             0,
             0,
             0});
+            this.reqAmt.Visible = false;
             // 
             // lbl_amount
             // 
@@ -904,11 +927,17 @@
             this.lbl_amount.Size = new System.Drawing.Size(64, 19);
             this.lbl_amount.TabIndex = 40;
             this.lbl_amount.Text = "Amount";
+            this.lbl_amount.Visible = false;
             // 
             // reqDays
             // 
             this.reqDays.Font = new System.Drawing.Font("Cambria", 10F);
             this.reqDays.Location = new System.Drawing.Point(98, 92);
+            this.reqDays.Maximum = new decimal(new int[] {
+            7,
+            0,
+            0,
+            0});
             this.reqDays.Minimum = new decimal(new int[] {
             1,
             0,
@@ -922,6 +951,7 @@
             0,
             0,
             0});
+            this.reqDays.Visible = false;
             // 
             // lbl_nOdays
             // 
@@ -932,6 +962,7 @@
             this.lbl_nOdays.Size = new System.Drawing.Size(43, 19);
             this.lbl_nOdays.TabIndex = 37;
             this.lbl_nOdays.Text = "Days";
+            this.lbl_nOdays.Visible = false;
             // 
             // button4
             // 
@@ -955,16 +986,19 @@
             this.lbl_leaveOn.Size = new System.Drawing.Size(28, 19);
             this.lbl_leaveOn.TabIndex = 36;
             this.lbl_leaveOn.Text = "On";
+            this.lbl_leaveOn.Visible = false;
             // 
             // reqDate
             // 
             this.reqDate.Cursor = System.Windows.Forms.Cursors.Hand;
             this.reqDate.Format = System.Windows.Forms.DateTimePickerFormat.Short;
             this.reqDate.Location = new System.Drawing.Point(98, 61);
-            this.reqDate.MinDate = new System.DateTime(2017, 8, 25, 0, 0, 0, 0);
+            this.reqDate.MinDate = new System.DateTime(2017, 10, 16, 0, 0, 0, 0);
             this.reqDate.Name = "reqDate";
             this.reqDate.Size = new System.Drawing.Size(103, 23);
             this.reqDate.TabIndex = 35;
+            this.reqDate.Value = new System.DateTime(2017, 10, 16, 0, 0, 0, 0);
+            this.reqDate.Visible = false;
             // 
             // comboBox1
             // 
@@ -1182,7 +1216,7 @@
             // 
             // tabPage3
             // 
-            this.tabPage3.Controls.Add(this.label12);
+            this.tabPage3.Controls.Add(this.lblForDays);
             this.tabPage3.Controls.Add(this.label19);
             this.tabPage3.Controls.Add(this.groupBox10);
             this.tabPage3.Controls.Add(this.groupBox9);
@@ -1201,7 +1235,6 @@
             this.tabPage3.Controls.Add(this.label32);
             this.tabPage3.Controls.Add(this.lblsId);
             this.tabPage3.Controls.Add(this.label30);
-            this.tabPage3.Controls.Add(this.checkBox1);
             this.tabPage3.Controls.Add(this.label28);
             this.tabPage3.Controls.Add(this.comboBox2);
             this.tabPage3.Controls.Add(this.dgvReqMg);
@@ -1213,6 +1246,26 @@
             this.tabPage3.Text = "Requests";
             this.tabPage3.ToolTipText = "Manage Requests";
             this.tabPage3.UseVisualStyleBackColor = true;
+            // 
+            // lblForDays
+            // 
+            this.lblForDays.AutoSize = true;
+            this.lblForDays.Font = new System.Drawing.Font("Cambria", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblForDays.Location = new System.Drawing.Point(367, 147);
+            this.lblForDays.Name = "lblForDays";
+            this.lblForDays.Size = new System.Drawing.Size(19, 19);
+            this.lblForDays.TabIndex = 61;
+            this.lblForDays.Text = "--";
+            // 
+            // label19
+            // 
+            this.label19.AutoSize = true;
+            this.label19.Font = new System.Drawing.Font("Cambria", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label19.Location = new System.Drawing.Point(272, 147);
+            this.label19.Name = "label19";
+            this.label19.Size = new System.Drawing.Size(71, 19);
+            this.label19.TabIndex = 60;
+            this.label19.Text = "For Days";
             // 
             // groupBox10
             // 
@@ -1346,7 +1399,7 @@
             // 
             this.lblSt.AutoSize = true;
             this.lblSt.Font = new System.Drawing.Font("Cambria", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblSt.Location = new System.Drawing.Point(346, 214);
+            this.lblSt.Location = new System.Drawing.Point(367, 217);
             this.lblSt.Name = "lblSt";
             this.lblSt.Size = new System.Drawing.Size(19, 19);
             this.lblSt.TabIndex = 54;
@@ -1356,7 +1409,7 @@
             // 
             this.label43.AutoSize = true;
             this.label43.Font = new System.Drawing.Font("Cambria", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label43.Location = new System.Drawing.Point(251, 214);
+            this.label43.Location = new System.Drawing.Point(272, 217);
             this.label43.Name = "label43";
             this.label43.Size = new System.Drawing.Size(51, 19);
             this.label43.TabIndex = 53;
@@ -1366,7 +1419,7 @@
             // 
             this.lblOn.AutoSize = true;
             this.lblOn.Font = new System.Drawing.Font("Cambria", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblOn.Location = new System.Drawing.Point(346, 99);
+            this.lblOn.Location = new System.Drawing.Point(367, 102);
             this.lblOn.Name = "lblOn";
             this.lblOn.Size = new System.Drawing.Size(19, 19);
             this.lblOn.TabIndex = 52;
@@ -1376,7 +1429,7 @@
             // 
             this.label40.AutoSize = true;
             this.label40.Font = new System.Drawing.Font("Cambria", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label40.Location = new System.Drawing.Point(251, 99);
+            this.label40.Location = new System.Drawing.Point(272, 102);
             this.label40.Name = "label40";
             this.label40.Size = new System.Drawing.Size(28, 19);
             this.label40.TabIndex = 51;
@@ -1388,39 +1441,44 @@
             this.btn_decline.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.btn_decline.Font = new System.Drawing.Font("Cambria", 11F);
             this.btn_decline.ForeColor = System.Drawing.SystemColors.HotTrack;
-            this.btn_decline.Location = new System.Drawing.Point(383, 348);
+            this.btn_decline.Location = new System.Drawing.Point(409, 348);
             this.btn_decline.Name = "btn_decline";
             this.btn_decline.Size = new System.Drawing.Size(75, 43);
             this.btn_decline.TabIndex = 50;
-            this.btn_decline.Text = "Decline";
+            this.btn_decline.Text = "Reject";
             this.btn_decline.UseVisualStyleBackColor = false;
+            this.btn_decline.Visible = false;
+            this.btn_decline.Click += new System.EventHandler(this.btn_decline_Click);
             // 
             // btn_approve
             // 
             this.btn_approve.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
             this.btn_approve.Font = new System.Drawing.Font("Cambria", 11F);
             this.btn_approve.ForeColor = System.Drawing.SystemColors.HotTrack;
-            this.btn_approve.Location = new System.Drawing.Point(250, 348);
+            this.btn_approve.Location = new System.Drawing.Point(276, 348);
             this.btn_approve.Name = "btn_approve";
             this.btn_approve.Size = new System.Drawing.Size(75, 43);
             this.btn_approve.TabIndex = 49;
             this.btn_approve.Text = "Approve";
             this.btn_approve.UseVisualStyleBackColor = false;
+            this.btn_approve.Visible = false;
+            this.btn_approve.Click += new System.EventHandler(this.btn_approve_Click);
             // 
             // label38
             // 
             this.label38.AutoSize = true;
             this.label38.Font = new System.Drawing.Font("Cambria", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label38.Location = new System.Drawing.Point(397, 298);
+            this.label38.Location = new System.Drawing.Point(418, 301);
             this.label38.Name = "label38";
             this.label38.Size = new System.Drawing.Size(61, 19);
             this.label38.TabIndex = 48;
             this.label38.Text = "Months";
+            this.label38.Visible = false;
             // 
             // numericUpDown3
             // 
             this.numericUpDown3.Font = new System.Drawing.Font("Cambria", 10F);
-            this.numericUpDown3.Location = new System.Drawing.Point(350, 294);
+            this.numericUpDown3.Location = new System.Drawing.Point(371, 297);
             this.numericUpDown3.Maximum = new decimal(new int[] {
             12,
             0,
@@ -1439,12 +1497,13 @@
             0,
             0,
             0});
+            this.numericUpDown3.Visible = false;
             // 
             // lblAmt
             // 
             this.lblAmt.AutoSize = true;
             this.lblAmt.Font = new System.Drawing.Font("Cambria", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblAmt.Location = new System.Drawing.Point(346, 250);
+            this.lblAmt.Location = new System.Drawing.Point(367, 253);
             this.lblAmt.Name = "lblAmt";
             this.lblAmt.Size = new System.Drawing.Size(19, 19);
             this.lblAmt.TabIndex = 46;
@@ -1454,7 +1513,7 @@
             // 
             this.lblType.AutoSize = true;
             this.lblType.Font = new System.Drawing.Font("Cambria", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblType.Location = new System.Drawing.Point(346, 178);
+            this.lblType.Location = new System.Drawing.Point(367, 181);
             this.lblType.Name = "lblType";
             this.lblType.Size = new System.Drawing.Size(19, 19);
             this.lblType.TabIndex = 45;
@@ -1464,17 +1523,18 @@
             // 
             this.label34.AutoSize = true;
             this.label34.Font = new System.Drawing.Font("Cambria", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label34.Location = new System.Drawing.Point(251, 293);
+            this.label34.Location = new System.Drawing.Point(272, 296);
             this.label34.Name = "label34";
             this.label34.Size = new System.Drawing.Size(45, 19);
             this.label34.TabIndex = 43;
             this.label34.Text = "Term";
+            this.label34.Visible = false;
             // 
             // label33
             // 
             this.label33.AutoSize = true;
             this.label33.Font = new System.Drawing.Font("Cambria", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label33.Location = new System.Drawing.Point(251, 250);
+            this.label33.Location = new System.Drawing.Point(272, 253);
             this.label33.Name = "label33";
             this.label33.Size = new System.Drawing.Size(64, 19);
             this.label33.TabIndex = 42;
@@ -1484,7 +1544,7 @@
             // 
             this.label32.AutoSize = true;
             this.label32.Font = new System.Drawing.Font("Cambria", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label32.Location = new System.Drawing.Point(251, 178);
+            this.label32.Location = new System.Drawing.Point(272, 181);
             this.label32.Name = "label32";
             this.label32.Size = new System.Drawing.Size(43, 19);
             this.label32.TabIndex = 41;
@@ -1494,7 +1554,7 @@
             // 
             this.lblsId.AutoSize = true;
             this.lblsId.Font = new System.Drawing.Font("Cambria", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblsId.Location = new System.Drawing.Point(346, 52);
+            this.lblsId.Location = new System.Drawing.Point(367, 55);
             this.lblsId.Name = "lblsId";
             this.lblsId.Size = new System.Drawing.Size(19, 19);
             this.lblsId.TabIndex = 40;
@@ -1504,27 +1564,17 @@
             // 
             this.label30.AutoSize = true;
             this.label30.Font = new System.Drawing.Font("Cambria", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label30.Location = new System.Drawing.Point(251, 52);
+            this.label30.Location = new System.Drawing.Point(272, 55);
             this.label30.Name = "label30";
             this.label30.Size = new System.Drawing.Size(60, 19);
             this.label30.TabIndex = 38;
             this.label30.Text = "Staff ID";
             // 
-            // checkBox1
-            // 
-            this.checkBox1.AutoSize = true;
-            this.checkBox1.Location = new System.Drawing.Point(12, 87);
-            this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(108, 19);
-            this.checkBox1.TabIndex = 36;
-            this.checkBox1.Text = "Show Previous";
-            this.checkBox1.UseVisualStyleBackColor = true;
-            // 
             // label28
             // 
             this.label28.AutoSize = true;
             this.label28.Font = new System.Drawing.Font("Cambria", 10F);
-            this.label28.Location = new System.Drawing.Point(8, 55);
+            this.label28.Location = new System.Drawing.Point(9, 45);
             this.label28.Name = "label28";
             this.label28.Size = new System.Drawing.Size(42, 16);
             this.label28.TabIndex = 35;
@@ -1532,7 +1582,7 @@
             // 
             // comboBox2
             // 
-            this.comboBox2.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Append;
+            this.comboBox2.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             this.comboBox2.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.comboBox2.Cursor = System.Windows.Forms.Cursors.Default;
             this.comboBox2.FormattingEnabled = true;
@@ -1540,12 +1590,13 @@
             "All",
             "Pending",
             "Approved",
-            "Declined"});
-            this.comboBox2.Location = new System.Drawing.Point(71, 52);
+            "Rejected"});
+            this.comboBox2.Location = new System.Drawing.Point(72, 42);
             this.comboBox2.MaxDropDownItems = 4;
             this.comboBox2.Name = "comboBox2";
-            this.comboBox2.Size = new System.Drawing.Size(146, 23);
+            this.comboBox2.Size = new System.Drawing.Size(173, 23);
             this.comboBox2.TabIndex = 1;
+            this.comboBox2.SelectedIndexChanged += new System.EventHandler(this.comboBox2_SelectedIndexChanged);
             // 
             // dgvReqMg
             // 
@@ -1554,35 +1605,16 @@
             this.dgvReqMg.AllowUserToResizeColumns = false;
             this.dgvReqMg.AllowUserToResizeRows = false;
             this.dgvReqMg.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dgvReqMg.BackgroundColor = System.Drawing.SystemColors.GradientInactiveCaption;
             this.dgvReqMg.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvReqMg.Location = new System.Drawing.Point(6, 115);
+            this.dgvReqMg.Location = new System.Drawing.Point(7, 83);
             this.dgvReqMg.Name = "dgvReqMg";
             this.dgvReqMg.ReadOnly = true;
             this.dgvReqMg.RowHeadersVisible = false;
             this.dgvReqMg.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvReqMg.Size = new System.Drawing.Size(211, 276);
+            this.dgvReqMg.Size = new System.Drawing.Size(238, 308);
             this.dgvReqMg.TabIndex = 0;
-            this.dgvReqMg.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvReqMg_CellContentClick);
-            // 
-            // label12
-            // 
-            this.label12.AutoSize = true;
-            this.label12.Font = new System.Drawing.Font("Cambria", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label12.Location = new System.Drawing.Point(346, 144);
-            this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(19, 19);
-            this.label12.TabIndex = 61;
-            this.label12.Text = "--";
-            // 
-            // label19
-            // 
-            this.label19.AutoSize = true;
-            this.label19.Font = new System.Drawing.Font("Cambria", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label19.Location = new System.Drawing.Point(251, 144);
-            this.label19.Name = "label19";
-            this.label19.Size = new System.Drawing.Size(71, 19);
-            this.label19.TabIndex = 60;
-            this.label19.Text = "For Days";
+            this.dgvReqMg.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvReqMg_CellClick);
             // 
             // frm_users
             // 
@@ -1711,7 +1743,6 @@
         private System.Windows.Forms.ComboBox comboBox2;
         private System.Windows.Forms.DataGridView dgvReqMg;
         private System.Windows.Forms.Label label28;
-        private System.Windows.Forms.CheckBox checkBox1;
         private System.Windows.Forms.Label lblsId;
         private System.Windows.Forms.Label label30;
         private System.Windows.Forms.Label label32;
@@ -1750,7 +1781,8 @@
         private System.Windows.Forms.Label designation;
         private System.Windows.Forms.Label age;
         private System.Windows.Forms.Label fullName;
-        private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.Label lblForDays;
         private System.Windows.Forms.Label label19;
+        private System.Windows.Forms.Button btnCancelReq;
     }
 }

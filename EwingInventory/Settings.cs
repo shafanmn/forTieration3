@@ -32,6 +32,7 @@ namespace EwingInventory
               
             disableDesignations();
             LoadToDatagridview(dgv_Desig, "SELECT id 'CODE', name 'DESIGNATION' FROM designation WHERE id > 0;");
+            dgv_Desig.Columns[0].Width = 25;
         }
 
         public void disableDesignations()
@@ -189,8 +190,8 @@ namespace EwingInventory
                 conn.Close();
             }
 
-            home.LoadToDatagridview(dataGridView1, "SELECT s.fName 'First Name', s.lname 'Last Name' FROM staff s, designation d WHERE s.desig = d.id AND d.id =" + id + ";");
-
+            home.LoadToDatagridview(dataGridView1, "SELECT s.sId 'ID',CONCAT(s.fName,' ', s.lname) AS 'Name' FROM staff s, designation d WHERE s.desig = d.id AND d.id =" + id + ";");
+            dataGridView1.Columns[0].Width = 25;
         }
 
         private void btn_new_Click(object sender, EventArgs e)

@@ -956,9 +956,6 @@ namespace EwingInventory
         private void dataGridViewMonitor_MouseClick(object sender, MouseEventArgs e)
         {
             textBoxitemNo.Text = dataGridViewMonitor.CurrentRow.Cells[0].Value.ToString();
-
-
-
             MySqlConnection conn = new MySqlConnection(home.connString);
 
             try
@@ -974,18 +971,10 @@ namespace EwingInventory
                     string[] date = dr["deliverDate"].ToString().Split(' ');
                     string time = date[1];
 
-                    string[] a = date[0].Split('/');
-                    string year = a[2];
+                    string[] a = date[0].Split('-');
+                    string year = a[0];
                     string month = a[1];
-                    string day = a[0];
-
-                    //MessageBox.Show(date[0]);
-                    //MessageBox.Show(date[1]);
-
-                    //MessageBox.Show(a[0]);
-                    //MessageBox.Show(a[1]);
-                    //MessageBox.Show(a[2]);
-
+                    string day = a[2];
 
                     textBoxitemName.Text = dr["itemName"].ToString();
 
@@ -996,6 +985,7 @@ namespace EwingInventory
                     //img.Image = Image.FromStream(ms);
 
                     //img.Text = dr["image"].ToString();
+
                     textBoxtotqty.Text = dr["totQty"].ToString();
                     datePickerdeliverdate.Value = new DateTime(Convert.ToInt32(year), Convert.ToInt32(month), Convert.ToInt32(day));
                     comboBoxdeliverstatus.Text = dr["deliverStatus"].ToString();

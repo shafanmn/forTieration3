@@ -53,6 +53,7 @@
             this.txt_vName = new System.Windows.Forms.TextBox();
             this.txt_search = new System.Windows.Forms.TextBox();
             this.tabPage4 = new System.Windows.Forms.TabPage();
+            this.txtBoxLeaserid = new System.Windows.Forms.TextBox();
             this.text_leasing = new System.Windows.Forms.TextBox();
             this.label44 = new System.Windows.Forms.Label();
             this.text_balance = new System.Windows.Forms.TextBox();
@@ -83,6 +84,8 @@
             this.text_serachL = new System.Windows.Forms.TextBox();
             this.label29 = new System.Windows.Forms.Label();
             this.tabPage5 = new System.Windows.Forms.TabPage();
+            this.datePickerNextServiceDate = new System.Windows.Forms.DateTimePicker();
+            this.label45 = new System.Windows.Forms.Label();
             this.label43 = new System.Windows.Forms.Label();
             this.datePicService = new System.Windows.Forms.DateTimePicker();
             this.labelSerID = new System.Windows.Forms.Label();
@@ -156,22 +159,19 @@
             this.dgvSuppliers = new System.Windows.Forms.DataGridView();
             this.txt_searchS = new System.Windows.Forms.TextBox();
             this.label8 = new System.Windows.Forms.Label();
-            this.tabPage6 = new System.Windows.Forms.TabPage();
-            this.txtBoxLeaserid = new System.Windows.Forms.TextBox();
-            this.button2 = new System.Windows.Forms.Button();
-            this.button3 = new System.Windows.Forms.Button();
-            this.datePickerNextServiceDate = new System.Windows.Forms.DateTimePicker();
-            this.label45 = new System.Windows.Forms.Label();
             this.tabPage7 = new System.Windows.Forms.TabPage();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-            this.textBox_Street = new System.Windows.Forms.TextBox();
-            this.textBox_City = new System.Windows.Forms.TextBox();
-            this.Street = new System.Windows.Forms.Label();
-            this.label47 = new System.Windows.Forms.Label();
-            this.button4 = new System.Windows.Forms.Button();
-            this.webBrowser1 = new System.Windows.Forms.WebBrowser();
             this.button5 = new System.Windows.Forms.Button();
             this.button6 = new System.Windows.Forms.Button();
+            this.button4 = new System.Windows.Forms.Button();
+            this.label47 = new System.Windows.Forms.Label();
+            this.Street = new System.Windows.Forms.Label();
+            this.textBox_City = new System.Windows.Forms.TextBox();
+            this.textBox_Street = new System.Windows.Forms.TextBox();
+            this.webBrowser1 = new System.Windows.Forms.WebBrowser();
+            this.tabPage6 = new System.Windows.Forms.TabPage();
+            this.button3 = new System.Windows.Forms.Button();
+            this.button2 = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvVechicle)).BeginInit();
@@ -183,12 +183,12 @@
             ((System.ComponentModel.ISupportInitialize)(this.dgvCustomer)).BeginInit();
             this.tabPage2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvSuppliers)).BeginInit();
-            this.tabPage6.SuspendLayout();
             this.tabPage7.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
+            this.tabPage6.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -236,7 +236,7 @@
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage1.Size = new System.Drawing.Size(803, 433);
             this.tabPage1.TabIndex = 0;
-            this.tabPage1.Text = "Vechicle";
+            this.tabPage1.Text = "Vehicle";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
             // txt_Cost
@@ -378,9 +378,9 @@
             this.label3.Font = new System.Drawing.Font("Cambria", 12F);
             this.label3.Location = new System.Drawing.Point(298, 71);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(126, 19);
+            this.label3.Size = new System.Drawing.Size(119, 19);
             this.label3.TabIndex = 9;
-            this.label3.Text = "Vechicle Number";
+            this.label3.Text = "Vehicle Number";
             // 
             // label2
             // 
@@ -388,9 +388,9 @@
             this.label2.Font = new System.Drawing.Font("Cambria", 12F);
             this.label2.Location = new System.Drawing.Point(298, 30);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(109, 19);
+            this.label2.Size = new System.Drawing.Size(102, 19);
             this.label2.TabIndex = 8;
-            this.label2.Text = "Vechicle Name";
+            this.label2.Text = "Vehicle Name";
             // 
             // label1
             // 
@@ -500,6 +500,14 @@
             this.tabPage4.TabIndex = 3;
             this.tabPage4.Text = "Leasing Details";
             this.tabPage4.UseVisualStyleBackColor = true;
+            // 
+            // txtBoxLeaserid
+            // 
+            this.txtBoxLeaserid.Enabled = false;
+            this.txtBoxLeaserid.Location = new System.Drawing.Point(452, 17);
+            this.txtBoxLeaserid.Name = "txtBoxLeaserid";
+            this.txtBoxLeaserid.Size = new System.Drawing.Size(100, 20);
+            this.txtBoxLeaserid.TabIndex = 83;
             // 
             // text_leasing
             // 
@@ -770,9 +778,9 @@
             this.label28.Font = new System.Drawing.Font("Cambria", 12F);
             this.label28.Location = new System.Drawing.Point(289, 50);
             this.label28.Name = "label28";
-            this.label28.Size = new System.Drawing.Size(126, 19);
+            this.label28.Size = new System.Drawing.Size(119, 19);
             this.label28.TabIndex = 56;
-            this.label28.Text = "Vechicle Number";
+            this.label28.Text = "Vehicle Number";
             // 
             // dgvLeasing
             // 
@@ -833,6 +841,29 @@
             this.tabPage5.Text = "Service Details";
             this.tabPage5.UseVisualStyleBackColor = true;
             // 
+            // datePickerNextServiceDate
+            // 
+            this.datePickerNextServiceDate.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.datePickerNextServiceDate.Font = new System.Drawing.Font("Cambria", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.datePickerNextServiceDate.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            this.datePickerNextServiceDate.Location = new System.Drawing.Point(453, 295);
+            this.datePickerNextServiceDate.MaxDate = new System.DateTime(1999, 12, 31, 0, 0, 0, 0);
+            this.datePickerNextServiceDate.MinDate = new System.DateTime(1963, 1, 1, 0, 0, 0, 0);
+            this.datePickerNextServiceDate.Name = "datePickerNextServiceDate";
+            this.datePickerNextServiceDate.Size = new System.Drawing.Size(126, 26);
+            this.datePickerNextServiceDate.TabIndex = 92;
+            this.datePickerNextServiceDate.Value = new System.DateTime(1963, 1, 1, 0, 0, 0, 0);
+            // 
+            // label45
+            // 
+            this.label45.AutoSize = true;
+            this.label45.Font = new System.Drawing.Font("Cambria", 12F);
+            this.label45.Location = new System.Drawing.Point(290, 301);
+            this.label45.Name = "label45";
+            this.label45.Size = new System.Drawing.Size(131, 19);
+            this.label45.TabIndex = 91;
+            this.label45.Text = "Next Service Date";
+            // 
             // label43
             // 
             this.label43.AutoSize = true;
@@ -887,7 +918,6 @@
             // 
             // comboBoxServiT
             // 
-            this.comboBoxServiT.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxServiT.FormattingEnabled = true;
             this.comboBoxServiT.Items.AddRange(new object[] {
             "Annual Service",
@@ -997,9 +1027,9 @@
             this.label36.Font = new System.Drawing.Font("Cambria", 12F);
             this.label36.Location = new System.Drawing.Point(288, 66);
             this.label36.Name = "label36";
-            this.label36.Size = new System.Drawing.Size(126, 19);
+            this.label36.Size = new System.Drawing.Size(119, 19);
             this.label36.TabIndex = 76;
-            this.label36.Text = "Vechicle Number";
+            this.label36.Text = "Vehicle Number";
             // 
             // txt_vnumberSer
             // 
@@ -1107,19 +1137,7 @@
             // 
             // comboBoxCustomer
             // 
-            this.comboBoxCustomer.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxCustomer.FormattingEnabled = true;
-            this.comboBoxCustomer.Items.AddRange(new object[] {
-            "1",
-            "2",
-            "3",
-            "4",
-            "5",
-            "6",
-            "7",
-            "8",
-            "9",
-            "10"});
             this.comboBoxCustomer.Location = new System.Drawing.Point(429, 333);
             this.comboBoxCustomer.Name = "comboBoxCustomer";
             this.comboBoxCustomer.Size = new System.Drawing.Size(101, 21);
@@ -1131,9 +1149,9 @@
             this.label33.Font = new System.Drawing.Font("Cambria", 12F);
             this.label33.Location = new System.Drawing.Point(273, 335);
             this.label33.Name = "label33";
-            this.label33.Size = new System.Drawing.Size(58, 19);
+            this.label33.Size = new System.Drawing.Size(98, 19);
             this.label33.TabIndex = 55;
-            this.label33.Text = "Staff Id";
+            this.label33.Text = "Driver Name";
             // 
             // txt_noofTc
             // 
@@ -1306,9 +1324,9 @@
             this.label24.Font = new System.Drawing.Font("Cambria", 12F);
             this.label24.Location = new System.Drawing.Point(266, 294);
             this.label24.Name = "label24";
-            this.label24.Size = new System.Drawing.Size(126, 19);
+            this.label24.Size = new System.Drawing.Size(119, 19);
             this.label24.TabIndex = 38;
-            this.label24.Text = "Vechicle Number";
+            this.label24.Text = "Vehicle Number";
             // 
             // txt_vnumberC
             // 
@@ -1417,19 +1435,7 @@
             // 
             // comboBoxStaffS
             // 
-            this.comboBoxStaffS.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxStaffS.FormattingEnabled = true;
-            this.comboBoxStaffS.Items.AddRange(new object[] {
-            "1",
-            "2",
-            "3",
-            "4",
-            "5",
-            "6",
-            "7",
-            "8",
-            "9",
-            "10"});
             this.comboBoxStaffS.Location = new System.Drawing.Point(424, 342);
             this.comboBoxStaffS.Name = "comboBoxStaffS";
             this.comboBoxStaffS.Size = new System.Drawing.Size(101, 21);
@@ -1481,9 +1487,9 @@
             this.label16.Font = new System.Drawing.Font("Cambria", 12F);
             this.label16.Location = new System.Drawing.Point(280, 344);
             this.label16.Name = "label16";
-            this.label16.Size = new System.Drawing.Size(58, 19);
+            this.label16.Size = new System.Drawing.Size(98, 19);
             this.label16.TabIndex = 31;
-            this.label16.Text = "Staff Id";
+            this.label16.Text = "Driver Name";
             // 
             // label15
             // 
@@ -1616,9 +1622,9 @@
             this.label9.Font = new System.Drawing.Font("Cambria", 12F);
             this.label9.Location = new System.Drawing.Point(280, 305);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(126, 19);
+            this.label9.Size = new System.Drawing.Size(119, 19);
             this.label9.TabIndex = 16;
-            this.label9.Text = "Vechicle Number";
+            this.label9.Text = "Vehicle Number";
             // 
             // txt_Svnum
             // 
@@ -1656,72 +1662,6 @@
             this.label8.TabIndex = 8;
             this.label8.Text = "Search";
             // 
-            // tabPage6
-            // 
-            this.tabPage6.Controls.Add(this.button3);
-            this.tabPage6.Controls.Add(this.button2);
-            this.tabPage6.Location = new System.Drawing.Point(4, 22);
-            this.tabPage6.Name = "tabPage6";
-            this.tabPage6.Size = new System.Drawing.Size(803, 433);
-            this.tabPage6.TabIndex = 5;
-            this.tabPage6.Text = "Reports";
-            this.tabPage6.UseVisualStyleBackColor = true;
-            // 
-            // txtBoxLeaserid
-            // 
-            this.txtBoxLeaserid.Enabled = false;
-            this.txtBoxLeaserid.Location = new System.Drawing.Point(452, 17);
-            this.txtBoxLeaserid.Name = "txtBoxLeaserid";
-            this.txtBoxLeaserid.Size = new System.Drawing.Size(100, 20);
-            this.txtBoxLeaserid.TabIndex = 83;
-            // 
-            // button2
-            // 
-            this.button2.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
-            this.button2.Font = new System.Drawing.Font("Cambria", 12F);
-            this.button2.ForeColor = System.Drawing.SystemColors.HotTrack;
-            this.button2.Location = new System.Drawing.Point(62, 47);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(169, 43);
-            this.button2.TabIndex = 81;
-            this.button2.Text = "Leasing Report";
-            this.button2.UseVisualStyleBackColor = false;
-            // 
-            // button3
-            // 
-            this.button3.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
-            this.button3.Font = new System.Drawing.Font("Cambria", 12F);
-            this.button3.ForeColor = System.Drawing.SystemColors.HotTrack;
-            this.button3.Location = new System.Drawing.Point(62, 168);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(169, 43);
-            this.button3.TabIndex = 82;
-            this.button3.Text = "Service Report";
-            this.button3.UseVisualStyleBackColor = false;
-            // 
-            // datePickerNextServiceDate
-            // 
-            this.datePickerNextServiceDate.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.datePickerNextServiceDate.Font = new System.Drawing.Font("Cambria", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.datePickerNextServiceDate.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.datePickerNextServiceDate.Location = new System.Drawing.Point(453, 295);
-            this.datePickerNextServiceDate.MaxDate = new System.DateTime(1999, 12, 31, 0, 0, 0, 0);
-            this.datePickerNextServiceDate.MinDate = new System.DateTime(1963, 1, 1, 0, 0, 0, 0);
-            this.datePickerNextServiceDate.Name = "datePickerNextServiceDate";
-            this.datePickerNextServiceDate.Size = new System.Drawing.Size(126, 26);
-            this.datePickerNextServiceDate.TabIndex = 92;
-            this.datePickerNextServiceDate.Value = new System.DateTime(1963, 1, 1, 0, 0, 0, 0);
-            // 
-            // label45
-            // 
-            this.label45.AutoSize = true;
-            this.label45.Font = new System.Drawing.Font("Cambria", 12F);
-            this.label45.Location = new System.Drawing.Point(290, 301);
-            this.label45.Name = "label45";
-            this.label45.Size = new System.Drawing.Size(131, 19);
-            this.label45.TabIndex = 91;
-            this.label45.Text = "Next Service Date";
-            // 
             // tabPage7
             // 
             this.tabPage7.Controls.Add(this.splitContainer1);
@@ -1755,62 +1695,6 @@
             this.splitContainer1.SplitterDistance = 267;
             this.splitContainer1.TabIndex = 0;
             // 
-            // textBox_Street
-            // 
-            this.textBox_Street.Location = new System.Drawing.Point(125, 34);
-            this.textBox_Street.Name = "textBox_Street";
-            this.textBox_Street.Size = new System.Drawing.Size(100, 20);
-            this.textBox_Street.TabIndex = 0;
-            // 
-            // textBox_City
-            // 
-            this.textBox_City.Location = new System.Drawing.Point(125, 130);
-            this.textBox_City.Name = "textBox_City";
-            this.textBox_City.Size = new System.Drawing.Size(100, 20);
-            this.textBox_City.TabIndex = 1;
-            // 
-            // Street
-            // 
-            this.Street.AutoSize = true;
-            this.Street.Font = new System.Drawing.Font("Cambria", 12F);
-            this.Street.Location = new System.Drawing.Point(30, 34);
-            this.Street.Name = "Street";
-            this.Street.Size = new System.Drawing.Size(50, 19);
-            this.Street.TabIndex = 2;
-            this.Street.Text = "Street";
-            // 
-            // label47
-            // 
-            this.label47.AutoSize = true;
-            this.label47.Font = new System.Drawing.Font("Cambria", 12F);
-            this.label47.Location = new System.Drawing.Point(30, 137);
-            this.label47.Name = "label47";
-            this.label47.Size = new System.Drawing.Size(35, 19);
-            this.label47.TabIndex = 3;
-            this.label47.Text = "City";
-            // 
-            // button4
-            // 
-            this.button4.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
-            this.button4.Font = new System.Drawing.Font("Cambria", 12F);
-            this.button4.ForeColor = System.Drawing.SystemColors.HotTrack;
-            this.button4.Location = new System.Drawing.Point(77, 212);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(75, 43);
-            this.button4.TabIndex = 58;
-            this.button4.Text = "Search";
-            this.button4.UseVisualStyleBackColor = false;
-            this.button4.Click += new System.EventHandler(this.button4_Click);
-            // 
-            // webBrowser1
-            // 
-            this.webBrowser1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.webBrowser1.Location = new System.Drawing.Point(0, 0);
-            this.webBrowser1.MinimumSize = new System.Drawing.Size(20, 20);
-            this.webBrowser1.Name = "webBrowser1";
-            this.webBrowser1.Size = new System.Drawing.Size(532, 433);
-            this.webBrowser1.TabIndex = 0;
-            // 
             // button5
             // 
             this.button5.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
@@ -1837,6 +1721,97 @@
             this.button6.UseVisualStyleBackColor = false;
             this.button6.Click += new System.EventHandler(this.button6_Click);
             // 
+            // button4
+            // 
+            this.button4.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
+            this.button4.Font = new System.Drawing.Font("Cambria", 12F);
+            this.button4.ForeColor = System.Drawing.SystemColors.HotTrack;
+            this.button4.Location = new System.Drawing.Point(77, 212);
+            this.button4.Name = "button4";
+            this.button4.Size = new System.Drawing.Size(75, 43);
+            this.button4.TabIndex = 58;
+            this.button4.Text = "Search";
+            this.button4.UseVisualStyleBackColor = false;
+            this.button4.Click += new System.EventHandler(this.button4_Click);
+            // 
+            // label47
+            // 
+            this.label47.AutoSize = true;
+            this.label47.Font = new System.Drawing.Font("Cambria", 12F);
+            this.label47.Location = new System.Drawing.Point(30, 137);
+            this.label47.Name = "label47";
+            this.label47.Size = new System.Drawing.Size(35, 19);
+            this.label47.TabIndex = 3;
+            this.label47.Text = "City";
+            // 
+            // Street
+            // 
+            this.Street.AutoSize = true;
+            this.Street.Font = new System.Drawing.Font("Cambria", 12F);
+            this.Street.Location = new System.Drawing.Point(30, 34);
+            this.Street.Name = "Street";
+            this.Street.Size = new System.Drawing.Size(50, 19);
+            this.Street.TabIndex = 2;
+            this.Street.Text = "Street";
+            // 
+            // textBox_City
+            // 
+            this.textBox_City.Location = new System.Drawing.Point(125, 130);
+            this.textBox_City.Name = "textBox_City";
+            this.textBox_City.Size = new System.Drawing.Size(100, 20);
+            this.textBox_City.TabIndex = 1;
+            // 
+            // textBox_Street
+            // 
+            this.textBox_Street.Location = new System.Drawing.Point(125, 34);
+            this.textBox_Street.Name = "textBox_Street";
+            this.textBox_Street.Size = new System.Drawing.Size(100, 20);
+            this.textBox_Street.TabIndex = 0;
+            // 
+            // webBrowser1
+            // 
+            this.webBrowser1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.webBrowser1.Location = new System.Drawing.Point(0, 0);
+            this.webBrowser1.MinimumSize = new System.Drawing.Size(20, 20);
+            this.webBrowser1.Name = "webBrowser1";
+            this.webBrowser1.Size = new System.Drawing.Size(532, 433);
+            this.webBrowser1.TabIndex = 0;
+            // 
+            // tabPage6
+            // 
+            this.tabPage6.Controls.Add(this.button3);
+            this.tabPage6.Controls.Add(this.button2);
+            this.tabPage6.Location = new System.Drawing.Point(4, 22);
+            this.tabPage6.Name = "tabPage6";
+            this.tabPage6.Size = new System.Drawing.Size(803, 433);
+            this.tabPage6.TabIndex = 5;
+            this.tabPage6.Text = "Reports";
+            this.tabPage6.UseVisualStyleBackColor = true;
+            // 
+            // button3
+            // 
+            this.button3.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
+            this.button3.Font = new System.Drawing.Font("Cambria", 12F);
+            this.button3.ForeColor = System.Drawing.SystemColors.HotTrack;
+            this.button3.Location = new System.Drawing.Point(62, 168);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(169, 43);
+            this.button3.TabIndex = 82;
+            this.button3.Text = "Service Report";
+            this.button3.UseVisualStyleBackColor = false;
+            // 
+            // button2
+            // 
+            this.button2.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
+            this.button2.Font = new System.Drawing.Font("Cambria", 12F);
+            this.button2.ForeColor = System.Drawing.SystemColors.HotTrack;
+            this.button2.Location = new System.Drawing.Point(62, 47);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(169, 43);
+            this.button2.TabIndex = 81;
+            this.button2.Text = "Leasing Report";
+            this.button2.UseVisualStyleBackColor = false;
+            // 
             // Vechicle_Mgt
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1862,13 +1837,13 @@
             this.tabPage2.ResumeLayout(false);
             this.tabPage2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvSuppliers)).EndInit();
-            this.tabPage6.ResumeLayout(false);
             this.tabPage7.ResumeLayout(false);
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel1.PerformLayout();
             this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
+            this.tabPage6.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
