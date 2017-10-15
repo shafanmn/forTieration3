@@ -143,7 +143,6 @@
             this.button3 = new System.Windows.Forms.Button();
             this.dataGridViewMonitor = new System.Windows.Forms.DataGridView();
             this.tabPage_Report = new System.Windows.Forms.TabPage();
-            this.reportViewer1 = new Microsoft.Reporting.WinForms.ReportViewer();
             this.textBoxjob = new System.Windows.Forms.TextBox();
             this.tab_manufact.SuspendLayout();
             this.tabPage1_RawMaterial.SuspendLayout();
@@ -1543,7 +1542,6 @@
             // 
             // tabPage_Report
             // 
-            this.tabPage_Report.Controls.Add(this.reportViewer1);
             this.tabPage_Report.Location = new System.Drawing.Point(4, 24);
             this.tabPage_Report.Name = "tabPage_Report";
             this.tabPage_Report.Padding = new System.Windows.Forms.Padding(3);
@@ -1554,12 +1552,7 @@
             // 
             // reportViewer1
             // 
-            this.reportViewer1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.reportViewer1.Location = new System.Drawing.Point(3, 3);
-            this.reportViewer1.Name = "reportViewer1";
-            this.reportViewer1.ServerReport.BearerToken = null;
-            this.reportViewer1.Size = new System.Drawing.Size(833, 456);
-            this.reportViewer1.TabIndex = 1;
+            
             // 
             // textBoxjob
             // 
@@ -1694,7 +1687,6 @@
         private System.Windows.Forms.Button button5;
         private System.Windows.Forms.PictureBox img;
         private System.Windows.Forms.ComboBox comboBoxenable;
-        private Microsoft.Reporting.WinForms.ReportViewer reportViewer1;
         private System.Windows.Forms.DateTimePicker datePickerdeliverdate;
         private System.Windows.Forms.TextBox textBoxitemName;
         private System.Windows.Forms.TextBox textBoxitemNo;

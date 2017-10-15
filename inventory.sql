@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Oct 14, 2017 at 07:46 PM
+-- Generation Time: Oct 15, 2017 at 02:12 PM
 -- Server version: 5.7.19
 -- PHP Version: 5.6.31
 
@@ -45,9 +45,9 @@ CREATE TABLE IF NOT EXISTS `attendance` (
 INSERT INTO `attendance` (`date`, `sId`, `inTime`, `offTime`, `otHrs`) VALUES
 ('2017-09-27', 1, '21:20', '21:21', 0),
 ('2017-09-28', 1, '19:15', '19:40', 0),
-('2017-10-10', 1, '09:21', NULL, NULL),
-('2017-10-14', 1, '22:42', NULL, NULL),
-('2017-10-14', 3, '23:00', NULL, NULL);
+('2017-10-15', 1, '13:32', NULL, NULL),
+('2017-10-15', 3, '11:34', NULL, NULL),
+('2017-10-04', 4, '18:46', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -63,7 +63,7 @@ CREATE TABLE IF NOT EXISTS `bank` (
   `Date` varchar(100) NOT NULL,
   `Status` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `bank`
@@ -91,7 +91,8 @@ INSERT INTO `bank` (`id`, `Description`, `Amount`, `Date`, `Status`) VALUES
 (19, 'dfssdfsdf', 10000, '9/23/2017 12:00:00 AM', 0),
 (20, 'september', 20000, '23/09/2017', 0),
 (21, 'september', 20000, '23/09/2017', 0),
-(22, 'new month', 12500, '27-09-2017', 0);
+(22, 'new month', 12500, '27-09-2017', 0),
+(23, 'PMT00000004', 40000, '2017-10-15 12:35:59', 1);
 
 -- --------------------------------------------------------
 
@@ -136,8 +137,18 @@ INSERT INTO `batch` (`batchNo`, `currentJob`, `noOfEmp`, `workingHrs`, `costPerU
 
 DROP TABLE IF EXISTS `canceledpayment`;
 CREATE TABLE IF NOT EXISTS `canceledpayment` (
-  `paymentid` varchar(10) NOT NULL,
-  `date` varchar(100) NOT NULL
+  `paymentid` varchar(100) NOT NULL,
+  `cid` varchar(10) NOT NULL,
+  `invoiceNo` varchar(100) NOT NULL,
+  `date1` varchar(100) NOT NULL,
+  `EnteredBy` varchar(100) NOT NULL,
+  `type` varchar(100) NOT NULL,
+  `payingAmt` double NOT NULL,
+  `OutstandingAmt` double NOT NULL,
+  `drawnDate` varchar(100) NOT NULL,
+  `checkNo` varchar(20) NOT NULL,
+  `refNo` varchar(10) NOT NULL,
+  `depositeTo` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -195,7 +206,8 @@ INSERT INTO `customer` (`cid`, `name`, `pno1`, `pno2`, `address1`, `address2`, `
 ('002', 'Ragul', 773432344, 773454566, 'No 16,', 'Colombo-04', 'ragul@yahoo.com', 'Gowshi'),
 ('003', 'Kumar', 774532333, 115454888, 'No,14', 'Hangulana', 'Kumar@hotmail.com', 'Gowshi'),
 ('004', 'Ragu', 771311123, 118988890, 'No 15', 'Halthamulla', 'Ragu@gmail.com', 'Gowshi'),
-('005', 'Ram', 774334343, 773434343, 'No 18', 'Rakwana', 'Ram@gmail.com', 'Gowshi');
+('005', 'Ram', 774334343, 773434343, 'No 18', 'Rakwana', 'Ram@gmail.com', 'Gowshi'),
+('006', 'Shaffan', 771548445, 771548446, 'nolimit', 'wellawatte', 'shaffan@gmail.com', 'GOWSHI');
 
 -- --------------------------------------------------------
 
@@ -211,7 +223,7 @@ CREATE TABLE IF NOT EXISTS `deliverydetails` (
   `address` varchar(200) NOT NULL,
   `phoneNo` int(100) NOT NULL,
   PRIMARY KEY (`DID`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `deliverydetails`
@@ -220,7 +232,8 @@ CREATE TABLE IF NOT EXISTS `deliverydetails` (
 INSERT INTO `deliverydetails` (`DID`, `CID`, `showRoomLocation`, `address`, `phoneNo`) VALUES
 (1, '001', 'wellawatte', 'No 15 ramakrishna road', 112222255),
 (6, '002', 'Ratmalana', '46', 555555555),
-(7, '002', 'moratuwa', '65', 11454587);
+(7, '002', 'moratuwa', '65', 11454587),
+(8, '006', 'dehiwela', 'dehiwela', 115854558);
 
 -- --------------------------------------------------------
 
@@ -273,7 +286,7 @@ CREATE TABLE IF NOT EXISTS `from_suppliers` (
   `VehicleNumber` varchar(8) NOT NULL,
   `Staffid` int(3) NOT NULL,
   PRIMARY KEY (`TripID`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `from_suppliers`
@@ -282,7 +295,8 @@ CREATE TABLE IF NOT EXISTS `from_suppliers` (
 INSERT INTO `from_suppliers` (`TripID`, `SupplierName`, `SupplierAddress`, `Date`, `Time`, `StockWeight`, `NoOfTurn`, `VehicleNumber`, `Staffid`) VALUES
 (5, 'nushra fawmy', 'ratnapura', '1/2/1963', NULL, 1300, 1, '122', 0),
 (6, 'fareeda', 'dehiwala', '1/2/1963', NULL, 2300, 1, '1223', 0),
-(7, 'acchu', 'colombo', '1/1/1963', NULL, 45, 1, '1', 0);
+(7, 'acchu', 'colombo', '1/1/1963', NULL, 45, 1, '1', 0),
+(8, 'nushra fawmy', 'ratnapura', '1963-01-01', '', 1300, 1, '122', 2);
 
 -- --------------------------------------------------------
 
@@ -314,8 +328,16 @@ CREATE TABLE IF NOT EXISTS `invoice` (
 --
 
 INSERT INTO `invoice` (`cid`, `invoiceNo`, `cashDisc`, `qtyDisc`, `specDisc`, `totCost`, `netCost`, `seller`, `totQty`, `deliveryTo`, `deliverDate`, `remark`, `createdDate`, `createdBy`, `dueDate`) VALUES
-('002', 'INV00000001', 1140.35, 4882.5, 1140.35, 57017.5, 49854.3, 'Mohan', 58, 'Ratmalana', '9/20/2017', 'festival', '19/09/2017', 'Gowshi', '18/12/2017'),
-('004', 'INV00000002', 0, 560, 0, 9900, 9340, 'Navam', 17, 'moratuwa', '9/21/2017', 'dfs', '19/09/2017', 'Gowshi', '18/12/2017');
+('002', 'INV00000001', 1140.35, 4882.5, 1140.35, 57017.5, 49854.3, 'Mohan', 58, 'Ratmalana', '2017-10-13 12:00:00 AM', 'festival', '19/09/2017', 'Gowshi', '18/12/2017'),
+('004', 'INV00000002', 0, 560, 0, 9900, 9340, 'Navam', 17, 'moratuwa', '2017-10-13 12:00:00 AM', 'dfs', '19/09/2017', 'Gowshi', '18-12-2017'),
+('004', 'INV00000003', 240, 0, 0, 12000, 11760, 'dfsf', 15, 'rakvana', '2017-10-13 12:00:00 AM', 'sd', '05-10-2017', '', '03-01-2018'),
+('004', 'INV00000004', 0, 10920, 1848, 30800, 18032, 'hgj', 31, 'rakwana', '2017-10-12 12:00:00 AM', '', '06-10-2017', '', '04-01-2018'),
+('004', 'INV00000005', 0, 9100, 1488, 24800, 14212, 'fghf', 31, 'moratuwa', '2017-10-09 12:00:00 AM', '', '07-10-2017', '', '05-01-2018'),
+('004', 'INV00000006', 0, 40250, 1020, 102000, 60730, 'ghgfgf', 120, 'aluthgama', '2017-10-10 12:00:00 AM', 'dfg', '09-10-2017', '', '07-01-2018'),
+('004', 'INV00000007', 620, 0, 310, 31000, 30070, 'hgfhg', 30, 'rakwana', '2017-10-27 12:00:00 AM', 'hvhj', '10-10-2017', '', '08-01-2018'),
+('004', 'INV00000008', 450, 0, 0, 22500, 22050, 'fsdf', 10, 'rakwana', '2017-10-27 12:00:00 AM', '', '10-10-2017', '', '08-01-2018'),
+('006', 'INV00000009', 960, 17500, 0, 48000, 29540, '1111', 60, 'fdsdf', '2017-10-22 00:00:00', '', '15-10-2017', 'GOWSHI', '13-01-2018'),
+('006', 'INV0000010', 0, 0, 0, 35000, 35000, 'jkf', 20, 'dehiwela', '2017-10-19 00:00:00', '', '15-10-2017', 'GOWSHI', '13-01-2018');
 
 -- --------------------------------------------------------
 
@@ -339,16 +361,19 @@ CREATE TABLE IF NOT EXISTS `item` (
 --
 
 INSERT INTO `item` (`itemCode`, `Location`, `sellingPrice`, `MRP`, `Discription`) VALUES
-(1234567890, 'Colombo', 2000, 2500, 'Denim blue L Female'),
-(1234567891, 'Colombo', 2500, 3000, 'Denim blue XL male'),
-(1234567892, 'Kurunagala', 800, 1000, 'T-Shirt Black XL male'),
-(1234567893, 'Colombo', 800, 1000, 'T-Shirt Pink S female'),
-(1234567894, 'Kurunagala', 800, 1000, 'T-Shirt Red S female'),
-(1234567895, 'Moratuwa', 800, 1000, 'T-Shirt Puple S female'),
-(1234567896, 'Colombo', 800, 1200, 'T-Shirt Yellow L male'),
-(1234567897, 'Kurunagala', 1500, 1950, 'Army Shorts L male'),
-(1234567898, 'Moratuwa', 1500, 1950, 'Army Shorts XS  female'),
-(1234567899, 'Colombo', 1500, 1950, 'Kaki XXL  male');
+(111110, 'Colombo', 1900, 2500, 'denim blue L Male'),
+(111111, 'Colombo', 2000, 2500, 'Denim Black Female'),
+(111112, 'Kurunagala', 1500, 1750, 'Yellow Pants XL male'),
+(111113, 'Kurunagala', 800, 1000, 'Pink T-shirt L Female'),
+(111114, 'Kurunagala', 750, 1000, 'Blue T-shirt XL male'),
+(111115, 'Moratuwa', 800, 1250, 'Red T-Shirt XL male'),
+(111116, 'Colombo', 3500, 5000, 'Green Plain saree Female'),
+(111117, 'Colombo', 3500, 5000, 'RedPlain saree Female'),
+(111118, 'Colombo', 35000, 50000, 'Gold Designed saree Female'),
+(111119, 'Moratuwa', 750, 900, 'V neck yellow L '),
+(111120, 'Moratuwa', 750, 900, 'V neck yellow XL '),
+(111121, 'Kurunagala', 2500, 1800, 'camo Denim XL Male'),
+(111122, 'Colombo', 500, 750, 'Sarom');
 
 -- --------------------------------------------------------
 
@@ -604,51 +629,24 @@ CREATE TABLE IF NOT EXISTS `oitems` (
 --
 
 INSERT INTO `oitems` (`ItemCode`, `Quantity`, `UnitPrice`, `ono`) VALUES
-(56, 100, 60, 26),
-(0, 0, 0, 26),
-(0, 70, 100, 27),
-(0, 0, 0, 27),
-(0, 200, 100, 28),
-(0, 0, 0, 28),
-(0, 200, 50, 29),
-(0, 0, 0, 29),
-(0, 20, 50, 30),
-(0, 0, 0, 30),
-(0, 100, 50, 31),
-(0, 0, 0, 31),
-(0, 300, 100, 32),
-(0, 0, 0, 32),
-(0, 50, 100, 33),
-(0, 30, 150, 33),
-(0, 0, 0, 33),
-(0, 200, 100, 34),
-(0, 0, 0, 34),
-(0, 0, 0, 34),
-(0, 0, 0, 34),
-(0, 300, 100, 35),
-(0, 0, 0, 35),
-(0, 300, 100, 35),
-(0, 0, 0, 35),
-(0, 700, 100, 37),
-(0, 0, 0, 37),
-(0, 10, 200, 38),
-(0, 20, 100, 38),
-(0, 0, 0, 38),
-(0, 200, 100, 39),
-(0, 100, 50, 39),
-(0, 50, 200, 39),
-(0, 0, 0, 39),
-(0, 300, 100, 40),
-(0, 0, 0, 40),
-(0, 200, 100, 41),
-(0, 100, 150, 41),
-(0, 0, 0, 41),
-(0, 100, 50, 42),
-(0, 0, 0, 42),
-(0, 455, 234, 43),
-(0, 0, 0, 43),
-(0, 100, 100, 44),
-(0, 0, 0, 44);
+(111110, 100, 700, 6),
+(111110, 100, 500, 7),
+(111111, 100, 500, 7),
+(111112, 100, 350, 7),
+(111113, 100, 350, 7),
+(111110, 100, 600, 8),
+(111111, 100, 550, 8),
+(111112, 100, 300, 8),
+(111113, 100, 300, 8),
+(111114, 100, 350, 9),
+(111115, 100, 350, 9),
+(111116, 20, 2500, 9),
+(111117, 20, 2500, 9),
+(111114, 100, 300, 10),
+(111115, 100, 300, 10),
+(111116, 20, 2200, 10),
+(111117, 20, 2500, 10),
+(111121, 500, 1400, 11);
 
 -- --------------------------------------------------------
 
@@ -676,7 +674,28 @@ INSERT INTO `orderdetails` (`invoiceNo`, `ItemNo`, `qty`, `disc`, `totcost`) VAL
 ('INV00000001', '784512', 15, 630, 36870),
 ('INV00000002', '123456', 3, 0, 1500),
 ('INV00000002', '123741', 14, 560, 8400),
-('INV00000002', '987456', 45, 9817.5, 27000);
+('INV00000002', '987456', 45, 9817.5, 27000),
+('INV00000002', '1234567892', 5, 0, 4000),
+('INV00000003', '1234567892', 0, 0, 0),
+('INV00000003', '1234567893', 10, 0, 8000),
+('INV00000003', '1234567894', 5, 0, 4000),
+('INV00000003', '1234567898', 0, 0, 0),
+('INV00000004', '1234567896', 26, 10920, 20800),
+('INV00000004', '1234567890', 5, 0, 10000),
+('INV00000005', '1234567895', 26, 9100, 20800),
+('INV00000005', '1234567893', 5, 0, 4000),
+('INV00000006', '1234567893', 25, 8750, 20000),
+('INV00000006', '1234567890', 5, 0, 10000),
+('INV00000006', '1234567894', 90, 31500, 72000),
+('INV00000007', '1234567897', 10, 0, 15000),
+('INV00000007', '1234567893', 10, 0, 8000),
+('INV00000007', '1234567896', 10, 0, 8000),
+('INV00000008', '1234567890', 5, 0, 10000),
+('INV00000008', '1234567891', 5, 0, 12500),
+('INV00000009', '111113', 50, 17500, 40000),
+('INV00000009', '111115', 10, 0, 8000),
+('INV0000010', '111112', 10, 0, 15000),
+('INV0000010', '111111', 10, 0, 20000);
 
 -- --------------------------------------------------------
 
@@ -692,30 +711,21 @@ CREATE TABLE IF NOT EXISTS `orders` (
   `pmethod` varchar(10) NOT NULL,
   `balance` float NOT NULL,
   `ono` int(11) NOT NULL AUTO_INCREMENT,
+  `date` varchar(100) NOT NULL,
   PRIMARY KEY (`ono`)
-) ENGINE=InnoDB AUTO_INCREMENT=45 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `orders`
 --
 
-INSERT INTO `orders` (`sname`, `total`, `pamount`, `pmethod`, `balance`, `ono`) VALUES
-('Kavisha', 6000, 2000, 'Card', 4000, 26),
-('Kayomi', 7000, 3000, 'Card', 4000, 27),
-('umesha', 1000, 2000, 'Cheque', -1000, 30),
-('Kavi', 5000, 500, 'Cheque', 4500, 31),
-('Scott', 30000, 5000, 'Cheque', 25000, 32),
-('Liam', 0, 2000, 'Card', -2000, 34),
-('malia', 30000, 2000, 'Cheque', 28000, 35),
-('malia', 30000, 2000, 'Cheque', 28000, 36),
-('Derek', 70000, 6000, 'Card', 64000, 37),
-('Peter', 4000, 3000, 'Cash', 1000, 38),
-('Shehan', 35000, 4000, 'Cheque', 31000, 39),
-('Andria', 30000, 2000, 'Card', 28000, 40),
-('Mark', 35000, 5000, 'Cash', 30000, 41),
-('', 5000, 2000, 'Cheque', 3000, 42),
-('Kevin', 106470, 3000, 'Card', 103470, 43),
-('Elle', 10000, 5000, 'Cheque', 5000, 44);
+INSERT INTO `orders` (`sname`, `total`, `pamount`, `pmethod`, `balance`, `ono`, `date`) VALUES
+('Kavisha Shivangana', 70000, 65000, 'Cash', 5000, 6, '2017-10-02 19:23:48'),
+('Kavisha Shivangana', 170000, 150000, 'Cash', 25000, 7, '2017-10-04 17:47:38'),
+('Shehan Mark', 175000, 150000, 'Cash', 25000, 8, '2017-10-04 17:48:14'),
+('Domink Dealwis', 170000, 180000, 'Cash', -10000, 9, '2017-10-04 17:49:48'),
+('Anjelo Fernando', 154000, 180000, 'Cash', -26000, 10, '2017-10-04 17:50:21'),
+('Shehan Mark', 700000, 650000, 'Card', 75000, 11, '2017-10-14 23:56:58');
 
 -- --------------------------------------------------------
 
@@ -725,10 +735,10 @@ INSERT INTO `orders` (`sname`, `total`, `pamount`, `pmethod`, `balance`, `ono`) 
 
 DROP TABLE IF EXISTS `payment`;
 CREATE TABLE IF NOT EXISTS `payment` (
-  `paymentid` varchar(10) NOT NULL,
+  `paymentid` varchar(100) NOT NULL,
   `cid` varchar(10) NOT NULL,
   `invoiceNo` varchar(100) NOT NULL,
-  `date` varchar(100) NOT NULL,
+  `date1` varchar(100) NOT NULL,
   `EnteredBy` varchar(100) NOT NULL,
   `type` varchar(100) NOT NULL,
   `payingAmt` double NOT NULL,
@@ -736,8 +746,23 @@ CREATE TABLE IF NOT EXISTS `payment` (
   `drawnDate` varchar(100) NOT NULL,
   `checkNo` varchar(20) NOT NULL,
   `refNo` varchar(10) NOT NULL,
-  `depositeTo` varchar(100) NOT NULL
+  `depositeTo` varchar(100) NOT NULL,
+  PRIMARY KEY (`paymentid`,`invoiceNo`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `payment`
+--
+
+INSERT INTO `payment` (`paymentid`, `cid`, `invoiceNo`, `date1`, `EnteredBy`, `type`, `payingAmt`, `OutstandingAmt`, `drawnDate`, `checkNo`, `refNo`, `depositeTo`) VALUES
+('PMT00000000', '000', '', '', '', '', 0, 0, '', '', '', ''),
+('PMT00000002', '004', 'INV00000007', '2017-10-10 11:45:43 AM', 'Gowshi', 'Credit', 30070, -30070, '2017-10-10', '5555', '', 'Check'),
+('PMT00000003', '004', 'INV00000004', '2017-10-10 2:12:57 PM', '', 'Cash', 0, 18032, '2017-10-10', '', '55555', 'Cash in hand'),
+('PMT00000003', '004', 'INV00000005', '2017-10-10 2:12:57 PM', '', 'Cash', 0, 14208, '2017-10-10', '', '55555', 'Cash in hand'),
+('PMT00000003', '004', 'INV00000006', '2017-10-10 2:12:57 PM', '', 'Cash', 0, 60728, '2017-10-10', '', '55555', 'Cash in hand'),
+('PMT00000003', '004', 'INV00000008', '2017-10-10 2:12:57 PM', '', 'Cash', 22050, 0, '2017-10-10', '', '55555', 'Cash in hand'),
+('PMT00000004', '006', 'INV00000009', '2017-10-15 12:35:59', 'GOWSHI', 'Credit', 20000, 25575, '2017-10-15', '', '', 'Bank'),
+('PMT00000004', '006', 'INV0000010', '2017-10-15 12:35:59', 'GOWSHI', 'Credit', 20000, 15000, '2017-10-15', '', '', 'Bank');
 
 -- --------------------------------------------------------
 
@@ -757,16 +782,19 @@ CREATE TABLE IF NOT EXISTS `reorderlevel` (
 --
 
 INSERT INTO `reorderlevel` (`itemCode`, `reOrderPoint`) VALUES
-(1234567890, 50),
-(1234567891, 50),
-(1234567892, 60),
-(1234567893, 40),
-(1234567894, 50),
-(1234567895, 40),
-(1234567896, 50),
-(1234567897, 50),
-(1234567898, 0),
-(1234567899, 0);
+(111110, 10),
+(111111, 10),
+(111112, 10),
+(111113, 20),
+(111114, 10),
+(111115, 15),
+(111116, 10),
+(111117, 10),
+(111118, 10),
+(111119, 0),
+(111120, 0),
+(111121, 0),
+(111122, 0);
 
 -- --------------------------------------------------------
 
@@ -814,6 +842,15 @@ CREATE TABLE IF NOT EXISTS `returndetails` (
   `total` double DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dumping data for table `returndetails`
+--
+
+INSERT INTO `returndetails` (`dno`, `itemNo`, `qty`, `wsp`, `total`) VALUES
+('1', 111112, 2, 1500, 3000),
+('1', 111113, 2, 800, 1600),
+('1', 111114, 2, 750, 1500);
+
 -- --------------------------------------------------------
 
 --
@@ -830,6 +867,13 @@ CREATE TABLE IF NOT EXISTS `returns` (
   PRIMARY KEY (`dno`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dumping data for table `returns`
+--
+
+INSERT INTO `returns` (`dno`, `cid`, `created`, `remarks`, `total`) VALUES
+('001', '006', '2017-10-15', 'someo', 6100);
+
 -- --------------------------------------------------------
 
 --
@@ -843,9 +887,17 @@ CREATE TABLE IF NOT EXISTS `returnstock` (
   `pp` double DEFAULT NULL,
   `wsp` double DEFAULT NULL,
   `sp` double DEFAULT NULL,
-  `qty` int(4) DEFAULT NULL,
-  PRIMARY KEY (`itemCode`)
+  `qty` int(4) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `returnstock`
+--
+
+INSERT INTO `returnstock` (`itemCode`, `description`, `pp`, `wsp`, `sp`, `qty`) VALUES
+('111112', 'Yellow Pants XL male', NULL, 1500, NULL, 2),
+('111113', 'Pink T-shirt L Female', NULL, 800, NULL, 2),
+('111114', 'Blue T-shirt XL male', NULL, 750, NULL, 2);
 
 -- --------------------------------------------------------
 
@@ -927,7 +979,7 @@ CREATE TABLE IF NOT EXISTS `settings` (
 --
 
 INSERT INTO `settings` (`name`, `address`, `tele`, `fax`, `email`, `sTime`, `oTime`, `hTime`, `image`) VALUES
-('Ewing Associates (Pvt) Ltd', '658/78 2/1,\nDanister De Silva Mawatha,\nColombo 9', '0112672732', '0112672732', 'info@ewingassociates.lk', '0730', '1700', '1230', 'E:\\Setup\\OP2\\OP2_Backup\\Image_and_Video\\Pictures\\EwingPP.png');
+('Ewing Associates (Pvt) Ltd', '658/78 2/1,\nDanister De Silva Mawatha,\nColombo 9', '0112672732', '0112672732', 'info@ewingassociates.lk', '0730', '1700', '1230', 'C:\\Users\\Shehan Mark Fdo\\Desktop\\InventoryMgt\\EwingInventory\\Resources\\EwingPP.png');
 
 -- --------------------------------------------------------
 
@@ -955,7 +1007,7 @@ CREATE TABLE IF NOT EXISTS `staff` (
   `image` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`sId`),
   KEY `desig` (`desig`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `staff`
@@ -963,11 +1015,15 @@ CREATE TABLE IF NOT EXISTS `staff` (
 
 INSERT INTO `staff` (`sId`, `uName`, `pass`, `fName`, `lname`, `add1`, `add2`, `religion`, `mob`, `email`, `nic`, `access`, `joined`, `dob`, `desig`, `image`) VALUES
 (0, 'ADMIN', 'admin', NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, 0, NULL, NULL, 0, NULL),
-(1, 'SHAFAN', 'sha', 'SHAFAN', 'NAZIM', '34, De Waas Lane', 'Grandpass', 3, '755619134', 'mohamed.shafan@my.sliit.lk', '199514303063', 1, '1995-05-22', '1995-05-22', 2, 'E:\\Setup\\OP2\\OP2_Backup\\Image_and_Video\\Pictures\\Profile1K.png'),
-(2, 'JAJE', 'jaje', 'JAJE', 'THANAN', '45', 'Wellawatta', 2, '799856565', 'thanan@gmail.com', '959384321', 2, '1995-12-05', '1995-12-05', 5, NULL),
-(3, 'GOWSHI', 'gowshi', 'GOWSHALINI', 'RAJALINGAM', '85', 'Dehiwala', 3, '776589532', 'gow@shi.com', '199658596586', 1, '1996-12-05', '1996-12-05', 1, 'E:\\Setup\\OP2\\OP2_Backup\\Image_and_Video\\Pictures\\Wallpapers\\20151218063256.jpg'),
+(1, 'SHAFAN', 'sha', 'SHAFAN', 'NAZIM', '34, De Waas Lane', '34, De Waas Lane', 3, '755619134', 'mohamed.shafan@my.sliit.lk', '199514303063', 1, '1995-05-22', '1995-05-22', 1, 'C:\\Users\\Shehan Mark Fdo\\Desktop\\InventoryMgt\\EwingInventory\\Resources\\icon_user1.png'),
+(2, 'JAJE', 'jaje', 'JAJE', 'THANAN', 'adfs', 'adfs', 2, '799856565', 'thanan@gmail.com', '959384321', 2, '1995-12-05', '1995-12-05', 3, NULL),
+(3, 'GOWSHI', 'gowshi', 'GOWSHALINI', 'RAJALINGAM', '87', 'Dehiwala', 3, '776589532', 'gow@shi.com', '199658596586', 1, '1996-12-05', '1996-12-05', 2, 'E:\\Setup\\OP2\\OP2_Backup\\Image_and_Video\\Pictures\\Wallpapers\\20151218063256.jpg'),
 (4, 'MARK', 'mark', 'SHEHAN', 'FERNANDO', '78', 'Kollupitiya', 4, '7685965865', 'she@han.lk', '965833512', 2, '2017-07-01', '1996-09-06', 3, NULL),
-(5, 'NUSHRA', 'nush', 'NUSHARA', 'FAWMY', '40', 'Kollupitiya', 3, '888595959', 'some@this.com', '199685665959', 2, '1992-04-22', '1992-04-22', 4, NULL);
+(5, 'NUSHRA', 'nush', 'NUSHARA', 'FAWMY', '40', '40', 3, '888595959', 'some@this.com', '199685665959', 2, '1992-04-22', '1992-04-22', 3, NULL),
+(6, 'FAIZAAN', 'zaan', 'FAIZAAN', 'YAKOOB', '78', 'Maradara', 3, '778596325', 'some@thing.com', '956885742V', 2, '2017-10-15', '1995-05-03', 5, NULL),
+(7, 'SAMAN', 'saman', 'SAMAN', 'LAKSHITHA', '859', '', 1, '759685324', 'im@robot.com', '865974263V', 2, '2017-10-15', '1986-12-03', 8, NULL),
+(8, 'ANURA', 'anura', 'ANURA', 'KUMARA', '121', 'dwf', 1, '118596325', 'anura@ewing.lk', '199712365284', 2, '2017-10-15', '1997-01-31', 8, NULL),
+(9, 'NIZAR', 'nizar', 'NIZAR', 'AHAMED', 'wr', '', 3, '112358695', 'dwi@ef.vh', '198015236595', 2, '2017-10-15', '1980-01-15', 8, NULL);
 
 -- --------------------------------------------------------
 
@@ -1003,16 +1059,19 @@ CREATE TABLE IF NOT EXISTS `stock` (
 --
 
 INSERT INTO `stock` (`quantity`, `itemCodes`) VALUES
-(0, 1234567890),
-(0, 1234567891),
-(0, 1234567892),
-(0, 1234567893),
-(0, 1234567894),
-(0, 1234567895),
-(0, 1234567896),
-(0, 1234567897),
-(0, 1234567898),
-(0, 1234567899);
+(100, 111110),
+(90, 111111),
+(90, 111112),
+(50, 111113),
+(100, 111114),
+(90, 111115),
+(20, 111116),
+(20, 111117),
+(0, 111118),
+(0, 111119),
+(0, 111120),
+(450, 111121),
+(0, 111122);
 
 -- --------------------------------------------------------
 
@@ -1028,9 +1087,17 @@ CREATE TABLE IF NOT EXISTS `stockadjustments` (
   `PreviousQuantity` int(11) NOT NULL,
   `quantityLost` int(11) NOT NULL,
   `reason` varchar(200) NOT NULL,
+  `Location` varchar(100) NOT NULL,
   PRIMARY KEY (`Date`,`itemCode`),
   KEY `itemCode` (`itemCode`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `stockadjustments`
+--
+
+INSERT INTO `stockadjustments` (`Date`, `itemCode`, `NewQuantity`, `PreviousQuantity`, `quantityLost`, `reason`, `Location`) VALUES
+('2017-10-14 23:58:34', 111121, 450, 500, 50, 'Rat problem', 'Kurunagala');
 
 -- --------------------------------------------------------
 
@@ -1041,24 +1108,29 @@ CREATE TABLE IF NOT EXISTS `stockadjustments` (
 DROP TABLE IF EXISTS `supplier`;
 CREATE TABLE IF NOT EXISTS `supplier` (
   `Name` varchar(100) NOT NULL,
-  `Nic` varchar(9) NOT NULL,
+  `Nic` varchar(10) NOT NULL,
   `Phone` int(11) NOT NULL,
   `fax` int(10) NOT NULL,
   `email` varchar(50) NOT NULL,
   `sid` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sid`)
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `supplier`
 --
 
 INSERT INTO `supplier` (`Name`, `Nic`, `Phone`, `fax`, `email`, `sid`) VALUES
-('Elle', '876', 999, 9876785, 'elle@yahoo.com', 7),
-('Lydiaa', '9654345v', 77843562, 11245636, 'lydia@gmail.com', 9),
-('Malia', '8967534', 1145628, 225622, 'malia@gmail.com', 13),
-('Kevin', '8907374v', 11122, 11245635, 'kevin@gmail.com', 15),
-('Elle', '122345', 34787377, 34787377, 'elle@gmail.com', 16);
+('Kavisha Shivangana', '123654789V', 774068832, 774068832, 'KGirl@gmail.com', 19),
+('Shehan Mark', '96987451V', 757987146, 757987146, 'shehan@gmail.com', 20),
+('Domink Dealwis', '987876567V', 774449876, 774449876, 'DomAl@gmail.com', 22),
+('Jakson Black', '871234658V', 774898765, 774898765, 'Jblack@gmail.com', 23),
+('Anjelo Fernando', '912345678V', 774786576, 774786576, 'AnjFdo@gmail.com', 24),
+('Carol Jonson', '889876787V', 778987354, 778987354, 'Cjonsen@gmail.com', 25),
+('Trevor Philips', '789876778V', 770707707, 770707707, 'Trevo@sliit.com', 26),
+('Bilbo Bagins', '699867857V', 789879987, 789879987, 'Bilboo@gmail.com', 27),
+('Tom cruise', '874587452V', 775465842, 775845625, 'Tom@gmail.com', 28),
+('safan', '154875482V', 775487845, 775487845, 'sa@gmail.com', 29);
 
 -- --------------------------------------------------------
 
@@ -1133,12 +1205,6 @@ ALTER TABLE `attendance`
 --
 ALTER TABLE `loyalty`
   ADD CONSTRAINT `loyalty_ibfk_1` FOREIGN KEY (`sId`) REFERENCES `staff` (`sId`);
-
---
--- Constraints for table `requests`
---
-ALTER TABLE `requests`
-  ADD CONSTRAINT `requests_ibfk_1` FOREIGN KEY (`sId`) REFERENCES `staff` (`sId`);
 
 --
 -- Constraints for table `salary`

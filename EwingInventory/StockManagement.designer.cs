@@ -338,6 +338,7 @@
             // 
             this.updatesitems.AllowUserToAddRows = false;
             this.updatesitems.AllowUserToDeleteRows = false;
+            this.updatesitems.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.updatesitems.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.updatesitems.Location = new System.Drawing.Point(345, 16);
             this.updatesitems.Name = "updatesitems";
@@ -686,6 +687,7 @@
             // 
             // InventorydataGridView
             // 
+            this.InventorydataGridView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.InventorydataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.InventorydataGridView.Location = new System.Drawing.Point(97, 102);
             this.InventorydataGridView.Name = "InventorydataGridView";

@@ -319,7 +319,7 @@ namespace EwingInventory
                 home.LoadToDatagridview(dgvRequest, "SELECT onDate 'On', type 'Type', FORMAT(amount,2) 'Amount', status 'Status', reqDate 'Requested on' FROM requests WHERE sId=" + this.currentUID + ";");
                 home.chanfeDGVColor(dgvRequest, 3, "APPROVED", "PENDING");
                 home.LoadToDatagridview(dgvReqMg, "SELECT sId 'ID', onDate 'On', type 'Type' FROM requests ORDER BY onDate");
-                dgvReqMg.Columns[0].Width = 20;
+               // dgvReqMg.Columns[0].Width = 20;
                 userDetails();
                 attDetails();
             }
@@ -364,6 +364,7 @@ namespace EwingInventory
         
         private void dgvStaff_CellClick(object sender, DataGridViewCellEventArgs e)
         {
+
             btn_save.Text = "Edit";
             btn_save.Enabled = true;
             
@@ -402,7 +403,7 @@ namespace EwingInventory
                     txt_pass.Text = dr["pass"].ToString();
                     this.selectedUser = txt_user.Text.ToString();
                     cmb_access.SelectedItem = cmb_access.Items[Convert.ToInt32(dr["access"].ToString())];
-                    cmb_desig.SelectedItem = cmb_desig.Items[Convert.ToInt32(dr["desig"].ToString())];
+                    cmb_desig.SelectedItem = cmb_desig.Items[Convert.ToInt32(dr["desig"].ToString())-1];
                     comboBox3.SelectedItem = comboBox3.Items[Convert.ToInt32(dr["religion"].ToString())];
 
                 }

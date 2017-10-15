@@ -30,14 +30,17 @@
         {
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.btn_add = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.txt_total = new System.Windows.Forms.TextBox();
             this.txt_quantity = new System.Windows.Forms.TextBox();
             this.txt_price = new System.Windows.Forms.TextBox();
             this.txt_itemname = new System.Windows.Forms.TextBox();
             this.txt_itemcode = new System.Windows.Forms.TextBox();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.lbl_subtotal = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.lbl_docnum = new System.Windows.Forms.Label();
@@ -57,7 +60,7 @@
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.btn_cal = new System.Windows.Forms.Button();
             this.txt_spclprice = new System.Windows.Forms.TextBox();
-            this.txt_ageing = new System.Windows.Forms.TextBox();
+            this.txt_desc = new System.Windows.Forms.TextBox();
             this.txt_wsamount = new System.Windows.Forms.TextBox();
             this.txt_purchamount = new System.Windows.Forms.TextBox();
             this.txt_rtnqnt = new System.Windows.Forms.TextBox();
@@ -99,7 +102,6 @@
             // tabPage1
             // 
             this.tabPage1.BackColor = System.Drawing.Color.LightCyan;
-            this.tabPage1.Controls.Add(this.btn_add);
             this.tabPage1.Controls.Add(this.groupBox1);
             this.tabPage1.Controls.Add(this.lbl_subtotal);
             this.tabPage1.Controls.Add(this.label7);
@@ -124,29 +126,16 @@
             this.tabPage1.Text = "Customer Return";
             this.tabPage1.Click += new System.EventHandler(this.tabPage1_Click);
             // 
-            // btn_add
-            // 
-            this.btn_add.BackColor = System.Drawing.Color.SkyBlue;
-            this.btn_add.ForeColor = System.Drawing.Color.Blue;
-            this.btn_add.Location = new System.Drawing.Point(367, 378);
-            this.btn_add.Name = "btn_add";
-            this.btn_add.Size = new System.Drawing.Size(92, 31);
-            this.btn_add.TabIndex = 43;
-            this.btn_add.Text = "Add";
-            this.btn_add.UseVisualStyleBackColor = false;
-            this.btn_add.Click += new System.EventHandler(this.btn_add_Click);
-            // 
             // groupBox1
             // 
             this.groupBox1.BackColor = System.Drawing.Color.White;
-            this.groupBox1.Controls.Add(this.txt_total);
             this.groupBox1.Controls.Add(this.txt_quantity);
             this.groupBox1.Controls.Add(this.txt_price);
             this.groupBox1.Controls.Add(this.txt_itemname);
             this.groupBox1.Controls.Add(this.txt_itemcode);
             this.groupBox1.Controls.Add(this.dataGridView1);
             this.groupBox1.ForeColor = System.Drawing.Color.Navy;
-            this.groupBox1.Location = new System.Drawing.Point(33, 115);
+            this.groupBox1.Location = new System.Drawing.Point(33, 113);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(757, 257);
             this.groupBox1.TabIndex = 47;
@@ -154,66 +143,102 @@
             this.groupBox1.Text = "Deatails";
             this.groupBox1.Enter += new System.EventHandler(this.groupBox1_Enter);
             // 
-            // txt_total
-            // 
-            this.txt_total.BackColor = System.Drawing.Color.AliceBlue;
-            this.txt_total.Location = new System.Drawing.Point(602, 213);
-            this.txt_total.Name = "txt_total";
-            this.txt_total.Size = new System.Drawing.Size(140, 25);
-            this.txt_total.TabIndex = 42;
-            // 
             // txt_quantity
             // 
             this.txt_quantity.BackColor = System.Drawing.Color.AliceBlue;
-            this.txt_quantity.Location = new System.Drawing.Point(456, 214);
+            this.txt_quantity.Enabled = false;
+            this.txt_quantity.Location = new System.Drawing.Point(493, 222);
             this.txt_quantity.Name = "txt_quantity";
-            this.txt_quantity.Size = new System.Drawing.Size(140, 25);
+            this.txt_quantity.Size = new System.Drawing.Size(44, 25);
             this.txt_quantity.TabIndex = 39;
+            this.txt_quantity.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txt_quantity_KeyDown);
             // 
             // txt_price
             // 
             this.txt_price.BackColor = System.Drawing.Color.AliceBlue;
-            this.txt_price.Location = new System.Drawing.Point(311, 214);
+            this.txt_price.Enabled = false;
+            this.txt_price.Location = new System.Drawing.Point(412, 222);
             this.txt_price.Name = "txt_price";
-            this.txt_price.Size = new System.Drawing.Size(139, 25);
+            this.txt_price.Size = new System.Drawing.Size(74, 25);
             this.txt_price.TabIndex = 38;
             // 
             // txt_itemname
             // 
             this.txt_itemname.BackColor = System.Drawing.Color.AliceBlue;
-            this.txt_itemname.Location = new System.Drawing.Point(166, 214);
+            this.txt_itemname.Enabled = false;
+            this.txt_itemname.Location = new System.Drawing.Point(163, 222);
             this.txt_itemname.Name = "txt_itemname";
-            this.txt_itemname.Size = new System.Drawing.Size(139, 25);
+            this.txt_itemname.Size = new System.Drawing.Size(243, 25);
             this.txt_itemname.TabIndex = 37;
             // 
             // txt_itemcode
             // 
             this.txt_itemcode.BackColor = System.Drawing.Color.AliceBlue;
-            this.txt_itemcode.Location = new System.Drawing.Point(15, 214);
+            this.txt_itemcode.Enabled = false;
+            this.txt_itemcode.Location = new System.Drawing.Point(62, 222);
             this.txt_itemcode.Name = "txt_itemcode";
-            this.txt_itemcode.Size = new System.Drawing.Size(139, 25);
+            this.txt_itemcode.Size = new System.Drawing.Size(95, 25);
             this.txt_itemcode.TabIndex = 36;
+            this.txt_itemcode.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txt_itemcode_KeyDown);
             // 
             // dataGridView1
             // 
             this.dataGridView1.AllowUserToAddRows = false;
             this.dataGridView1.AllowUserToDeleteRows = false;
+            this.dataGridView1.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dataGridView1.BackgroundColor = System.Drawing.Color.AliceBlue;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(15, 33);
+            this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.Column1,
+            this.Column2,
+            this.Column3,
+            this.Column4,
+            this.Column5});
+            this.dataGridView1.Location = new System.Drawing.Point(15, 24);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.ReadOnly = true;
-            this.dataGridView1.Size = new System.Drawing.Size(727, 175);
+            this.dataGridView1.Size = new System.Drawing.Size(727, 192);
             this.dataGridView1.TabIndex = 30;
+            this.dataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick_1);
+            // 
+            // Column1
+            // 
+            this.Column1.HeaderText = "ItemCode";
+            this.Column1.Name = "Column1";
+            this.Column1.ReadOnly = true;
+            // 
+            // Column2
+            // 
+            this.Column2.HeaderText = "Description";
+            this.Column2.Name = "Column2";
+            this.Column2.ReadOnly = true;
+            // 
+            // Column3
+            // 
+            this.Column3.HeaderText = "Price";
+            this.Column3.Name = "Column3";
+            this.Column3.ReadOnly = true;
+            // 
+            // Column4
+            // 
+            this.Column4.HeaderText = "Qty";
+            this.Column4.Name = "Column4";
+            this.Column4.ReadOnly = true;
+            // 
+            // Column5
+            // 
+            this.Column5.HeaderText = "Total";
+            this.Column5.Name = "Column5";
+            this.Column5.ReadOnly = true;
             // 
             // lbl_subtotal
             // 
             this.lbl_subtotal.AutoSize = true;
             this.lbl_subtotal.Location = new System.Drawing.Point(680, 386);
             this.lbl_subtotal.Name = "lbl_subtotal";
-            this.lbl_subtotal.Size = new System.Drawing.Size(41, 17);
+            this.lbl_subtotal.Size = new System.Drawing.Size(18, 17);
             this.lbl_subtotal.TabIndex = 46;
-            this.lbl_subtotal.Text = "None";
+            this.lbl_subtotal.Text = "--";
             // 
             // label7
             // 
@@ -247,17 +272,23 @@
             // 
             // txt_remark
             // 
+            this.txt_remark.Enabled = false;
             this.txt_remark.Location = new System.Drawing.Point(635, 84);
             this.txt_remark.Name = "txt_remark";
             this.txt_remark.Size = new System.Drawing.Size(155, 25);
             this.txt_remark.TabIndex = 35;
+            this.txt_remark.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txt_remark_KeyDown);
             // 
             // dateTimePicker1
             // 
+            this.dateTimePicker1.CustomFormat = "yyyy-MM-dd";
+            this.dateTimePicker1.Enabled = false;
+            this.dateTimePicker1.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
             this.dateTimePicker1.Location = new System.Drawing.Point(635, 51);
             this.dateTimePicker1.Name = "dateTimePicker1";
             this.dateTimePicker1.Size = new System.Drawing.Size(155, 25);
             this.dateTimePicker1.TabIndex = 34;
+            this.dateTimePicker1.KeyDown += new System.Windows.Forms.KeyEventHandler(this.dateTimePicker1_KeyDown);
             // 
             // btnclose
             // 
@@ -292,6 +323,7 @@
             this.btn_apply.TabIndex = 31;
             this.btn_apply.Text = "Apply";
             this.btn_apply.UseVisualStyleBackColor = false;
+            this.btn_apply.Click += new System.EventHandler(this.btn_apply_Click);
             // 
             // label4
             // 
@@ -319,6 +351,7 @@
             this.txtname.Name = "txtname";
             this.txtname.Size = new System.Drawing.Size(191, 25);
             this.txtname.TabIndex = 27;
+            this.txtname.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtname_KeyDown);
             // 
             // label2
             // 
@@ -370,7 +403,7 @@
             // 
             this.groupBox3.Controls.Add(this.btn_cal);
             this.groupBox3.Controls.Add(this.txt_spclprice);
-            this.groupBox3.Controls.Add(this.txt_ageing);
+            this.groupBox3.Controls.Add(this.txt_desc);
             this.groupBox3.Controls.Add(this.txt_wsamount);
             this.groupBox3.Controls.Add(this.txt_purchamount);
             this.groupBox3.Controls.Add(this.txt_rtnqnt);
@@ -406,30 +439,30 @@
             this.txt_spclprice.Size = new System.Drawing.Size(137, 25);
             this.txt_spclprice.TabIndex = 11;
             // 
-            // txt_ageing
+            // txt_desc
             // 
-            this.txt_ageing.Location = new System.Drawing.Point(197, 127);
-            this.txt_ageing.Name = "txt_ageing";
-            this.txt_ageing.Size = new System.Drawing.Size(137, 25);
-            this.txt_ageing.TabIndex = 10;
+            this.txt_desc.Location = new System.Drawing.Point(197, 32);
+            this.txt_desc.Name = "txt_desc";
+            this.txt_desc.Size = new System.Drawing.Size(137, 25);
+            this.txt_desc.TabIndex = 10;
             // 
             // txt_wsamount
             // 
-            this.txt_wsamount.Location = new System.Drawing.Point(197, 94);
+            this.txt_wsamount.Location = new System.Drawing.Point(197, 126);
             this.txt_wsamount.Name = "txt_wsamount";
             this.txt_wsamount.Size = new System.Drawing.Size(137, 25);
             this.txt_wsamount.TabIndex = 9;
             // 
             // txt_purchamount
             // 
-            this.txt_purchamount.Location = new System.Drawing.Point(197, 62);
+            this.txt_purchamount.Location = new System.Drawing.Point(197, 94);
             this.txt_purchamount.Name = "txt_purchamount";
             this.txt_purchamount.Size = new System.Drawing.Size(137, 25);
             this.txt_purchamount.TabIndex = 8;
             // 
             // txt_rtnqnt
             // 
-            this.txt_rtnqnt.Location = new System.Drawing.Point(197, 31);
+            this.txt_rtnqnt.Location = new System.Drawing.Point(197, 63);
             this.txt_rtnqnt.Name = "txt_rtnqnt";
             this.txt_rtnqnt.Size = new System.Drawing.Size(137, 25);
             this.txt_rtnqnt.TabIndex = 7;
@@ -446,16 +479,16 @@
             // lable12
             // 
             this.lable12.AutoSize = true;
-            this.lable12.Location = new System.Drawing.Point(26, 127);
+            this.lable12.Location = new System.Drawing.Point(26, 32);
             this.lable12.Name = "lable12";
-            this.lable12.Size = new System.Drawing.Size(50, 17);
+            this.lable12.Size = new System.Drawing.Size(81, 17);
             this.lable12.TabIndex = 5;
-            this.lable12.Text = "Ageing";
+            this.lable12.Text = "Description";
             // 
             // lable11
             // 
             this.lable11.AutoSize = true;
-            this.lable11.Location = new System.Drawing.Point(26, 94);
+            this.lable11.Location = new System.Drawing.Point(26, 126);
             this.lable11.Name = "lable11";
             this.lable11.Size = new System.Drawing.Size(130, 17);
             this.lable11.TabIndex = 4;
@@ -464,7 +497,7 @@
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(26, 62);
+            this.label10.Location = new System.Drawing.Point(26, 94);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(119, 17);
             this.label10.TabIndex = 3;
@@ -473,7 +506,7 @@
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(26, 31);
+            this.label9.Location = new System.Drawing.Point(26, 63);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(109, 17);
             this.label9.TabIndex = 2;
@@ -484,7 +517,7 @@
             this.groupBox2.Controls.Add(this.txt_qnt);
             this.groupBox2.Controls.Add(this.label15);
             this.groupBox2.ForeColor = System.Drawing.Color.Blue;
-            this.groupBox2.Location = new System.Drawing.Point(54, 347);
+            this.groupBox2.Location = new System.Drawing.Point(18, 347);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(252, 59);
             this.groupBox2.TabIndex = 19;
@@ -544,13 +577,17 @@
             // 
             this.dataGridView2.AllowUserToAddRows = false;
             this.dataGridView2.AllowUserToDeleteRows = false;
+            this.dataGridView2.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dataGridView2.BackgroundColor = System.Drawing.Color.LightCyan;
             this.dataGridView2.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView2.Location = new System.Drawing.Point(55, 44);
+            this.dataGridView2.Location = new System.Drawing.Point(19, 44);
             this.dataGridView2.Name = "dataGridView2";
             this.dataGridView2.ReadOnly = true;
-            this.dataGridView2.Size = new System.Drawing.Size(251, 284);
+            this.dataGridView2.RowHeadersVisible = false;
+            this.dataGridView2.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dataGridView2.Size = new System.Drawing.Size(306, 284);
             this.dataGridView2.TabIndex = 0;
+            this.dataGridView2.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView2_CellClick);
             // 
             // tabPage3
             // 
@@ -592,8 +629,6 @@
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.TabPage tabPage1;
         private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.Button btn_add;
-        private System.Windows.Forms.TextBox txt_total;
         private System.Windows.Forms.Label lbl_docnum;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.TextBox txt_quantity;
@@ -620,7 +655,7 @@
         private System.Windows.Forms.Label label15;
         private System.Windows.Forms.Button btn_cal;
         private System.Windows.Forms.TextBox txt_spclprice;
-        private System.Windows.Forms.TextBox txt_ageing;
+        private System.Windows.Forms.TextBox txt_desc;
         private System.Windows.Forms.TextBox txt_wsamount;
         private System.Windows.Forms.TextBox txt_purchamount;
         private System.Windows.Forms.TextBox txt_rtnqnt;
@@ -635,5 +670,10 @@
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column3;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column4;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column5;
     }
 }
