@@ -50,9 +50,9 @@ namespace EwingInventory
             InitializeComponent();
 
             txtentered.Text = Homepage.currentUser1;
-            txtdate1.Text = DateTime.Now.ToString("dd/MM/yyyy");  //get current date
+            txtdate1.Text = DateTime.Now.ToString("yyyy/MM/dd");  //get current date
             EnteredBy2.Text = Homepage.currentUser1;
-            txtpmtDate.Text = DateTime.Now.ToString("dd/MM/yyyy");  //get current date
+            txtpmtDate.Text = DateTime.Now.ToString("yyyy/MM/dd");  //get current date
 
             custTable.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             custTable.MultiSelect = false;
@@ -83,7 +83,7 @@ namespace EwingInventory
 
 
             cnn.Open();
-            adp = new MySqlDataAdapter("select CID ,showRoomLocation ,address as DeliveryAddress,phoneNo as PhoneNo from deliverydetails", cnn);
+            adp = new MySqlDataAdapter("select CID ,showRoomLocation ,address as DeliveryAddress,phoneNo as PhoneNo from deliverydetails order by  CID asc", cnn);
             adp.Fill(dt1);
             dettable.DataSource = dt1;
             this.dettable.Columns[2].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
@@ -101,7 +101,7 @@ namespace EwingInventory
         private void DueDateCalc()
         {
 
-            DateTime startDate = DateTime.ParseExact(txtdate1.Text, "dd/MM/yyyy", null);
+            DateTime startDate = DateTime.ParseExact(txtdate1.Text, "yyyy/MM/dd", null);
             DateTime expiryDate = startDate.AddDays(90);
             if (DateTime.Now > expiryDate)
             {
@@ -172,7 +172,7 @@ namespace EwingInventory
 
                     if ((Convert.ToInt32(s) + 1) > 9)
 
-                        txtinvoice1.Text = "INV" + Convert.ToString(Convert.ToInt32(Convert.ToInt32(s) + 1)).PadLeft(7, '0');  // myString.padLeft(7,'0')
+                        txtinvoice1.Text = "INV" + Convert.ToString(Convert.ToInt32(Convert.ToInt32(s) + 1)).PadLeft(8, '0');  // myString.padLeft(7,'0')
                     else
                         txtinvoice1.Text = "INV" + Convert.ToString(Convert.ToInt32(Convert.ToInt32(s) + 1)).PadLeft(8, '0');  // myString.padLeft(8,'0')
 
@@ -223,7 +223,7 @@ namespace EwingInventory
 
                     if ((Convert.ToInt32(s) + 1) > 9)
 
-                        txtpmtid.Text = "PMT" + Convert.ToString(Convert.ToInt32(Convert.ToInt32(s) + 1)).PadLeft(7, '0');  // myString.padLeft(7,'0')
+                        txtpmtid.Text = "PMT" + Convert.ToString(Convert.ToInt32(Convert.ToInt32(s) + 1)).PadLeft(8, '0');  // myString.padLeft(7,'0')
                     else
                         txtpmtid.Text = "PMT" + Convert.ToString(Convert.ToInt32(Convert.ToInt32(s) + 1)).PadLeft(8, '0');  // myString.padLeft(8,'0')
 
@@ -368,14 +368,8 @@ namespace EwingInventory
         {
             if (e.KeyValue == 13)
             {
-                if (txtpno2.Text.Equals(""))
+                if (txtpno2.Text != "")
                 {
-                    MessageBox.Show("Telephone Number is not Entered ");
-
-                }
-                else
-                {
-
                     try
                     {
                         string pno2 = txtpno2.Text;
@@ -407,7 +401,10 @@ namespace EwingInventory
 
 
                     }
+
                 }
+                else
+                    txtaddress1.Focus();
             }
 
         }
@@ -503,40 +500,115 @@ namespace EwingInventory
 
         private void button8_Click(object sender, EventArgs e)
         {
+            double osa = -1;
+            string invno = null;
 
-            DialogResult confirm = MessageBox.Show("Do you want to Delete customer", "Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            //if customer has outstanding amt he can't be deleted
+            query = "select sum(OutstandingAmt) from payment where cid='" + contentValue + "';";
+            MySqlCommand cmd = new MySqlCommand(query, cnn);
+            MySqlDataReader reader;
+            cnn.Open();
+            reader = cmd.ExecuteReader();
 
-            if (confirm == DialogResult.Yes)
+            if (reader.HasRows)
             {
-                query = "delete from customer where cid='" + contentValue + "';";
-                MySqlCommand cmd = new MySqlCommand(query, cnn);
-                MySqlDataReader reader;
-                cnn.Open();
-                reader = cmd.ExecuteReader();
-                cnn.Close();
-
-                //remove all the rows of table
-                while (custTable.Rows.Count > 1)
+                while (reader.Read())
                 {
-                    custTable.Rows.RemoveAt(0);
-                }
-
-                //fill the table with updated records of customer
-                cnn.Open();
-                MySqlDataAdapter adp = new MySqlDataAdapter("select * from customer", cnn);
-
-
-                adp.Fill(dt16);
-                custTable.DataSource = dt16;
-                this.custTable.Columns[5].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-                adp.Dispose();
-                cnn.Close();
-
-
-                MessageBox.Show("Customer has been deleted");  //query will be executed and data deleted
-
-
+                    try
+                    {
+                        osa = Convert.ToDouble(reader[0].ToString());
+                    }
+                    catch (Exception ee)
+                    {
+                        osa = -1;
+                    }
+                 }
             }
+            cnn.Close();
+
+            if (osa <= 0)
+            {
+                DialogResult confirm = MessageBox.Show("Do you want to Delete customer", "Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+                if (confirm == DialogResult.Yes)
+                {
+                    //delete customer details from deliverydetails
+                    query = "delete from deliverydetails where CID='" + contentValue + "';";
+                    cmd = new MySqlCommand(query, cnn);
+                    cnn.Open();
+                    reader = cmd.ExecuteReader();
+                    cnn.Close();
+
+                    //delte  customer details from payment
+                    query = "delete from payment where cid='" + contentValue + "';";
+                    cmd = new MySqlCommand(query, cnn);
+                    cnn.Open();
+                    reader = cmd.ExecuteReader();
+                    cnn.Close();
+
+                    //delte  customer details from order details
+                    query = "select invoiceNo from invoice where cid='" + contentValue + "';";
+                    cmd = new MySqlCommand(query, cnn);
+                    cnn.Open();
+                    reader = cmd.ExecuteReader();
+
+                    while (reader.Read())
+                    {
+                        invno = reader[0].ToString();
+                    }
+                    cnn.Close();
+
+                    query = "delete from orderdetails where invoiceNo='" + invno + "';";
+                    cmd = new MySqlCommand(query, cnn);
+                    cnn.Open();
+                    reader = cmd.ExecuteReader();
+                    cnn.Close();
+
+                    //delte  customer details from invoice
+                    query = "delete from invoice where cid='" + contentValue + "';";
+                    cmd = new MySqlCommand(query, cnn);
+                    cnn.Open();
+                    reader = cmd.ExecuteReader();
+                    cnn.Close();
+
+                    //delte  customer details from customer
+                    query = "delete from customer where cid='" + contentValue + "';";
+                    cmd = new MySqlCommand(query, cnn);
+                    cnn.Open();
+                    reader = cmd.ExecuteReader();
+                    cnn.Close();
+
+
+
+
+
+
+
+                    //remove all the rows of table
+                    while (custTable.Rows.Count > 1)
+                    {
+                        custTable.Rows.RemoveAt(0);
+                    }
+
+                    //fill the table with updated records of customer
+                    cnn.Open();
+                    MySqlDataAdapter adp = new MySqlDataAdapter("select * from customer", cnn);
+
+
+                    adp.Fill(dt16);
+                    custTable.DataSource = dt16;
+                    this.custTable.Columns[5].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+                    adp.Dispose();
+                    cnn.Close();
+
+
+                    MessageBox.Show("Customer has been deleted");  //query will be executed and data deleted
+
+
+                }
+            }
+            else
+                MessageBox.Show("Customer can't be deleted.He has outstanding amount to pay");
 
         }
 
@@ -550,7 +622,7 @@ namespace EwingInventory
             txtpno2.Text = "";
             txtemail.Text = "";
 
-            generateCustID();
+        
 
         }
 
@@ -567,6 +639,7 @@ namespace EwingInventory
 
         private void button4_Click(object sender, EventArgs e)
         {
+            string paytypeforpayment = null;
             String invoiceNo = txtinvoice1.Text;
             String cid = txtcid1.Text;
             String invdate = txtdate1.Text;
@@ -582,6 +655,12 @@ namespace EwingInventory
             String duedate = txtdue.Text;
             String delto = cmbdeliverto.Text;
             String totqty = txttotqty1.Text;
+
+            if (paytype.Equals("Immediate"))
+                paytypeforpayment = "Cash";
+            else
+                paytypeforpayment = "Credit";
+
             DateTime DelDate = Convert.ToDateTime(expDelDate.Text);
 
             if (paytype.Equals(""))
@@ -649,8 +728,14 @@ namespace EwingInventory
                             reader = cmd.ExecuteReader(); // query will be executed and data updated to the db
                             cnn.Close();
 
+                            cnn.Open();
+                            query = "update payment set type='" + paytypeforpayment + "', OutstandingAmt='" + netcost + "',EnteredBy='" + Homepage.currentUser1 + "' where invoiceNo='" + invoiceNo + "';"; 
+                            cmd = new MySqlCommand(query, cnn);
+                            reader = cmd.ExecuteReader(); // query will be executed and data updated to the db
+                            cnn.Close();
 
                             MessageBox.Show("Invoice Details are updated");
+                            clearOrder();
                         }
                         else
                         {
@@ -678,12 +763,13 @@ namespace EwingInventory
                         cnn.Close();
 
                         cnn.Open();
-                        query = "insert into payment (paymentid,cid,invoiceNo,date1,EnteredBy,type,payingAmt,OutstandingAmt,drawnDate,checkNo,refNo,depositeTo) values ( '0','" + cid + "','" + invoiceNo + "','0','0','0','0','" + netcost + "','0','0','0','0' );";
+                        query = "insert into payment (paymentid,cid,invoiceNo,date1,EnteredBy,type,payingAmt,OutstandingAmt,drawnDate,checkNo,refNo,depositeTo) values ( '0','" + cid + "','" + invoiceNo + "','0','0','"+ paytypeforpayment + "','0','" + netcost + "','0','0','0','0' );";
                         cmd = new MySqlCommand(query, cnn);
                         reader = cmd.ExecuteReader(); // query will be executed and data updated to the db
                         cnn.Close();
 
                         MessageBox.Show("Invoice Details are added");
+                        clearOrder();
 
                         txtcid3.Text = cid;
                         //redirect to delivery tab
@@ -697,12 +783,14 @@ namespace EwingInventory
                             txtrefNo.Enabled = true;
                             txtcheckNo.Enabled = false;
                             tpdrawndate.Enabled = false;
-                           /* cnn.Open();
-                            query = "insert into payment (paymentid,cid,invoiceNo,date1,EnteredBy,type,payingAmt,OutstandingAmt,drawnDate,checkNo,refNo,depositeTo) values ( '0','" + cid + "','" + invoiceNo + "','0','0','" + paytype + "','0','" + netcost + "','0','0','0','0' );";
-                            cmd = new MySqlCommand(query, cnn);
-                            reader = cmd.ExecuteReader(); // query will be executed and data updated to the db
-                            cnn.Close();*/
 
+
+                        }
+                        else
+                        {
+
+                          
+                            cmbpmtmethod.SelectedText = "Credit";
                         }
 
 
@@ -714,24 +802,11 @@ namespace EwingInventory
             }
 
         }
-
-        private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
+        private  void clearOrder()
         {
 
-        }
 
-        private void button3_Click(object sender, EventArgs e)
-        {
-            //newinvoice ni = new newinvoice(txtinvoice1.Text);
-           
-           // ni.Show();
-        
-        }
-
-        private void button2_Click(object sender, EventArgs e)
-        {
-
-            txtdate1.Text = "";
+            txtdate1.Text = DateTime.Now.ToString("yyyy/MM/dd");
             txtremark.Text = "";
             cmbpaytype.ResetText();
             txtspecDisc.Text = "";
@@ -757,18 +832,9 @@ namespace EwingInventory
             InvoiceNotable.DataSource = null;
             InvoiceNotable.Rows.Clear();
             InvoiceNotable.Refresh();
-            /*
-            query = "select invoiceNo as InvoiceNo, createdDate as InvoiceDate from invoice where cid ='" + txtcid1.Text + "' order by  invoiceNo asc;";
-            cnn.Open();
-            MySqlDataAdapter adp = new MySqlDataAdapter(query, cnn);
-            adp.Fill(dt12);
-            InvoiceNotable.DataSource = dt12;
-            this.InvoiceNotable.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            adp.Dispose();
-            cnn.Close();
-            */
+          
             invoiceNumber();
-            string inv=txtinvoice1.Text;
+            string inv = txtinvoice1.Text;
 
             while (itemtable.Rows.Count > 1)
             {
@@ -778,21 +844,32 @@ namespace EwingInventory
             }
 
             //Display added and updated data also in table     
-
-            itemtable.DataSource = null;
-            itemtable.Rows.Clear();
-            itemtable.Refresh();
-
-            itemtable.DataSource = null;
-            itemtable.Rows.Clear();
-            itemtable.Refresh();
-            cnn.Open();
             MySqlDataAdapter adp = new MySqlDataAdapter("select i.itemCode as ItemCode,i.Discription as Description,i.sellingPrice as WholesalePrice,i.MRP,o.qty as Qty,o.disc as Disc,o.totcost as TotalCost from item i,orderdetails o where i.itemCode=o.ItemNo and  invoiceNo='" + inv + "';", cnn);
             adp.Fill(dt2);
             itemtable.DataSource = dt2;
             //    itemtable.Columns[5].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
             adp.Dispose();
             cnn.Close();
+
+
+        }
+
+        private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            //newinvoice ni = new newinvoice(txtinvoice1.Text);
+           
+            //ni.Show();
+           
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            clearOrder();
 
         }
 
@@ -836,7 +913,7 @@ namespace EwingInventory
 
                 //fill the table with updated records of customer
                 cnn.Open();
-                MySqlDataAdapter adp = new MySqlDataAdapter("select CID ,showRoomLocation ,address as DeliveryAddress,phoneNo as PhoneNo from deliverydetails", cnn);
+                MySqlDataAdapter adp = new MySqlDataAdapter("select CID ,showRoomLocation ,address as DeliveryAddress,phoneNo as PhoneNo from deliverydetails order by  CID asc", cnn);
 
 
                 adp.Fill(dt1);
@@ -1025,6 +1102,21 @@ namespace EwingInventory
         private void comboBox2_SelectedIndexChanged(object sender, EventArgs e)
         {
 
+            string depto = cmbdepto.SelectedItem.ToString();
+
+            if (depto.Equals("Cash in hand"))
+            {
+                txtrefNo.Enabled = true;
+                txtcheckNo.Enabled = false;
+                tpdrawndate.Enabled = false;
+            }
+            else if (depto.Equals("Banks"))
+            {
+                txtrefNo.Enabled = false;
+                txtcheckNo.Enabled = true;
+                tpdrawndate.Enabled = true;
+
+            }
         }
 
         private void textBox1_TextChanged(object sender, EventArgs e)
@@ -1036,21 +1128,7 @@ namespace EwingInventory
         {
             
 
-            string paytype = cmbpmtmethod.SelectedItem.ToString();
-
-            if (paytype.Equals("Cash"))
-            {
-                txtrefNo.Enabled = true;
-                txtcheckNo.Enabled = false;
-                tpdrawndate.Enabled = false;
-            }
-            else if (paytype.Equals("Credit"))
-            {
-                txtrefNo.Enabled = false;
-                txtcheckNo.Enabled = true;
-                tpdrawndate.Enabled = true;
-
-            }
+          
         }
 
         private void btnclose3_Click(object sender, EventArgs e)
@@ -1291,7 +1369,9 @@ namespace EwingInventory
 
             while (reader.Read())
             {
+                double totqtydisc = Convert.ToDouble(reader[1].ToString());
                 totalCost = Convert.ToDouble(reader[0].ToString());
+                txttotalCost1.Text = totalCost.ToString();
                 if (paytype.Equals("Immediate"))
                 {
 
@@ -1304,14 +1384,14 @@ namespace EwingInventory
                 qtydisc = Convert.ToDouble(reader[1].ToString());
 
                 txttotqty1.Text = reader[2].ToString();
-                txttotalCost1.Text = reader[0].ToString();
+               
 
             }
 
             cnn.Close();
 
             txttotalDisc1.Text = (cashdisc + qtydisc + specdisc).ToString();
-            txtnetCost1.Text = (totalCost - (cashdisc + qtydisc + specdisc)).ToString();
+            txtnetCost1.Text = (totalCost - (cashdisc  + specdisc)).ToString();
 
 
         }
@@ -1330,7 +1410,7 @@ namespace EwingInventory
                 double netcost = 0, totcost = 0, specdisc = 0, totdisc = 0;
 
                 string invNo = txtinvoice1.Text;
-                query = "select sum(totcost)  from orderdetails where invoiceNo='" + invNo + "' ;";
+                query = "select sum(totcost),sum(disc)  from orderdetails where invoiceNo='" + invNo + "' ;";
                 MySqlCommand cmd = new MySqlCommand(query, cnn);
                 MySqlDataReader reader;
                 cnn.Open();
@@ -1340,6 +1420,7 @@ namespace EwingInventory
                 {
 
                     totcost = Convert.ToDouble(reader[0].ToString());
+                    double totqtydisc = Convert.ToDouble(reader[1].ToString());
                     specdisc = totcost * specdiscper / 100;
                     txtspecDisc.Text = specdisc.ToString();
 
@@ -1360,6 +1441,7 @@ namespace EwingInventory
 
         private void button12_Click(object sender, EventArgs e)
         {
+          
             string pmtid = txtpmtid.Text;
             string totos = lbloutamt.Text;
             string enteredby = EnteredBy2.Text;
@@ -1370,65 +1452,101 @@ namespace EwingInventory
             string depto=cmbdepto.Text;
             double due = 0, payingamt = 0;
             string invoiceno = null;
-
-       //     MessageBox.Show(refno);
+         
+            //     MessageBox.Show(refno);
             DialogResult confirm = MessageBox.Show("Do you want to Save changes", "Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
             if (confirm == DialogResult.Yes)
             {
-                //get values from datagrid and update database
-                for (int rows = 0; rows < pmtTable.Rows.Count - 1; rows++)
-                {
+                cnn.Open();
+                query = "select * from payment where paymentid='" + pmtid + "';";
+                MySqlCommand cmd = new MySqlCommand(query, cnn);
+                MySqlDataReader reader = cmd.ExecuteReader(); // query will be executed and data updated to the db
 
-                    for (int col = 0; col < pmtTable.Rows[rows].Cells.Count; col++)
+                if (reader.HasRows)
+                {
+                    cnn.Close();
+
+                    MessageBox.Show("Amount details won't be updated");
+                    
+                    //payment details will be updated except amount details
+                    cnn.Open();
+                    query = "update payment set type='" + paymethod + "',paymentid='" + pmtid + "', date1='" + DateTime.Now.ToString() + "',EnteredBy='" + Homepage.currentUser1 + "',drawnDate='" + drawndate + "',checkNo='" + checkno + "',refNo='" + refno + "',depositeTo='" + depto + "' where invoiceNo='" + invoiceno + "';";
+                    cmd = new MySqlCommand(query, cnn);
+                    reader = cmd.ExecuteReader(); // query will be executed and data updated to the db
+                    cnn.Close();
+
+                    string cid1 = txtcid3.Text;
+                    while (pmtIDtable.Rows.Count > 1)
+                    {
+                        pmtIDtable.Rows.RemoveAt(0);
+                    }
+                    cnn.Open();
+                    MySqlDataAdapter adp = new MySqlDataAdapter("select paymentid as PaymentID,date1 as PmtDate,sum(OutstandingAmt) as TotalOutStandingAmt  from payment where cid='" + cid1 + "' and PaymentID!='0' GROUP BY paymentid,date1;", cnn);
+                    adp.Fill(dt5);
+                    pmtIDtable.DataSource = dt5;
+                    this.pmtIDtable.Columns[0].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+                    this.pmtIDtable.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+                    this.pmtIDtable.Columns[2].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+                    adp.Dispose();
+                    cnn.Close();
+                }
+                else
+                {
+                    cnn.Close();
+                    //get values from datagrid and update database
+                    for (int rows = 0; rows < pmtTable.Rows.Count - 1; rows++)
                     {
 
-                        if (col == 0)
+                        for (int col = 0; col < pmtTable.Rows[rows].Cells.Count; col++)
                         {
 
-                            invoiceno = this.pmtTable.Rows[rows].Cells[col].Value.ToString();
-
-
-                        }
-                        else if (col == 2)
-                        {
-                            due = Convert.ToDouble(this.pmtTable.Rows[rows].Cells[col].Value.ToString());
-                        }
-                        else if (col == 3)
-                        {
-                            payingamt = Convert.ToDouble(this.pmtTable.Rows[rows].Cells[col].Value.ToString());
-                            if (payingamt == due)
+                            if (col == 0)
                             {
-                                due = 0;
+
+                                invoiceno = this.pmtTable.Rows[rows].Cells[col].Value.ToString();
+
+
                             }
-                            else
+                            else if (col == 3)
                             {
-                                due = due - payingamt;
+                                due = Convert.ToDouble(this.pmtTable.Rows[rows].Cells[col].Value.ToString());
                             }
+                            else if (col == 4)
+                            {
+                                payingamt = Convert.ToDouble(this.pmtTable.Rows[rows].Cells[col].Value.ToString());
+                                if (payingamt == due)
+                                {
+                                    due = 0;
+                                }
+                                else
+                                {
+                                    due = due - payingamt;
+                                }
+                            }
+
                         }
+
+                        cnn.Open();
+                        query = "update payment set type='" + paymethod + "',paymentid='" + pmtid + "', OutstandingAmt='" + due + "',payingAmt='" + payingamt + "',date1='" + DateTime.Now.ToString() + "',EnteredBy='" + Homepage.currentUser1 + "',drawnDate='" + drawndate + "',checkNo='" + checkno + "',refNo='" + refno + "',depositeTo='" + depto + "' where invoiceNo='" + invoiceno + "';";
+                        cmd = new MySqlCommand(query, cnn);
+                        reader = cmd.ExecuteReader(); // query will be executed and data updated to the db
+                        cnn.Close();
 
                     }
 
-                    cnn.Open();
-                    query = "update payment set type='"+ paymethod + "',paymentid='" + pmtid + "', OutstandingAmt='" + due + "',payingAmt='" + payingamt + "',date1='" + DateTime.Now.ToString() + "',EnteredBy='" + Homepage.currentUser1 + "',drawnDate='" + drawndate + "',checkNo='" + checkno + "',refNo='" + refno + "',depositeTo='" + depto + "' where invoiceNo='" + invoiceno + "';";
-                    MySqlCommand cmd = new MySqlCommand(query, cnn);
-                    MySqlDataReader reader = cmd.ExecuteReader(); // query will be executed and data updated to the db
-                    cnn.Close();
-
                 }
-
-
 
                 //set cash in hand or bank staus
                 // -------------------
                
                 double totpayingamt = Convert.ToDouble(txtpmtamt.Text);
-                if (paymethod.Equals("Cash"))
+                if (depto.Equals("Cash in hand"))
                 {
                     cnn.Open();
                     query = "select * from cashinhand where Description='" + pmtid + "';";
-                    MySqlCommand cmd = new MySqlCommand(query, cnn);
-                    MySqlDataReader reader = cmd.ExecuteReader(); // query will be executed and data updated to the db
+                    cmd = new MySqlCommand(query, cnn);
+                    reader = cmd.ExecuteReader(); // query will be executed and data updated to the db
 
                     if (reader.HasRows)
                     {
@@ -1455,12 +1573,12 @@ namespace EwingInventory
                         cnn.Close();
                     }
                 }
-                else if (paymethod.Equals("Credit"))
+                else if (depto.Equals("Bank"))
                 {
                     cnn.Open();
                     query = "select * from bank where Description='" + pmtid + "';";
-                    MySqlCommand cmd = new MySqlCommand(query, cnn);
-                    MySqlDataReader reader = cmd.ExecuteReader(); // query will be executed and data updated to the db
+                    cmd = new MySqlCommand(query, cnn);
+                    reader = cmd.ExecuteReader(); // query will be executed and data updated to the db
 
                     if (reader.HasRows)
                     {
@@ -1486,6 +1604,28 @@ namespace EwingInventory
                     }
                 }
                 //----------------------
+                // clear 
+                cmbpmtmethod.Text = "";
+                cmbdepto.Text = "";
+                txtpmtid.Text = "";
+                txtpmtDate.Text = DateTime.Now.ToString("yyyy/MM/dd");
+                cmbpaytype.ResetText();
+                txtpmtamt.Text = "";
+                lbloutamt.Text = "";
+                txtrefNo.Text = "";
+                txtcheckNo.Text = "";
+
+                string cid = txtcid3.Text;
+
+
+
+                paymentId_generation();
+                while (pmtTable.Rows.Count > 1)
+                {
+                    pmtTable.Rows.RemoveAt(0);
+
+
+                }
             }
         }
 
@@ -1580,7 +1720,19 @@ namespace EwingInventory
                      reader = cmd.ExecuteReader(); // query will be executed and data updated to the db
                     cnn.Close();
 
+                //set the new total cost in text box
+                query = "select sum(totcost),sum(disc),sum(qty)  from orderdetails where invoiceNo='" + invoiceNo + "' ;";
+                cmd = new MySqlCommand(query, cnn);
+                cnn.Open();
+                reader = cmd.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    txttotalCost1.Text = reader[0].ToString();
                 }
+                cnn.Close();
+                /////////////////////
+            }
 
             
       
@@ -1602,6 +1754,8 @@ namespace EwingInventory
         private void pmtIDtable_Click(object sender, EventArgs e)
         {
             int cid = 0;
+
+
 
         /*  foreach (DataGridViewRow Datarow in pmtIDtable.Rows)
             {
@@ -1653,7 +1807,7 @@ namespace EwingInventory
                         pmtTable.Refresh();
 
                         cnn.Open();
-                        adp = new MySqlDataAdapter("select i.invoiceNo as InvoiceNo,i.createdDate as InvoiceDate ,p.OutstandingAmt as AmtDue,p.payingAmt as PayingAmt from payment p,invoice i where   i.invoiceNo=p.invoiceNo and  p.cid='" + contentValuep + "'  and p.outstandingAmt>0; ", cnn);
+                        adp = new MySqlDataAdapter("select i.invoiceNo as InvoiceNo,i.createdDate as InvoiceDate ,p.type as PaymentType,p.OutstandingAmt as AmtDue,p.payingAmt as PayingAmt from payment p,invoice i where   i.invoiceNo=p.invoiceNo and  p.cid='" + contentValuep + "'  and p.outstandingAmt>0; ", cnn);
                         adp.Fill(dt3);
                         pmtTable.DataSource = dt3;
 
@@ -1719,6 +1873,23 @@ namespace EwingInventory
                             tpdrawndate.Value = Convert.ToDateTime(reader[4].ToString());
                             cmbpmtmethod.SelectedText = (reader[1].ToString());
                             cmbdepto.SelectedText = (reader[7].ToString());
+
+                          
+
+                              if (reader[7].ToString().Equals("Cash in hand"))
+                               {
+                                txtrefNo.Enabled = true;
+                                txtcheckNo.Enabled = false;
+                                tpdrawndate.Enabled = false;
+                                }
+                                else if (reader[7].ToString().Equals("Banks"))
+                                {
+                                    txtrefNo.Enabled = false;
+                                    txtcheckNo.Enabled = true;
+                                    tpdrawndate.Enabled = true;
+
+                                }
+
                         }
                         cnn.Close();
 
@@ -1733,7 +1904,7 @@ namespace EwingInventory
                         pmtTable.Refresh();
                        
                         cnn.Open();
-                        MySqlDataAdapter adp = new MySqlDataAdapter("select i.invoiceNo as InvoiceNo,i.createdDate as InvoiceDate ,p.OutstandingAmt as AmtDue,p.payingAmt as PayingAmt from payment p,invoice i where   i.invoiceNo=p.invoiceNo and  p.paymentid='" + contentValuep + "'  ; ", cnn);
+                        MySqlDataAdapter adp = new MySqlDataAdapter("select i.invoiceNo as InvoiceNo,i.createdDate as InvoiceDate ,p.type as PaymentType,p.OutstandingAmt as AmtDue,p.payingAmt as PayingAmt from payment p,invoice i where   i.invoiceNo=p.invoiceNo and  p.paymentid='" + contentValuep + "'  ; ", cnn);
                         adp.Fill(dt6);
                         pmtTable.DataSource = dt6;
 
@@ -1762,11 +1933,16 @@ namespace EwingInventory
 
         private void txtpmtamt_KeyDown(object sender, KeyEventArgs e)
         {
+
+           
+        
             if (e.KeyValue == 13)
             {
+                string paymethod = cmbpmtmethod.Text;
+
                 double amt = Convert.ToDouble(txtpmtamt.Text);
                 string cid = txtcid3.Text;
-                string h = "h";
+                string h = "h";      //for sett the remaining paying amount as 0 after paying amount finished
                 query = "select sum(OutstandingAmt) from payment where cid='" + cid + "' group by cid ;";
                 MySqlCommand cmd = new MySqlCommand(query, cnn);
                 MySqlDataReader reader;
@@ -1778,26 +1954,68 @@ namespace EwingInventory
                 }
                 cnn.Close();
 
-
-                for (int rows = pmtTable.Rows.Count-1; rows>=0; rows--)
+                //refresh paying amount when reentering amount
+                for (int rows = 0; rows < pmtTable.Rows.Count - 1; rows++)
                 {
-                    double invOSamt = Convert.ToDouble(this.pmtTable.Rows[rows].Cells[2].Value);
-                    if (amt > invOSamt && h.Equals("h"))
+                    this.pmtTable.Rows[rows].Cells[4].Value = 0;
+
+                }
+
+                //first fill in cash
+                for (int rows = 0; rows < pmtTable.Rows.Count - 1; rows++)
+                {
+                    double invOSamt = Convert.ToDouble(this.pmtTable.Rows[rows].Cells[3].Value);
+                    if (amt > invOSamt && h.Equals("h") && this.pmtTable.Rows[rows].Cells[2].Value.Equals("Cash"))
                     {
-                        this.pmtTable.Rows[rows].Cells[3].Value = invOSamt;
+                        this.pmtTable.Rows[rows].Cells[4].Value = invOSamt;
                         amt = amt - invOSamt;
 
                     }
-                    else if(amt <= invOSamt && h.Equals("h"))
+                    else if (amt <= invOSamt && h.Equals("h") && this.pmtTable.Rows[rows].Cells[2].Value.Equals("Cash"))
                     {
-                        this.pmtTable.Rows[rows].Cells[3].Value = amt;
+                        this.pmtTable.Rows[rows].Cells[4].Value = amt;
+                        amt = 0;
                         h = "e";
-                        
+
                     }
-                    else if(h!="h")
-                        this.pmtTable.Rows[rows].Cells[3].Value = 0;
+                    else if (h != "h" && this.pmtTable.Rows[rows].Cells[2].Value.Equals("Cash"))
+                        this.pmtTable.Rows[rows].Cells[4].Value = 0;
+
                 }
+
+                h = "h";
+                // then fill in credit
+                for (int rows = 0; rows < pmtTable.Rows.Count - 1; rows++)
+                {
+                    
+
+                   
+                  
+                    double invOSamt = Convert.ToDouble(this.pmtTable.Rows[rows].Cells[3].Value);
+                   
+
+                    if (h.Equals("h") && amt > invOSamt && this.pmtTable.Rows[rows].Cells[2].Value.Equals("Credit") && this.pmtTable.Rows[rows].Cells[4].Value.ToString().Equals("0"))
+                    {
+                        this.pmtTable.Rows[rows].Cells[4].Value = invOSamt;
+                        amt = amt - invOSamt;
+                       
+
+                    }
+                    else if (amt <= invOSamt && h.Equals("h") && this.pmtTable.Rows[rows].Cells[2].Value.Equals("Credit") && this.pmtTable.Rows[rows].Cells[4].Value.ToString().Equals("0"))
+                    {
+                      
+                        this.pmtTable.Rows[rows].Cells[4].Value = amt;
+                        h = "eeee";
+                       
+
+                    }
+                    else if (h != "h" && this.pmtTable.Rows[rows].Cells[2].Value.Equals("Credit") && this.pmtTable.Rows[rows].Cells[4].Value.ToString().Equals("0"))
+                        this.pmtTable.Rows[rows].Cells[4].Value = 0;
+
+                }
+
             }
+       
         }
 
         private void txtpmtamt_Enter(object sender, EventArgs e)
@@ -2128,6 +2346,7 @@ namespace EwingInventory
             double disc = 0;
             double totcost = 0;
             int qty = 0;
+            double mrp = 0, sellingprice = 0, dicfrommrp=0;
             try
             {
                if (txtqtys.Text.Equals("") || Convert.ToInt32(txtqtys.Text)<0)
@@ -2180,15 +2399,18 @@ namespace EwingInventory
             reader = cmd.ExecuteReader();
             while (reader.Read())
             {
-               //MessageBox.Show(qty.ToString());
+                mrp = Convert.ToDouble(reader[0].ToString());
+                sellingprice = Convert.ToDouble(reader[1].ToString());
+                //MessageBox.Show(qty.ToString());
                 if (qty > 24)
                 {
-                  // MessageBox.Show(reader[0].ToString());
-                    disc = Convert.ToDouble(reader[0].ToString()) * 35 / 100 * qty ;
-                  //  MessageBox.Show(disc.ToString());
+                    dicfrommrp = qty * (mrp * 35 / 100);
+                    disc = ((sellingprice * qty) - (mrp * qty - dicfrommrp));
+                 
                 }
-                totcost = qty * Convert.ToDouble(reader[1].ToString());
-
+               
+                totcost = (sellingprice*qty) - disc;
+               
             }
             cnn.Close();
 
@@ -2480,7 +2702,18 @@ namespace EwingInventory
                             reader = cmd.ExecuteReader(); // query will be executed and data saved to the db
                             cnn.Close();
 
+                            //display total cost in text box
+                            query = "select sum(totcost),sum(disc),sum(qty)  from orderdetails where invoiceNo='" + invoiceNo + "' ;";
+                            cmd = new MySqlCommand(query, cnn);
+                            cnn.Open();
+                            reader = cmd.ExecuteReader();
 
+                            while (reader.Read())
+                            {
+                                txttotalCost1.Text = reader[0].ToString();
+                            }
+                            cnn.Close();
+                            //////////////////////////////
 
                         }
 
@@ -2542,11 +2775,7 @@ namespace EwingInventory
                         //insert
 
 
-                        DialogResult confirm = MessageBox.Show("Do you want to add Order Details", "Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-
-                        if (confirm == DialogResult.Yes)
-                        {
-
+                       
                             cnn.Open();
                             query = "insert into orderdetails (invoiceNo,ItemNo,qty,disc,totcost) values('" + invoiceNo + "','" + itemcode + "','" + qty + "','" + disc + "','" + totcost + "'); ";
                             cmd1 = new MySqlCommand(query, cnn);
@@ -2593,7 +2822,19 @@ namespace EwingInventory
                             cnn.Close();
                             MessageBox.Show("Order Details are added");
 
+                        //display total cost in text box
+                        query = "select sum(totcost),sum(disc),sum(qty)  from orderdetails where invoiceNo='" + invoiceNo + "' ;";
+                        cmd = new MySqlCommand(query, cnn);
+                        cnn.Open();
+                        reader = cmd.ExecuteReader();
 
+                        while (reader.Read())
+                        {
+                            txttotalCost1.Text =reader[0].ToString();
+                        }
+                        cnn.Close();
+                            //////////////////////////////
+                        
                             cnn.Open();
                             query = "update stock set quantity='" + (stock - qty) + "' where itemCodes='" + itemcode + "';";
                             cmd = new MySqlCommand(query, cnn);
@@ -2602,7 +2843,7 @@ namespace EwingInventory
 
 
 
-                        }
+                        
 
                     }
                 }
@@ -2613,39 +2854,97 @@ namespace EwingInventory
 
         private void txtcid3_KeyDown(object sender, KeyEventArgs e)
         {
-           /* if (e.KeyValue == 13)
-            {
-                cid = txtcid3.Text;
-                string type = null;
-                query = "select type  from payment where cid='" + cid + "';";
-                MySqlCommand cmd = new MySqlCommand(query, cnn);
+            string cid = txtcid3.Text;
+
+            if (e.KeyValue==13)
+            { 
+           
+            try
+                {
+
+                    while (pmtIDtable.Rows.Count > 1)
+                    {
+                        pmtIDtable.Rows.RemoveAt(0);
+                    }
+                    cnn.Open();
+                MySqlDataAdapter adp = new MySqlDataAdapter("select paymentid as PaymentID,date1 as PmtDate,sum(OutstandingAmt) as TotalOutStandingAmt  from payment where cid='" + cid + "' and PaymentID!='0' GROUP BY paymentid,date1;", cnn);
+                adp.Fill(dt5);
+                pmtIDtable.DataSource = dt5;
+                this.pmtIDtable.Columns[0].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+                this.pmtIDtable.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+                this.pmtIDtable.Columns[2].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+                adp.Dispose();
+                cnn.Close();
+
+              
+
+                //invoice payment table
+                //remove all the rows in table and display data
+                while (pmtTable.Rows.Count > 1)
+                {
+                    pmtTable.Rows.RemoveAt(0);
+                }
 
                 cnn.Open();
-                MySqlDataReader reader = cmd.ExecuteReader();
-                while (reader.Read())
-                {
-                    type = reader[0].ToString();
-                    cmbpmtmethod.SelectedText = reader[0].ToString();
-                }
+                adp = new MySqlDataAdapter("select i.invoiceNo as InvoiceNo,i.createdDate as InvoiceDate ,p.type as PaymentType,p.OutstandingAmt as AmtDue,p.payingAmt as PayingAmt from payment p,invoice i where   i.invoiceNo=p.invoiceNo and  p.cid='" + cid + "'  and p.outstandingAmt>0; ", cnn);
+                adp.Fill(dt3);
+                pmtTable.DataSource = dt3;
+
+                this.pmtTable.Columns[4].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+                this.pmtTable.Columns[3].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+                this.pmtTable.Columns[2].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+                this.pmtTable.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+                this.pmtTable.Columns[0].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+                
+                adp.Dispose();
                 cnn.Close();
-                if (type.Equals("Credit"))
+
+                for (int rows = 0; rows < pmtTable.Rows.Count - 1; rows++)
                 {
-                    grpboxcash.Enabled = false;
+                    this.pmtTable.Rows[rows].Cells[4].Value = 0;
 
                 }
-                else if (type.Equals("Immediate"))
+
+                //display total outstanding amount in tOS lable
+                query = "select sum(OutstandingAmt) from payment where cid='" + cid + "' GROUP BY '" + cid + "';";
+                MySqlCommand cmd = new MySqlCommand(query, cnn);
+                MySqlDataReader reader;
+                cnn.Open();
+                reader = cmd.ExecuteReader();
+                AddItem ad = new AddItem(this);
+                while (reader.Read())
                 {
-                    grpboxcheck.Enabled = false;
+                    lbloutamt.Text = (Convert.ToDouble(reader[0].ToString())).ToString();
+
+
                 }
-            }*/
+                cnn.Close();
+
+                // pmtIDtable.ClearSelection();
+                pmtIDtable.Rows[0].Selected = false;
+
+
+            }
+
+    
+            catch (ArgumentOutOfRangeException ee)
+            {
+
+                txtpmtamt.Focus();
+            }
+           }
+
+          
+
+
         }
 
         private void button10_Click(object sender, EventArgs e)
         {
             cmbpmtmethod.Text = "";
             cmbdepto.Text = "";
-            txtpmtid.Text = "";
-            txtpmtDate.Text = DateTime.Now.ToString("dd/MM/yyyy");
+       
+            txtpmtDate.Text = DateTime.Now.ToString("yyyy/MM/dd");
             cmbpaytype.ResetText();
             txtcid3.Text = "";
             txtpmtamt.Text = "";
@@ -2657,7 +2956,7 @@ namespace EwingInventory
 
 
 
-            paymentId_generation();
+           
             while (pmtTable.Rows.Count > 1)
             {
                 pmtTable.Rows.RemoveAt(0);
@@ -2665,22 +2964,13 @@ namespace EwingInventory
 
             }
 
-            pmtTable.DataSource = null;
-            pmtTable.Rows.Clear();
-            pmtTable.Refresh();
-          /*  cnn.Open();
-            MySqlDataAdapter adp = new MySqlDataAdapter("select i.invoiceNo as InvoiceNo,i.createdDate as InvoiceDate ,p.OutstandingAmt as AmtDue,p.payingAmt as PayingAmt from payment p,invoice i where   i.invoiceNo=p.invoiceNo and  p.cid='" + cid + "'  and p.outstandingAmt>0; ", cnn);
-            adp.Fill(dt3);
-            pmtTable.DataSource = dt3;
-
-
-            this.pmtTable.Columns[3].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            this.pmtTable.Columns[2].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            this.pmtTable.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            this.pmtTable.Columns[0].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-
-            adp.Dispose();
-            cnn.Close();*/
+            while (pmtIDtable.Rows.Count > 1)
+            {
+                pmtIDtable.Rows.RemoveAt(0);
+            }
+            
+            paymentId_generation();
+        
         }
 
         private void button11_Click(object sender, EventArgs e)
@@ -2807,6 +3097,78 @@ namespace EwingInventory
         }
 
         private void button5_Click_1(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button17_Click(object sender, EventArgs e)
+        {
+            cleardelivery();
+        }
+        private void cleardelivery()
+        {
+            SRoomLoc.Text = "";
+            txtdeladd.Text = "";
+            txtdelpno.Text = "";
+        }
+
+        private void custnametable_Click(object sender, EventArgs e)
+        {
+          
+        }
+
+        private void button9_Click_3(object sender, EventArgs e)
+        {
+
+            DialogResult confirm = MessageBox.Show("Do you want to close", "Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+            if (confirm == DialogResult.Yes)
+            {
+
+
+                this.Close();
+            }
+        }
+
+        private void txtcid1_KeyDown(object sender, KeyEventArgs e)
+        {
+            string cid = txtcid1.Text;
+            if (e.KeyValue == 13)
+            {
+                while (InvoiceNotable.Rows.Count > 1)
+                {
+                    InvoiceNotable.Rows.RemoveAt(0);
+                }
+
+    
+                query = "select invoiceNo as InvoiceNo, createdDate as InvoiceDate from invoice where cid ='" + cid + "' order by  invoiceNo asc;";
+                cnn.Open();
+                MySqlDataAdapter adp = new MySqlDataAdapter(query, cnn);
+                adp.Fill(dt7);
+                InvoiceNotable.DataSource = dt7;
+                this.InvoiceNotable.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+                adp.Dispose();
+                cnn.Close();
+
+                //display deliveryto in combo box
+                query = "select showRoomLocation from deliverydetails where CID='" + cid + "'";
+                MySqlCommand cmd = new MySqlCommand(query, cnn);
+
+                cnn.Open();
+                MySqlDataReader reader = cmd.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    cmbdeliverto.Items.Add(reader[0].ToString());
+                }
+
+                cnn.Close();
+
+
+            }
+        }
+
+        private void txtciddel_TextChanged(object sender, EventArgs e)
         {
 
         }
@@ -2969,7 +3331,7 @@ namespace EwingInventory
                         dettable.Rows.Clear();
                         dettable.Refresh();
                         cnn.Open();
-                        MySqlDataAdapter adp = new MySqlDataAdapter("select CID ,showRoomLocation ,address as DeliveryAddress,phoneNo as PhoneNo from deliverydetails", cnn);
+                        MySqlDataAdapter adp = new MySqlDataAdapter("select CID ,showRoomLocation ,address as DeliveryAddress,phoneNo as PhoneNo from deliverydetails order by  CID asc", cnn);
                         adp.Fill(dt1);
                         dettable.DataSource = dt1;
                         this.dettable.Columns[2].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
@@ -2977,6 +3339,8 @@ namespace EwingInventory
                         adp.Dispose();
                         cnn.Close();
                         MessageBox.Show("Delivery Details are updated");
+
+                        cleardelivery();
 
                     }
 
@@ -3009,7 +3373,7 @@ namespace EwingInventory
                         dettable.Rows.Clear();
                         dettable.Refresh();
                         cnn.Open();
-                        MySqlDataAdapter adp = new MySqlDataAdapter("select CID ,showRoomLocation ,address as DeliveryAddress,phoneNo as PhoneNo from deliverydetails", cnn);
+                        MySqlDataAdapter adp = new MySqlDataAdapter("select CID ,showRoomLocation ,address as DeliveryAddress,phoneNo as PhoneNo from deliverydetails order by  CID asc", cnn);
                         adp.Fill(dt1);
                         dettable.DataSource = dt1;
                         this.dettable.Columns[2].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
@@ -3017,6 +3381,8 @@ namespace EwingInventory
                         adp.Dispose();
                         cnn.Close();
                         MessageBox.Show("Delivery Details are added");
+
+                        cleardelivery();
 
                         confirm = MessageBox.Show("Do you want to add Order Details", "Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
@@ -3376,6 +3742,17 @@ namespace EwingInventory
                         cnn.Close();
                         MessageBox.Show("Customer Details are updated");
 
+                        //clear
+                        txtname.Text = "";
+                        txtaddress1.Text = "";
+                        txtaddress2.Text = "";
+                        txtpno1.Text = "";
+                        txtpno2.Text = "";
+                        txtemail.Text = "";
+
+                        generateCustID();
+                        ////////////////////
+
                     }
 
                 }
@@ -3414,6 +3791,18 @@ namespace EwingInventory
                         adp.Dispose();
                         cnn.Close();
                         MessageBox.Show("Customer Details are added");
+
+                        //clear
+
+                        txtname.Text = "";
+                        txtaddress1.Text = "";
+                        txtaddress2.Text = "";
+                        txtpno1.Text = "";
+                        txtpno2.Text = "";
+                        txtemail.Text = "";
+
+                        generateCustID();
+                        ///////////////////////////
 
                         txtciddel.Text = cid;
 

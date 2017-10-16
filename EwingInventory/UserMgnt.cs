@@ -290,6 +290,36 @@ namespace EwingInventory
             }
         }
 
+        public void loadReceivables(string id)
+        {
+            string q = "SELECT FORMAT(SUM(s.amount),2) AS 'SUM' FROM staffpay s WHERE s.sId = @sid GROUP BY s.type";
+            MySqlCommand cmd = new MySqlCommand(q, conn);
+            cmd.Parameters.Add("@sid", MySqlDbType.Int32).Value = Convert.ToInt32(id);
+            
+            try
+            {
+                conn.Open();
+                MySqlDataReader dr = cmd.ExecuteReader();
+                
+                if(dr.Read())
+                    label45.Text = dr[0].ToString();
+                else
+                    label45.Text = "--";
+
+                if (dr.Read())
+                    label46.Text = dr[0].ToString();
+                else
+                    label46.Text = "--";
+
+            }catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            finally
+            {
+                conn.Close();
+            }
+        }
         
         private void frm_users_Load(object sender, EventArgs e)
         {
@@ -321,10 +351,10 @@ namespace EwingInventory
                 home.LoadToDatagridview(dgvRequest, "SELECT onDate 'On', type 'Type', FORMAT(amount,2) 'Amount', status 'Status', reqDate 'Requested on' FROM requests WHERE sId=" + this.currentUID + " ORDER BY status desc, onDate desc;");
                 home.chanfeDGVColor(dgvRequest, 3, "APPROVED", "PENDING");
                 home.LoadToDatagridview(dgvReqMg, "SELECT sId 'ID', onDate 'On', type 'Type' FROM requests WHERE status = 'PENDING' ORDER BY onDate");
-                dgvReqMg.Columns[0].Width = 20;
+                //dgvReqMg.Columns[0].Width = 20;
                 comboBox2.Text = "Pending";
-                userDetails();
-                attDetails();
+                //userDetails();
+                //attDetails();
             }
 
             string w = Screen.FromControl(home).WorkingArea.Width.ToString();
@@ -660,7 +690,7 @@ namespace EwingInventory
 
         private void btn_inOut_Click(object sender, EventArgs e)
         {
-            string q,ms;
+            string q,ms,ot;
             try
             {
                 if (btn_inOut.Text == "In")
@@ -670,12 +700,13 @@ namespace EwingInventory
                 } else
                 {
                     ms = "Out";
-                    q = "UPDATE attendance SET offTime=@offTime, otHrs=@otHrs WHERE date=CURDATE() AND sId=@sId;";
+                    q = "UPDATE attendance SET offTime=@offTime, otHrs=@ot WHERE date=CURDATE() AND sId=@sId;";
                 }
 
                 MySqlCommand cmd = new MySqlCommand(q, conn);
 
                 cmd.Parameters.Add("@sId", MySqlDbType.VarChar).Value = this.currentUID.ToString();
+
 
                 if(btn_inOut.Text == "In")
                 {
@@ -683,11 +714,30 @@ namespace EwingInventory
                 }
                 else if(btn_inOut.Text == "Out")
                 {
-                    cmd.Parameters.Add("@offTime", MySqlDbType.VarChar).Value = DateTime.Now.ToShortTimeString();
-                    cmd.Parameters.Add("@otHrs", MySqlDbType.VarChar).Value = "0";
-                }
+                    
+                    //Calculate Ot Hrs
+                    MySqlCommand comm = new MySqlCommand("SELECT SUBSTRING(TIMEDIFF(TIME(NOW()),TIME(oTime)),1,2) FROM settings",conn);
+                    try
+                    {
+                        conn.Open();
+                        MySqlDataReader reader = comm.ExecuteReader();
+                        reader.Read();
+                        ot = reader[0].ToString();
+                        cmd.Parameters.Add("@ot", MySqlDbType.VarChar).Value = ot.ToString();
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.Message);
+                    }
+                    finally
+                    {
+                        conn.Close();
+                    }
 
-            
+                    //Add Parameters
+                    cmd.Parameters.Add("@offTime", MySqlDbType.VarChar).Value = DateTime.Now.ToShortTimeString();
+                }
+                
                 conn.Open();
                 
                 if (cmd.ExecuteNonQuery() > 0)
@@ -697,7 +747,7 @@ namespace EwingInventory
                 }
             }catch(Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show(ex.ToString());
             }
             finally
             {
@@ -816,6 +866,8 @@ namespace EwingInventory
             {
                 home.LoadToDatagridview(dgvRequest, "SELECT onDate 'On', type 'Type', FORMAT(amount,2) 'Amount', status 'Status', reqDate 'Requested on' FROM requests WHERE sId=" + this.currentUID + " ORDER BY status desc, onDate desc;");
                 home.chanfeDGVColor(dgvRequest, 3, "APPROVED", "PENDING");
+                userDetails();
+                attDetails();
 
             }
             else if(tab_user.SelectedIndex == 2)
@@ -832,10 +884,12 @@ namespace EwingInventory
                     case 0: qr += ";"; break;
                     case 1: qr += " WHERE status = 'PENDING';"; break;
                     case 2: qr += " WHERE status = 'APPROVED';"; break;
-                    case 3: qr += " WHERE status = 'REJECTED';"; break;
+                    case 3: qr += " WHERE status = 'DENIED';"; break;
                 }
                 home.LoadToDatagridview(dgvReqMg, qr);
                 dgvReqMg.Columns[0].Width = 20;
+                userDetails();
+                attDetails();
             }
         }
                 
@@ -866,10 +920,13 @@ namespace EwingInventory
                     //Change BackColor
                     if (lblSt.Text == "APPROVED")
                         lblSt.BackColor = Color.LightGreen;
+                    else if (lblSt.Text == "DENIED")
+                        lblSt.BackColor = Color.OrangeRed;
                     else
                         lblSt.BackColor = Color.Transparent;
 
                     lblAmt.Text = dr[4].ToString();
+
                 }
             }
             catch (Exception ex)
@@ -881,7 +938,10 @@ namespace EwingInventory
                 conn.Close();
             }
 
-            if(type == "Loan")
+
+            loadReceivables(lblsId.Text);
+
+            if (type == "Loan")
             {
                 label34.Visible = true;
                 label38.Visible = true;
@@ -964,10 +1024,10 @@ namespace EwingInventory
                 case 0: q += ";";break;
                 case 1: q += " WHERE status = 'PENDING';";break;
                 case 2: q += " WHERE status = 'APPROVED';";break;
-                case 3: q += " WHERE status = 'REJECTED';";break;
+                case 3: q += " WHERE status = 'DENIED';";break;
             }
-            home.LoadToDatagridview(dgvReqMg, q);
-            dgvReqMg.Columns[0].Width = 20;
+                home.LoadToDatagridview(dgvReqMg, q);
+             //   dgvReqMg.Columns[0].Width = 20;
         }
 
         private void btn_approve_Click(object sender, EventArgs e)
@@ -986,7 +1046,7 @@ namespace EwingInventory
                     conn.Open();
                     if(cmd.ExecuteNonQuery() > 0)
                     {
-                        MessageBox.Show("Request Approved Successfully!");
+                        MessageBox.Show("Request Approved!");
                         
                         //Refresh RequestMgt Table
                         string qr = "SELECT sId 'ID', onDate 'On', type 'Type' FROM requests";
@@ -996,10 +1056,26 @@ namespace EwingInventory
                             case 0: qr += ";"; break;
                             case 1: qr+= " WHERE status = 'PENDING';"; break;
                             case 2: qr += " WHERE status = 'APPROVED';"; break;
-                            case 3: qr += " WHERE status = 'REJECTED';"; break;
+                            case 3: qr += " WHERE status = 'DENIED';"; break;
                         }
                         home.LoadToDatagridview(dgvReqMg, qr);
                         dgvReqMg.Columns[0].Width = 20;
+
+
+                        //Details to StaffPay Table
+                        if (lblType.Text == "Loan" || lblType.Text == "Salary Advance")
+                        {
+                            q = "INSERT INTO staffpay(sId,month,type,amount) VALUES(@sId,@month,@type,@amount);";
+                            MySqlCommand cmd2 = new MySqlCommand(q, conn);
+                            cmd2.Parameters.Add("@sId", MySqlDbType.Int32).Value = Convert.ToInt32(lblsId.Text);
+                            cmd2.Parameters.Add("@month", MySqlDbType.VarChar).Value = lblOn.Text;
+                            cmd2.Parameters.Add("@type", MySqlDbType.VarChar).Value = lblType.Text;
+                            cmd2.Parameters.Add("@amount", MySqlDbType.Double).Value = Convert.ToDouble(lblAmt.Text);
+                            //cmd2.Parameters.Add("@term", MySqlDbType.Int32).Value = numericUpDown3.Value;
+                            
+                            cmd2.ExecuteNonQuery();
+
+                        }
 
                         //Clear Labels
                         lblsId.Text = "";
@@ -1010,10 +1086,14 @@ namespace EwingInventory
                         lblAmt.Text = "";
                         label34.Visible = false;
                         label38.Visible = false;
+                        label45.Text = "--";
+                        label46.Text = "--";
+                        label49.Text = "--";
                         numericUpDown3.Visible = false;
                     }
-
-                }catch(Exception ex)
+                    
+                }
+                catch(Exception ex)
                 {
                     MessageBox.Show(ex.Message);
                 }
@@ -1026,10 +1106,10 @@ namespace EwingInventory
 
         private void btn_decline_Click(object sender, EventArgs e)
         {
-            DialogResult res = MessageBox.Show("Do you want to Reject request?", "Confirm", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            DialogResult res = MessageBox.Show("Do you want to Deny the request?", "Confirm", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if(res == DialogResult.Yes)
             {
-                string q = "UPDATE requests SET status='REJECTED' WHERE sId=@sid AND onDate=@date AND type=@type;";
+                string q = "UPDATE requests SET status='DENIED' WHERE sId=@sid AND onDate=@date AND type=@type;";
                 MySqlCommand cmd = new MySqlCommand(q, conn);
                 cmd.Parameters.Add("@sid", MySqlDbType.Int32).Value = Convert.ToInt32(lblsId.Text);
                 cmd.Parameters.Add("@date", MySqlDbType.VarChar).Value = lblOn.Text;
@@ -1040,7 +1120,7 @@ namespace EwingInventory
                     conn.Open();
                     if (cmd.ExecuteNonQuery() > 0)
                     {
-                        MessageBox.Show("Request Rejected Successfully!");
+                        MessageBox.Show("Request Denied Successfully!");
 
                         //Refresh RequestMgt Table
                         string qr = "SELECT sId 'ID', onDate 'On', type 'Type' FROM requests";
@@ -1050,7 +1130,7 @@ namespace EwingInventory
                             case 0: qr += ";"; break;
                             case 1: qr += " WHERE status = 'PENDING';"; break;
                             case 2: qr += " WHERE status = 'APPROVED';"; break;
-                            case 3: qr += " WHERE status = 'REJECTED';"; break;
+                            case 3: qr += " WHERE status = 'DENIED';"; break;
                         }
                         home.LoadToDatagridview(dgvReqMg, qr);
                         dgvReqMg.Columns[0].Width = 20;
@@ -1064,6 +1144,9 @@ namespace EwingInventory
                         lblAmt.Text = "";
                         label34.Visible = false;
                         label38.Visible = false;
+                        label45.Text = "--";
+                        label46.Text = "--";
+                        label49.Text = "--";
                         numericUpDown3.Visible = false;
                     }
 

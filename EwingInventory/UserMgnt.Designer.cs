@@ -147,6 +147,7 @@
             this.label28 = new System.Windows.Forms.Label();
             this.comboBox2 = new System.Windows.Forms.ComboBox();
             this.dgvReqMg = new System.Windows.Forms.DataGridView();
+            this.button5 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvStaff)).BeginInit();
             this.tab_user.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -373,7 +374,7 @@
             this.tab_user.Location = new System.Drawing.Point(0, 0);
             this.tab_user.Name = "tab_user";
             this.tab_user.SelectedIndex = 0;
-            this.tab_user.Size = new System.Drawing.Size(811, 459);
+            this.tab_user.Size = new System.Drawing.Size(801, 459);
             this.tab_user.TabIndex = 29;
             this.tab_user.SelectedIndexChanged += new System.EventHandler(this.tab_user_SelectedIndexChanged);
             // 
@@ -744,13 +745,14 @@
             this.tabPage2.Location = new System.Drawing.Point(4, 24);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(803, 431);
+            this.tabPage2.Size = new System.Drawing.Size(793, 431);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "My Account";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
             // groupBox8
             // 
+            this.groupBox8.Controls.Add(this.button5);
             this.groupBox8.Controls.Add(this.btn_inOut);
             this.groupBox8.Controls.Add(this.lblTo);
             this.groupBox8.Controls.Add(this.lblTi);
@@ -759,7 +761,7 @@
             this.groupBox8.Font = new System.Drawing.Font("Cambria", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox8.Location = new System.Drawing.Point(508, 11);
             this.groupBox8.Name = "groupBox8";
-            this.groupBox8.Size = new System.Drawing.Size(277, 85);
+            this.groupBox8.Size = new System.Drawing.Size(277, 123);
             this.groupBox8.TabIndex = 35;
             this.groupBox8.TabStop = false;
             this.groupBox8.Text = "Attendance";
@@ -969,7 +971,7 @@
             this.button4.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
             this.button4.Font = new System.Drawing.Font("Cambria", 10F);
             this.button4.ForeColor = System.Drawing.SystemColors.HotTrack;
-            this.button4.Location = new System.Drawing.Point(187, 155);
+            this.button4.Location = new System.Drawing.Point(91, 154);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(84, 30);
             this.button4.TabIndex = 33;
@@ -1154,9 +1156,9 @@
             this.groupBox4.Controls.Add(this.txt_password);
             this.groupBox4.Controls.Add(this.label18);
             this.groupBox4.Font = new System.Drawing.Font("Cambria", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBox4.Location = new System.Drawing.Point(508, 102);
+            this.groupBox4.Location = new System.Drawing.Point(508, 138);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(277, 126);
+            this.groupBox4.Size = new System.Drawing.Size(277, 90);
             this.groupBox4.TabIndex = 30;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Login Info";
@@ -1166,9 +1168,9 @@
             this.button3.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
             this.button3.Font = new System.Drawing.Font("Cambria", 10F);
             this.button3.ForeColor = System.Drawing.SystemColors.HotTrack;
-            this.button3.Location = new System.Drawing.Point(91, 86);
+            this.button3.Location = new System.Drawing.Point(186, 24);
             this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(158, 30);
+            this.button3.Size = new System.Drawing.Size(85, 57);
             this.button3.TabIndex = 31;
             this.button3.Text = "Change Password";
             this.button3.UseVisualStyleBackColor = false;
@@ -1200,7 +1202,7 @@
             this.txt_password.Location = new System.Drawing.Point(91, 56);
             this.txt_password.MaxLength = 8;
             this.txt_password.Name = "txt_password";
-            this.txt_password.Size = new System.Drawing.Size(158, 23);
+            this.txt_password.Size = new System.Drawing.Size(92, 23);
             this.txt_password.TabIndex = 32;
             this.txt_password.TextChanged += new System.EventHandler(this.txt_password_TextChanged);
             // 
@@ -1280,7 +1282,7 @@
             this.groupBox10.Size = new System.Drawing.Size(246, 163);
             this.groupBox10.TabIndex = 59;
             this.groupBox10.TabStop = false;
-            this.groupBox10.Text = "Pendings";
+            this.groupBox10.Text = "Receivables";
             // 
             // label49
             // 
@@ -1399,7 +1401,7 @@
             // 
             this.lblSt.AutoSize = true;
             this.lblSt.Font = new System.Drawing.Font("Cambria", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblSt.Location = new System.Drawing.Point(367, 217);
+            this.lblSt.Location = new System.Drawing.Point(367, 314);
             this.lblSt.Name = "lblSt";
             this.lblSt.Size = new System.Drawing.Size(19, 19);
             this.lblSt.TabIndex = 54;
@@ -1409,7 +1411,7 @@
             // 
             this.label43.AutoSize = true;
             this.label43.Font = new System.Drawing.Font("Cambria", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label43.Location = new System.Drawing.Point(272, 217);
+            this.label43.Location = new System.Drawing.Point(272, 314);
             this.label43.Name = "label43";
             this.label43.Size = new System.Drawing.Size(51, 19);
             this.label43.TabIndex = 53;
@@ -1440,12 +1442,12 @@
             this.btn_decline.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
             this.btn_decline.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.btn_decline.Font = new System.Drawing.Font("Cambria", 11F);
-            this.btn_decline.ForeColor = System.Drawing.SystemColors.HotTrack;
-            this.btn_decline.Location = new System.Drawing.Point(409, 348);
+            this.btn_decline.ForeColor = System.Drawing.Color.OrangeRed;
+            this.btn_decline.Location = new System.Drawing.Point(404, 348);
             this.btn_decline.Name = "btn_decline";
             this.btn_decline.Size = new System.Drawing.Size(75, 43);
             this.btn_decline.TabIndex = 50;
-            this.btn_decline.Text = "Reject";
+            this.btn_decline.Text = "Deny";
             this.btn_decline.UseVisualStyleBackColor = false;
             this.btn_decline.Visible = false;
             this.btn_decline.Click += new System.EventHandler(this.btn_decline_Click);
@@ -1455,7 +1457,7 @@
             this.btn_approve.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
             this.btn_approve.Font = new System.Drawing.Font("Cambria", 11F);
             this.btn_approve.ForeColor = System.Drawing.SystemColors.HotTrack;
-            this.btn_approve.Location = new System.Drawing.Point(276, 348);
+            this.btn_approve.Location = new System.Drawing.Point(271, 348);
             this.btn_approve.Name = "btn_approve";
             this.btn_approve.Size = new System.Drawing.Size(75, 43);
             this.btn_approve.TabIndex = 49;
@@ -1468,7 +1470,7 @@
             // 
             this.label38.AutoSize = true;
             this.label38.Font = new System.Drawing.Font("Cambria", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label38.Location = new System.Drawing.Point(418, 301);
+            this.label38.Location = new System.Drawing.Point(418, 271);
             this.label38.Name = "label38";
             this.label38.Size = new System.Drawing.Size(61, 19);
             this.label38.TabIndex = 48;
@@ -1478,7 +1480,7 @@
             // numericUpDown3
             // 
             this.numericUpDown3.Font = new System.Drawing.Font("Cambria", 10F);
-            this.numericUpDown3.Location = new System.Drawing.Point(371, 297);
+            this.numericUpDown3.Location = new System.Drawing.Point(371, 267);
             this.numericUpDown3.Maximum = new decimal(new int[] {
             12,
             0,
@@ -1503,7 +1505,7 @@
             // 
             this.lblAmt.AutoSize = true;
             this.lblAmt.Font = new System.Drawing.Font("Cambria", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblAmt.Location = new System.Drawing.Point(367, 253);
+            this.lblAmt.Location = new System.Drawing.Point(367, 223);
             this.lblAmt.Name = "lblAmt";
             this.lblAmt.Size = new System.Drawing.Size(19, 19);
             this.lblAmt.TabIndex = 46;
@@ -1523,7 +1525,7 @@
             // 
             this.label34.AutoSize = true;
             this.label34.Font = new System.Drawing.Font("Cambria", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label34.Location = new System.Drawing.Point(272, 296);
+            this.label34.Location = new System.Drawing.Point(272, 266);
             this.label34.Name = "label34";
             this.label34.Size = new System.Drawing.Size(45, 19);
             this.label34.TabIndex = 43;
@@ -1534,7 +1536,7 @@
             // 
             this.label33.AutoSize = true;
             this.label33.Font = new System.Drawing.Font("Cambria", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label33.Location = new System.Drawing.Point(272, 253);
+            this.label33.Location = new System.Drawing.Point(272, 223);
             this.label33.Name = "label33";
             this.label33.Size = new System.Drawing.Size(64, 19);
             this.label33.TabIndex = 42;
@@ -1590,7 +1592,7 @@
             "All",
             "Pending",
             "Approved",
-            "Rejected"});
+            "Denied"});
             this.comboBox2.Location = new System.Drawing.Point(72, 42);
             this.comboBox2.MaxDropDownItems = 4;
             this.comboBox2.Name = "comboBox2";
@@ -1602,7 +1604,6 @@
             // 
             this.dgvReqMg.AllowUserToAddRows = false;
             this.dgvReqMg.AllowUserToDeleteRows = false;
-            this.dgvReqMg.AllowUserToResizeColumns = false;
             this.dgvReqMg.AllowUserToResizeRows = false;
             this.dgvReqMg.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgvReqMg.BackgroundColor = System.Drawing.SystemColors.GradientInactiveCaption;
@@ -1616,12 +1617,24 @@
             this.dgvReqMg.TabIndex = 0;
             this.dgvReqMg.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvReqMg_CellClick);
             // 
+            // button5
+            // 
+            this.button5.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
+            this.button5.Font = new System.Drawing.Font("Cambria", 10F);
+            this.button5.ForeColor = System.Drawing.SystemColors.HotTrack;
+            this.button5.Location = new System.Drawing.Point(163, 85);
+            this.button5.Name = "button5";
+            this.button5.Size = new System.Drawing.Size(109, 30);
+            this.button5.TabIndex = 41;
+            this.button5.Text = "My Attendance";
+            this.button5.UseVisualStyleBackColor = false;
+            // 
             // frm_users
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.button1;
-            this.ClientSize = new System.Drawing.Size(810, 461);
+            this.ClientSize = new System.Drawing.Size(978, 461);
             this.Controls.Add(this.tab_user);
             this.MaximizeBox = false;
             this.Name = "frm_users";
@@ -1784,5 +1797,6 @@
         private System.Windows.Forms.Label lblForDays;
         private System.Windows.Forms.Label label19;
         private System.Windows.Forms.Button btnCancelReq;
+        private System.Windows.Forms.Button button5;
     }
 }

@@ -98,7 +98,7 @@ namespace EwingInventory
             }
             catch (Exception e)
             {
-                MessageBox.Show(e.Message);
+                MessageBox.Show(e.ToString());
 
             }
 
@@ -189,6 +189,8 @@ namespace EwingInventory
 
         private void btn_users_Click(object sender, EventArgs e)
         {
+            
+
             bool b = false;
             
             foreach (Form f in Application.OpenForms)

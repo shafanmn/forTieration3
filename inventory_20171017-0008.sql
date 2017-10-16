@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Oct 15, 2017 at 09:21 PM
+-- Generation Time: Oct 16, 2017 at 06:37 PM
 -- Server version: 5.7.19
 -- PHP Version: 5.6.31
 
@@ -43,12 +43,15 @@ CREATE TABLE IF NOT EXISTS `attendance` (
 --
 
 INSERT INTO `attendance` (`date`, `sId`, `inTime`, `offTime`, `otHrs`) VALUES
-('2017-09-27', 1, '21:20', '21:21', 0),
-('2017-09-28', 1, '19:15', '19:40', 0),
-('2017-10-15', 1, '13:32', NULL, NULL),
-('2017-10-15', 3, '11:34', NULL, NULL),
-('2017-10-04', 4, '18:46', NULL, NULL),
-('2017-10-15', 5, '21:56', NULL, NULL);
+('2017-09-27', 1, '21:20', '21:21', 4),
+('2017-09-28', 1, '19:15', '19:40', 2),
+('2017-10-15', 1, '13:32', '18:00', 1),
+('2017-10-16', 1, '11:58', '21:16', 4),
+('2017-10-16', 2, '21:17', '21:21', 4),
+('2017-10-15', 3, '11:34', '18:00', 1),
+('2017-10-04', 4, '10:12', '18:00', 1),
+('2017-10-16', 4, '08:04', '22:41', 5),
+('2017-10-15', 5, '09:00', '18:00', 1);
 
 -- --------------------------------------------------------
 
@@ -696,7 +699,10 @@ INSERT INTO `orderdetails` (`invoiceNo`, `ItemNo`, `qty`, `disc`, `totcost`) VAL
 ('INV00000009', '111113', 50, 17500, 40000),
 ('INV00000009', '111115', 10, 0, 8000),
 ('INV0000010', '111112', 10, 0, 15000),
-('INV0000010', '111111', 10, 0, 20000);
+('INV0000010', '111111', 10, 0, 20000),
+('INV00000011', '111110', 5, 0, 9500),
+('INV00000011', '111115', 5, 0, 4000),
+('INV00000011', '111114', 50, 5000, 32500);
 
 -- --------------------------------------------------------
 
@@ -821,12 +827,12 @@ CREATE TABLE IF NOT EXISTS `requests` (
 --
 
 INSERT INTO `requests` (`sId`, `onDate`, `type`, `forDays`, `amount`, `reqDate`, `status`, `term`) VALUES
-(1, '2017-10-24', 'Half Day', NULL, NULL, '2017-10-15', 'PENDING', 0),
-(1, '2017-10-31', 'Day Off', 1, NULL, '2017-10-14', 'REJECTED', 0),
-(1, '2017-11-15', 'Loan', NULL, 6000, '2017-10-14', 'PENDING', 0),
+(1, '2017-10-24', 'Half Day', NULL, NULL, '2017-10-15', 'DENIED', 0),
+(1, '2017-10-31', 'Day Off', 1, NULL, '2017-10-14', 'DENIED', 0),
+(1, '2017-11-15', 'Loan', NULL, 15000, '2017-10-16', 'APPROVED', NULL),
 (1, '2017-11-23', 'Salary Advance', NULL, 12000, '2017-10-15', 'APPROVED', NULL),
 (2, '2017-11-16', 'Loan', NULL, 10000, '2017-10-15', 'PENDING', 0),
-(2, '2018-01-09', 'Day Off', 1, NULL, '2017-10-15', 'APPROVED', 0),
+(2, '2018-01-09', 'Day Off', 1, NULL, '2017-10-15', 'PENDING', 0),
 (3, '2017-11-24', 'Loan', NULL, 50000, '2017-10-15', 'PENDING', 0),
 (5, '2017-10-20', 'Half Day', NULL, NULL, '2017-10-15', 'PENDING', NULL);
 
@@ -971,9 +977,9 @@ CREATE TABLE IF NOT EXISTS `settings` (
   `tele` varchar(13) NOT NULL,
   `fax` varchar(13) NOT NULL,
   `email` varchar(30) NOT NULL,
-  `sTime` char(4) NOT NULL,
-  `oTime` char(4) NOT NULL,
-  `hTime` char(4) NOT NULL,
+  `sTime` char(5) NOT NULL,
+  `oTime` char(5) NOT NULL,
+  `hTime` char(5) NOT NULL,
   `image` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -982,7 +988,7 @@ CREATE TABLE IF NOT EXISTS `settings` (
 --
 
 INSERT INTO `settings` (`name`, `address`, `tele`, `fax`, `email`, `sTime`, `oTime`, `hTime`, `image`) VALUES
-('Ewing Associates (Pvt) Ltd', '658/78 2/1,\nDanister De Silva Mawatha,\nColombo 9', '0112672732', '0112672732', 'info@ewingassociates.lk', '0730', '1700', '1230', 'C:\\Users\\Shehan Mark Fdo\\Desktop\\InventoryMgt\\EwingInventory\\Resources\\EwingPP.png');
+('Ewing Associates (Pvt) Ltd', '658/78 2/1,\nDanister De Silva Mawatha,\nColombo 9', '0112672732', '0112672732', 'info@ewingassociates.lk', '07:30', '17:00', '12:30', 'C:\\Users\\Shehan Mark Fdo\\Desktop\\InventoryMgt\\EwingInventory\\Resources\\EwingPP.png');
 
 -- --------------------------------------------------------
 
@@ -1018,7 +1024,7 @@ CREATE TABLE IF NOT EXISTS `staff` (
 
 INSERT INTO `staff` (`sId`, `uName`, `pass`, `fName`, `lname`, `add1`, `add2`, `religion`, `mob`, `email`, `nic`, `access`, `joined`, `dob`, `desig`, `image`) VALUES
 (0, 'ADMIN', 'admin', NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, 0, NULL, NULL, 0, NULL),
-(1, 'SHAFAN', 'sha', 'SHAFAN', 'NAZIM', '34', 'Grandpass', 3, '755619134', 'mohamed.shafan@my.sliit.lk', '199514303063', 1, '2016-01-04', '1995-05-22', 1, 'C:\\Users\\Shehan Mark Fdo\\Desktop\\InventoryMgt\\EwingInventory\\Resources\\icon_user1.png'),
+(1, 'SHAFAN', 'sha', 'SHAFAN', 'NAZIM', '34', 'Grandpass', 3, '755619134', 'mohamed.shafan@my.sliit.lk', '199514303063', 1, '2016-01-04', '1995-05-22', 2, 'C:\\Users\\Shehan Mark Fdo\\Desktop\\InventoryMgt\\EwingInventory\\Resources\\icon_user1.png'),
 (2, 'JAJE', 'jaje', 'JAJE', 'THANAN', 'adfs', 'adfs', 2, '799856565', 'thanan@gmail.com', '959384321', 2, '2017-01-02', '1995-12-05', 2, NULL),
 (3, 'GOWSHI', 'gowshi', 'GOWSHALINI', 'RAJALINGAM', '87', 'Dehiwala', 3, '776589532', 'gow@shi.com', '199658596586', 1, '1996-12-05', '1996-12-05', 3, 'E:\\Setup\\OP2\\OP2_Backup\\Image_and_Video\\Pictures\\Wallpapers\\20151218063256.jpg'),
 (4, 'MARK', 'mark', 'SHEHAN', 'FERNANDO', '78', 'Kollupitiya', 4, '7685965865', 'she@han.lk', '965833512', 2, '2017-07-01', '1996-09-06', 3, NULL),
@@ -1038,12 +1044,20 @@ INSERT INTO `staff` (`sId`, `uName`, `pass`, `fName`, `lname`, `add1`, `add2`, `
 DROP TABLE IF EXISTS `staffpay`;
 CREATE TABLE IF NOT EXISTS `staffpay` (
   `sId` int(2) NOT NULL,
-  `month` char(5) NOT NULL,
-  `type` int(1) NOT NULL,
+  `month` varchar(12) NOT NULL,
+  `type` varchar(15) NOT NULL,
   `amount` double DEFAULT NULL,
   `term` int(2) DEFAULT NULL,
   PRIMARY KEY (`sId`,`month`,`type`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `staffpay`
+--
+
+INSERT INTO `staffpay` (`sId`, `month`, `type`, `amount`, `term`) VALUES
+(1, '2017-11-15', 'Loan', 15000, NULL),
+(1, '2017-11-23', 'Salary Advance', 12000, NULL);
 
 -- --------------------------------------------------------
 
@@ -1063,12 +1077,12 @@ CREATE TABLE IF NOT EXISTS `stock` (
 --
 
 INSERT INTO `stock` (`quantity`, `itemCodes`) VALUES
-(100, 111110),
+(95, 111110),
 (90, 111111),
 (90, 111112),
 (50, 111113),
-(100, 111114),
-(90, 111115),
+(50, 111114),
+(85, 111115),
 (20, 111116),
 (20, 111117),
 (0, 111118),

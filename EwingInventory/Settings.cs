@@ -83,9 +83,9 @@ namespace EwingInventory
                     set_tele.Text = read.GetString("tele");
                     set_fax.Text = read.GetString("fax");
                     set_mail.Text = read.GetString("email");
-                    time_st.Value = new DateTime(2017, 08, 26, Convert.ToInt32(st.Substring(0, 2)), Convert.ToInt32(st.Substring(2, 2)), 0);
-                    time_off.Value = new DateTime(2017, 08, 26, Convert.ToInt32(ot.Substring(0, 2)), Convert.ToInt32(ot.Substring(2, 2)), 0);
-                    time_half.Value = new DateTime(2017, 08, 26, Convert.ToInt32(ht.Substring(0, 2)), Convert.ToInt32(ht.Substring(2, 2)), 0);
+                    time_st.Value = new DateTime(2017, 08, 26, Convert.ToInt32(st.Substring(0, 2)), Convert.ToInt32(st.Substring(3, 2)), 0);
+                    time_off.Value = new DateTime(2017, 08, 26, Convert.ToInt32(ot.Substring(0, 2)), Convert.ToInt32(ot.Substring(3, 2)), 0);
+                    time_half.Value = new DateTime(2017, 08, 26, Convert.ToInt32(ht.Substring(0, 2)), Convert.ToInt32(ht.Substring(3, 2)), 0);
                     set_logo.ImageLocation = logoPath;
                 }
             }
@@ -309,9 +309,9 @@ namespace EwingInventory
                     cmd.Parameters.Add("@tele", MySqlDbType.VarChar).Value = set_tele.Text;
                     cmd.Parameters.Add("@fax", MySqlDbType.VarChar).Value = set_fax.Text;
                     cmd.Parameters.Add("@email", MySqlDbType.VarChar).Value = set_mail.Text;
-                    cmd.Parameters.Add("@sTime", MySqlDbType.VarChar).Value = time_st.Value.ToString("HHmm");
-                    cmd.Parameters.Add("@oTime", MySqlDbType.VarChar).Value = time_off.Value.ToString("HHmm");
-                    cmd.Parameters.Add("@hTime", MySqlDbType.VarChar).Value = time_half.Value.ToString("HHmm");
+                    cmd.Parameters.Add("@sTime", MySqlDbType.VarChar).Value = time_st.Value.ToString("HH:mm");
+                    cmd.Parameters.Add("@oTime", MySqlDbType.VarChar).Value = time_off.Value.ToString("HH:mm");
+                    cmd.Parameters.Add("@hTime", MySqlDbType.VarChar).Value = time_half.Value.ToString("HH:mm");
                     cmd.Parameters.Add("@image", MySqlDbType.VarChar).Value = logoPath;
 
                     try
