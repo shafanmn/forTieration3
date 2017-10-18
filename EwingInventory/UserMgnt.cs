@@ -214,15 +214,12 @@ namespace EwingInventory
             {
                 conn.Open();
                 MySqlDataReader dr = null;
-                MySqlCommand cmd = new MySqlCommand("SELECT * FROM staff s, designation d WHERE s.desig = d.id AND s.uName = '"+this.currentUser+"';", conn);
+                MySqlCommand cmd = new MySqlCommand("SELECT *, DATE_FORMAT(dob,\"%Y\") AS 'date' FROM staff s, designation d WHERE s.desig = d.id AND s.uName = '" + this.currentUser+"';", conn);
 
                 dr = cmd.ExecuteReader();
 
                 while (dr.Read())
                 {
-                    string[] dob = dr["dob"].ToString().Split(' ');
-                    string[] db = dob[0].ToString().Split('-');
-
                     fullName.Text = dr["fName"].ToString()+" "+ dr["lName"].ToString();
                     designation.Text = dr["name"].ToString();
                     username.Text = dr["uName"].ToString();
@@ -230,7 +227,7 @@ namespace EwingInventory
                     txt_password.Text = dr["pass"].ToString();
                     pic_user.ImageLocation = dr["image"].ToString();
 
-                    age.Text = (DateTime.Now.Year - Convert.ToInt32(db[0])).ToString();
+                    age.Text = (DateTime.Now.Year - Convert.ToInt32(dr["date"].ToString())).ToString();
 
                 }
                 conn.Close();
@@ -245,21 +242,21 @@ namespace EwingInventory
         public void attDetails()
         {
             MySqlConnection conn = new MySqlConnection(home.connString);
-            string[] date = DateTime.Now.Date.ToString().Split(' ');
+            string date = DateTime.Now.ToString("yyyy-MM-dd");
 
             try
             {
                 conn.Open();
                 MySqlDataReader dr = null;
-                MySqlCommand cmd = new MySqlCommand("SELECT * FROM staff s, attendance a WHERE a.sId=s.sId AND a.date=CURDATE() AND s.sId='"+this.currentUID+"';", conn);
+                MySqlCommand cmd = new MySqlCommand("SELECT inTime,offTime FROM staff s, attendance a WHERE a.sId=s.sId AND a.date=CURDATE() AND s.sId='"+this.currentUID+"';", conn);
 
                 dr = cmd.ExecuteReader();
 
                 if (dr.Read())
                 {
-                    lblTi.Text = dr["inTime"].ToString().Substring(0,5);
+                    lblTi.Text = dr[0].ToString();
 
-                    if (dr["offTime"].ToString() == "")
+                    if (dr[1].ToString() == "")
                     {
                         lblTo.Text = "--";
                         btn_inOut.Text = "Out";
@@ -267,7 +264,7 @@ namespace EwingInventory
                     }
                     else
                     {
-                        lblTo.Text = dr["offTime"].ToString().Substring(0, 5);
+                        lblTo.Text = dr[1].ToString();
                         btn_inOut.Enabled = false;
                         btn_inOut.Text = "Checked";
                     }
@@ -323,6 +320,9 @@ namespace EwingInventory
         
         private void frm_users_Load(object sender, EventArgs e)
         {
+            dateBirth.CustomFormat = "yyyy-MM-dd";
+            dateJoined.CustomFormat = "yyyy-MM-dd";
+
             if (this.currentUseraccess == "0")
             {
                 //Administrator
@@ -331,6 +331,7 @@ namespace EwingInventory
                 home.LoadToDatagridview(dgvStaff, "SELECT sId 'ID',fName 'NAME' FROM staff WHERE sId > 0");
                 dgvStaff.Columns[0].Width = 30;
                 home.fillCombo(cmb_desig, "SELECT name FROM designation WHERE id > 0;", "name");
+                
             }
             else if(this.currentUseraccess == "2")
             {
@@ -353,8 +354,8 @@ namespace EwingInventory
                 home.LoadToDatagridview(dgvReqMg, "SELECT sId 'ID', onDate 'On', type 'Type' FROM requests WHERE status = 'PENDING' ORDER BY onDate");
                 //dgvReqMg.Columns[0].Width = 20;
                 comboBox2.Text = "Pending";
-                //userDetails();
-                //attDetails();
+                userDetails();
+                attDetails();
             }
 
             string w = Screen.FromControl(home).WorkingArea.Width.ToString();
@@ -409,20 +410,17 @@ namespace EwingInventory
             {
                 conn.Open();
                 MySqlDataReader dr = null;
-                MySqlCommand cmd = new MySqlCommand("SELECT * FROM staff WHERE sId =" + id + ";", conn);
+                MySqlCommand cmd = new MySqlCommand("SELECT *,DATE_FORMAT(dob,\"%Y-%m-%d\") AS 'birth',DATE_FORMAT(dob,\"%Y\") AS 'dobYear' ,DATE_FORMAT(joined,\"%Y-%m-%d\") AS 'join' FROM staff WHERE sId =" + id + ";", conn);
 
                 dr = cmd.ExecuteReader();
 
                 while (dr.Read())
                 {
-                    string[] a = dr["dob"].ToString().Split(' ');
-                    string[] b = dr["joined"].ToString().Split(' ');
-
-                    string[] dob = a[0].Split('-');
-                    string[] dj = b[0].Split('-');
+                    string[] dob = dr["birth"].ToString().Split('-');
+                    string[] dj = dr["join"].ToString().Split('-');
 
                     lbl_id.Text = dr["sId"].ToString();
-                    lbl_age.Text = (DateTime.Now.Year - Convert.ToInt32(dob[0])).ToString();
+                    lbl_age.Text = (DateTime.Now.Year - Convert.ToInt32(dr["dobYear"].ToString())).ToString();
                     txt_fName.Text = dr["fName"].ToString();
                     txt_lName.Text = dr["lName"].ToString();
                     txt_nic.Text = dr["nic"].ToString();
@@ -710,13 +708,14 @@ namespace EwingInventory
 
                 if(btn_inOut.Text == "In")
                 {
-                    cmd.Parameters.Add("@inTime", MySqlDbType.VarChar).Value = DateTime.Now.ToShortTimeString();
+                    cmd.Parameters.Add("@inTime", MySqlDbType.VarChar).Value = DateTime.Now.ToString("HH:mm");
                 }
                 else if(btn_inOut.Text == "Out")
                 {
                     
                     //Calculate Ot Hrs
                     MySqlCommand comm = new MySqlCommand("SELECT SUBSTRING(TIMEDIFF(TIME(NOW()),TIME(oTime)),1,2) FROM settings",conn);
+                    string altQ = "SELECT TIME_FORMAT(TIMEDIFF(TIME_FORMAT(NOW(), \"%H:%m\"), oTime), \"%H:%m\") FROM settings";
                     try
                     {
                         conn.Open();
@@ -862,8 +861,10 @@ namespace EwingInventory
         
         private void tab_user_SelectedIndexChanged(object sender, EventArgs e)
         {
+            reqDate.CustomFormat = "yyyy-MM-dd";
             if(tab_user.SelectedIndex == 1)
             {
+                //MyAccount Page
                 home.LoadToDatagridview(dgvRequest, "SELECT onDate 'On', type 'Type', FORMAT(amount,2) 'Amount', status 'Status', reqDate 'Requested on' FROM requests WHERE sId=" + this.currentUID + " ORDER BY status desc, onDate desc;");
                 home.chanfeDGVColor(dgvRequest, 3, "APPROVED", "PENDING");
                 userDetails();
@@ -872,6 +873,7 @@ namespace EwingInventory
             }
             else if(tab_user.SelectedIndex == 2)
             {
+                //Request Management Page
                 label34.Visible = false;
                 label38.Visible = false;
                 numericUpDown3.Visible = false;

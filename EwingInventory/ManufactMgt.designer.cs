@@ -1402,6 +1402,7 @@
             this.img.Location = new System.Drawing.Point(145, 81);
             this.img.Name = "img";
             this.img.Size = new System.Drawing.Size(133, 129);
+            this.img.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.img.TabIndex = 144;
             this.img.TabStop = false;
             // 

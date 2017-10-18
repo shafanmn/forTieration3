@@ -79,6 +79,7 @@
             this.txt_mob = new System.Windows.Forms.TextBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.groupBox8 = new System.Windows.Forms.GroupBox();
+            this.button5 = new System.Windows.Forms.Button();
             this.btn_inOut = new System.Windows.Forms.Button();
             this.lblTo = new System.Windows.Forms.Label();
             this.lblTi = new System.Windows.Forms.Label();
@@ -147,7 +148,6 @@
             this.label28 = new System.Windows.Forms.Label();
             this.comboBox2 = new System.Windows.Forms.ComboBox();
             this.dgvReqMg = new System.Windows.Forms.DataGridView();
-            this.button5 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvStaff)).BeginInit();
             this.tab_user.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -336,7 +336,7 @@
             // 
             this.dateBirth.Cursor = System.Windows.Forms.Cursors.Hand;
             this.dateBirth.Font = new System.Drawing.Font("Cambria", 11F);
-            this.dateBirth.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            this.dateBirth.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
             this.dateBirth.Location = new System.Drawing.Point(97, 147);
             this.dateBirth.MaxDate = new System.DateTime(2099, 12, 31, 0, 0, 0, 0);
             this.dateBirth.MinDate = new System.DateTime(1950, 1, 1, 0, 0, 0, 0);
@@ -397,7 +397,7 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 24);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(803, 431);
+            this.tabPage1.Size = new System.Drawing.Size(793, 431);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Manage Staff";
             this.tabPage1.ToolTipText = "Manage Staff Details";
@@ -428,7 +428,7 @@
             // 
             this.dateJoined.Cursor = System.Windows.Forms.Cursors.Hand;
             this.dateJoined.Font = new System.Drawing.Font("Cambria", 11F);
-            this.dateJoined.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            this.dateJoined.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
             this.dateJoined.Location = new System.Drawing.Point(669, 189);
             this.dateJoined.MaxDate = new System.DateTime(2099, 12, 31, 0, 0, 0, 0);
             this.dateJoined.MinDate = new System.DateTime(1963, 1, 1, 0, 0, 0, 0);
@@ -766,6 +766,18 @@
             this.groupBox8.TabStop = false;
             this.groupBox8.Text = "Attendance";
             // 
+            // button5
+            // 
+            this.button5.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
+            this.button5.Font = new System.Drawing.Font("Cambria", 10F);
+            this.button5.ForeColor = System.Drawing.SystemColors.HotTrack;
+            this.button5.Location = new System.Drawing.Point(163, 85);
+            this.button5.Name = "button5";
+            this.button5.Size = new System.Drawing.Size(109, 30);
+            this.button5.TabIndex = 41;
+            this.button5.Text = "My Attendance";
+            this.button5.UseVisualStyleBackColor = false;
+            // 
             // btn_inOut
             // 
             this.btn_inOut.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
@@ -993,7 +1005,8 @@
             // reqDate
             // 
             this.reqDate.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.reqDate.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            this.reqDate.CustomFormat = "yyyy-MM-dd";
+            this.reqDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
             this.reqDate.Location = new System.Drawing.Point(98, 61);
             this.reqDate.MinDate = new System.DateTime(2017, 10, 16, 0, 0, 0, 0);
             this.reqDate.Name = "reqDate";
@@ -1243,7 +1256,7 @@
             this.tabPage3.Location = new System.Drawing.Point(4, 24);
             this.tabPage3.Name = "tabPage3";
             this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage3.Size = new System.Drawing.Size(803, 431);
+            this.tabPage3.Size = new System.Drawing.Size(793, 431);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Requests";
             this.tabPage3.ToolTipText = "Manage Requests";
@@ -1617,24 +1630,12 @@
             this.dgvReqMg.TabIndex = 0;
             this.dgvReqMg.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvReqMg_CellClick);
             // 
-            // button5
-            // 
-            this.button5.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
-            this.button5.Font = new System.Drawing.Font("Cambria", 10F);
-            this.button5.ForeColor = System.Drawing.SystemColors.HotTrack;
-            this.button5.Location = new System.Drawing.Point(163, 85);
-            this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(109, 30);
-            this.button5.TabIndex = 41;
-            this.button5.Text = "My Attendance";
-            this.button5.UseVisualStyleBackColor = false;
-            // 
             // frm_users
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.button1;
-            this.ClientSize = new System.Drawing.Size(978, 461);
+            this.ClientSize = new System.Drawing.Size(803, 461);
             this.Controls.Add(this.tab_user);
             this.MaximizeBox = false;
             this.Name = "frm_users";

@@ -149,13 +149,13 @@ namespace EwingInventory
             Loadtable(mdgv_manufactraw, "SELECT rawMaterialID 'ID', rawMaterialName 'NAME', availableNow 'In Stock', reorderLevel 'Reorder Level', orderAmount 'Order QTY', toOrder 'To Order' FROM `manufactraw`");
             Loadtable(mdgv_manufactraw1, "SELECT rawMaterialID 'ID', rawMaterialName 'NAME' FROM `manufactraw` where reorderLevel>availableNow");
 
-            Loadtable(mdgv_manufactraw5, "SELECT jobId 'ID', jobName 'NAME', description 'Description', duration 'Duration', noOfEmp 'No Of Emp', DATE(startingDate)  'Starting Date', status 'Status' FROM `jobs`");
+            Loadtable(mdgv_manufactraw5, "SELECT jobId 'ID', jobName 'NAME', description 'Description', duration 'Duration', noOfEmp 'No Of Emp', DATE_FORMAT(startingDate,\"%Y-%m-%d\")  'Starting Date', status 'Status' FROM `jobs`");
             Loadtable(mdgv_manufactraw6, "SELECT empId 'ID', type 'Job Type',noOfEmp 'No Of Emp' FROM `manemp`");
 
             Loadtable(mdgv_production2, "SELECT batchNo 'Barch No', currentJob 'Job', noOfEmp 'No Of Employees', workingHrs 'Working Hrs', costPerUnit 'Cost Per Unit', units 'No Of Units', total 'Total Costs' FROM `batch`");
             Loadtable(mdgv_production1, "SELECT batchNo 'Barch No', currentJob 'Job' FROM `batch`");
 
-            Loadtable(dataGridViewMonitor, "SELECT itemNo 'Item No', itemName 'Item Name', totQty 'Total Qty', deliverDate 'Deliver Date', deliverStatus 'Status' from `manufactitem`");
+            Loadtable(dataGridViewMonitor, "SELECT itemNo 'Item No', itemName 'Item Name', totQty 'Total Qty', DATE_FORMAT(deliverDate,\"%Y-%m-%d\") 'Deliver Date', deliverStatus 'Status' from `manufactitem`");
           
             //var read = command.ExecuteReader();
             //logoPath = read.GetString("image");
@@ -962,16 +962,13 @@ namespace EwingInventory
             {
                 conn.Open();
                 MySqlDataReader dr = null;
-                MySqlCommand cmd = new MySqlCommand("SELECT * FROM manufactitem WHERE itemNo =" + textBoxitemNo.Text + ";", conn);
+                MySqlCommand cmd = new MySqlCommand("SELECT *,DATE_FORMAT(deliverDate,\"%Y-%m-%d\") AS 'dFormat' FROM manufactitem WHERE itemNo =" + textBoxitemNo.Text + ";", conn);
 
                 dr = cmd.ExecuteReader();
 
                 while (dr.Read())
                 {
-                    string[] date = dr["deliverDate"].ToString().Split(' ');
-                    string time = date[1];
-
-                    string[] a = date[0].Split('-');
+                    string[] a = dr["dFormat"].ToString().Split('-');
                     string year = a[0];
                     string month = a[1];
                     string day = a[2];
