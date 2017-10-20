@@ -63,6 +63,7 @@ namespace EwingInventory
 
         }
 
+		//Email Validation Function
         public bool isValidEmail(string email)
         {
             return new EmailAddressAttribute().IsValid(email);
