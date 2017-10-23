@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.dgvStaff = new System.Windows.Forms.DataGridView();
             this.button1 = new System.Windows.Forms.Button();
             this.txt_serach = new System.Windows.Forms.TextBox();
@@ -148,6 +148,14 @@
             this.label28 = new System.Windows.Forms.Label();
             this.comboBox2 = new System.Windows.Forms.ComboBox();
             this.dgvReqMg = new System.Windows.Forms.DataGridView();
+            this.tabPage4 = new System.Windows.Forms.TabPage();
+            this.btn_calSal = new System.Windows.Forms.GroupBox();
+            this.dtp_Salaryfrom = new System.Windows.Forms.DateTimePicker();
+            this.label12 = new System.Windows.Forms.Label();
+            this.label21 = new System.Windows.Forms.Label();
+            this.dtp_SalaryTo = new System.Windows.Forms.DateTimePicker();
+            this.button6 = new System.Windows.Forms.Button();
+            this.dgvStaffSal = new System.Windows.Forms.DataGridView();
             ((System.ComponentModel.ISupportInitialize)(this.dgvStaff)).BeginInit();
             this.tab_user.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -169,6 +177,9 @@
             this.groupBox9.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvReqMg)).BeginInit();
+            this.tabPage4.SuspendLayout();
+            this.btn_calSal.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvStaffSal)).BeginInit();
             this.SuspendLayout();
             // 
             // dgvStaff
@@ -370,6 +381,7 @@
             this.tab_user.Controls.Add(this.tabPage1);
             this.tab_user.Controls.Add(this.tabPage2);
             this.tab_user.Controls.Add(this.tabPage3);
+            this.tab_user.Controls.Add(this.tabPage4);
             this.tab_user.Font = new System.Drawing.Font("Cambria", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tab_user.Location = new System.Drawing.Point(0, 0);
             this.tab_user.Name = "tab_user";
@@ -866,14 +878,14 @@
             this.dgvRequest.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgvRequest.BackgroundColor = System.Drawing.SystemColors.GradientInactiveCaption;
             this.dgvRequest.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = System.Drawing.Color.Lime;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Cambria", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgvRequest.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.Lime;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Cambria", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgvRequest.DefaultCellStyle = dataGridViewCellStyle1;
             this.dgvRequest.Location = new System.Drawing.Point(6, 18);
             this.dgvRequest.Name = "dgvRequest";
             this.dgvRequest.ReadOnly = true;
@@ -1630,6 +1642,105 @@
             this.dgvReqMg.TabIndex = 0;
             this.dgvReqMg.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvReqMg_CellClick);
             // 
+            // tabPage4
+            // 
+            this.tabPage4.Controls.Add(this.btn_calSal);
+            this.tabPage4.Location = new System.Drawing.Point(4, 24);
+            this.tabPage4.Name = "tabPage4";
+            this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage4.Size = new System.Drawing.Size(793, 431);
+            this.tabPage4.TabIndex = 3;
+            this.tabPage4.Text = "Salary & Liability";
+            this.tabPage4.UseVisualStyleBackColor = true;
+            // 
+            // btn_calSal
+            // 
+            this.btn_calSal.Controls.Add(this.dgvStaffSal);
+            this.btn_calSal.Controls.Add(this.button6);
+            this.btn_calSal.Controls.Add(this.label21);
+            this.btn_calSal.Controls.Add(this.dtp_SalaryTo);
+            this.btn_calSal.Controls.Add(this.label12);
+            this.btn_calSal.Controls.Add(this.dtp_Salaryfrom);
+            this.btn_calSal.Location = new System.Drawing.Point(0, 0);
+            this.btn_calSal.Name = "btn_calSal";
+            this.btn_calSal.Size = new System.Drawing.Size(386, 431);
+            this.btn_calSal.TabIndex = 0;
+            this.btn_calSal.TabStop = false;
+            this.btn_calSal.Text = "Salary";
+            // 
+            // dtp_Salaryfrom
+            // 
+            this.dtp_Salaryfrom.CustomFormat = "yyyy-MM-dd";
+            this.dtp_Salaryfrom.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.dtp_Salaryfrom.Location = new System.Drawing.Point(53, 19);
+            this.dtp_Salaryfrom.Name = "dtp_Salaryfrom";
+            this.dtp_Salaryfrom.Size = new System.Drawing.Size(88, 23);
+            this.dtp_Salaryfrom.TabIndex = 0;
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Font = new System.Drawing.Font("Cambria", 10F);
+            this.label12.Location = new System.Drawing.Point(8, 22);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(41, 16);
+            this.label12.TabIndex = 52;
+            this.label12.Text = "From";
+            // 
+            // label21
+            // 
+            this.label21.AutoSize = true;
+            this.label21.Font = new System.Drawing.Font("Cambria", 10F);
+            this.label21.Location = new System.Drawing.Point(165, 22);
+            this.label21.Name = "label21";
+            this.label21.Size = new System.Drawing.Size(22, 16);
+            this.label21.TabIndex = 54;
+            this.label21.Text = "To";
+            // 
+            // dtp_SalaryTo
+            // 
+            this.dtp_SalaryTo.CustomFormat = "yyyy-MM-dd";
+            this.dtp_SalaryTo.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.dtp_SalaryTo.Location = new System.Drawing.Point(193, 19);
+            this.dtp_SalaryTo.Name = "dtp_SalaryTo";
+            this.dtp_SalaryTo.Size = new System.Drawing.Size(88, 23);
+            this.dtp_SalaryTo.TabIndex = 53;
+            // 
+            // button6
+            // 
+            this.button6.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
+            this.button6.Font = new System.Drawing.Font("Cambria", 10F);
+            this.button6.ForeColor = System.Drawing.SystemColors.HotTrack;
+            this.button6.Location = new System.Drawing.Point(296, 17);
+            this.button6.Name = "button6";
+            this.button6.Size = new System.Drawing.Size(77, 30);
+            this.button6.TabIndex = 55;
+            this.button6.Text = "Calculate";
+            this.button6.UseVisualStyleBackColor = false;
+            this.button6.Click += new System.EventHandler(this.button6_Click);
+            // 
+            // dgvStaffSal
+            // 
+            this.dgvStaffSal.AllowUserToAddRows = false;
+            this.dgvStaffSal.AllowUserToDeleteRows = false;
+            this.dgvStaffSal.AllowUserToResizeColumns = false;
+            this.dgvStaffSal.AllowUserToResizeRows = false;
+            this.dgvStaffSal.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dgvStaffSal.BackgroundColor = System.Drawing.SystemColors.GradientInactiveCaption;
+            this.dgvStaffSal.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvStaffSal.ColumnHeadersVisible = false;
+            this.dgvStaffSal.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.dgvStaffSal.GridColor = System.Drawing.SystemColors.ActiveCaption;
+            this.dgvStaffSal.Location = new System.Drawing.Point(11, 64);
+            this.dgvStaffSal.MultiSelect = false;
+            this.dgvStaffSal.Name = "dgvStaffSal";
+            this.dgvStaffSal.ReadOnly = true;
+            this.dgvStaffSal.RowHeadersVisible = false;
+            this.dgvStaffSal.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.dgvStaffSal.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dgvStaffSal.Size = new System.Drawing.Size(176, 260);
+            this.dgvStaffSal.TabIndex = 56;
+            // 
             // frm_users
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1674,6 +1785,10 @@
             this.groupBox9.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown3)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvReqMg)).EndInit();
+            this.tabPage4.ResumeLayout(false);
+            this.btn_calSal.ResumeLayout(false);
+            this.btn_calSal.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvStaffSal)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -1799,5 +1914,13 @@
         private System.Windows.Forms.Label label19;
         private System.Windows.Forms.Button btnCancelReq;
         private System.Windows.Forms.Button button5;
+        private System.Windows.Forms.TabPage tabPage4;
+        private System.Windows.Forms.GroupBox btn_calSal;
+        private System.Windows.Forms.Label label21;
+        private System.Windows.Forms.DateTimePicker dtp_SalaryTo;
+        private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.DateTimePicker dtp_Salaryfrom;
+        private System.Windows.Forms.Button button6;
+        private System.Windows.Forms.DataGridView dgvStaffSal;
     }
 }

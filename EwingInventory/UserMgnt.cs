@@ -328,6 +328,7 @@ namespace EwingInventory
                 //Administrator
                 tab_user.TabPages.Remove(tabPage2); //MyAccount
                 tab_user.TabPages.Remove(tabPage3); //Requests
+                tab_user.TabPages.Remove(tabPage4); // Salary
                 home.LoadToDatagridview(dgvStaff, "SELECT sId 'ID',fName 'NAME' FROM staff WHERE sId > 0");
                 dgvStaff.Columns[0].Width = 30;
                 home.fillCombo(cmb_desig, "SELECT name FROM designation WHERE id > 0;", "name");
@@ -338,7 +339,8 @@ namespace EwingInventory
                 //User mode staff
                 tab_user.TabPages.Remove(tabPage1);
                 tab_user.TabPages.Remove(tabPage3);
-                home.LoadToDatagridview(dgvRequest, "SELECT onDate 'On', type 'Type', FORMAT(amount,2) 'Amount', status 'Status', reqDate 'Requested on' FROM requests WHERE sId=" + this.currentUID + " ORDER BY status desc, onDate desc;");
+                tab_user.TabPages.Remove(tabPage4);
+                home.LoadToDatagridview(dgvRequest, "SELECT onDate 'On', type 'Type', FORMAT(amount,2) 'Amount', status 'Status', reqDate 'Requested on' FROM requests WHERE sId=" + this.currentUID + "AND requests.onDate > NOW() ORDER BY status desc, onDate desc;");
                 home.chanfeDGVColor(dgvRequest, 3, "APPROVED","PENDING");
                 userDetails();
                 attDetails();
@@ -356,6 +358,9 @@ namespace EwingInventory
                 comboBox2.Text = "Pending";
                 userDetails();
                 attDetails();
+
+                
+
             }
 
             string w = Screen.FromControl(home).WorkingArea.Width.ToString();
@@ -862,18 +867,16 @@ namespace EwingInventory
         private void tab_user_SelectedIndexChanged(object sender, EventArgs e)
         {
             reqDate.CustomFormat = "yyyy-MM-dd";
-            if(tab_user.SelectedIndex == 1)
+            if(tab_user.SelectedIndex == 1) // MyAccount Page
             {
-                //MyAccount Page
                 home.LoadToDatagridview(dgvRequest, "SELECT onDate 'On', type 'Type', FORMAT(amount,2) 'Amount', status 'Status', reqDate 'Requested on' FROM requests WHERE sId=" + this.currentUID + " ORDER BY status desc, onDate desc;");
                 home.chanfeDGVColor(dgvRequest, 3, "APPROVED", "PENDING");
                 userDetails();
                 attDetails();
 
             }
-            else if(tab_user.SelectedIndex == 2)
+            else if(tab_user.SelectedIndex == 2) //Request Management Page
             {
-                //Request Management Page
                 label34.Visible = false;
                 label38.Visible = false;
                 numericUpDown3.Visible = false;
@@ -892,6 +895,15 @@ namespace EwingInventory
                 dgvReqMg.Columns[0].Width = 20;
                 userDetails();
                 attDetails();
+            }else if(tab_user.SelectedIndex == 3) //Salary Page
+            {
+                //Set Salary dtps to current month first and last
+                DateTime now = DateTime.Now;
+                DateTime stDate = new DateTime(now.Year, now.Month, 1);
+                DateTime endDate = stDate.AddMonths(1).AddDays(-1);
+
+                dtp_Salaryfrom.Value = stDate;
+                dtp_SalaryTo.Value = endDate;
             }
         }
                 
@@ -1162,6 +1174,16 @@ namespace EwingInventory
                     conn.Close();
                 }
             }
+        }
+
+        private void button6_Click(object sender, EventArgs e)
+        {
+            string curMonth = DateTime.Now.ToString("yyyy-MM");
+
+            home.LoadToDatagridview(dgvStaffSal, "SELECT a.sId 'ID' , s.fname 'Name', COUNT(*) 'Days' FROM attendance a, staff s WHERE a.sId = s.sid AND a.date like '"+curMonth+"%' GROUP BY a.sId, s.fName ;");
+            dgvStaffSal.Columns[0].Width = 10;
+            //dgvStaffSal.Columns[1].Width = 10;
+            dgvStaffSal.Columns[2].Width = 15;
         }
     }
 }
