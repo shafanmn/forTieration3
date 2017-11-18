@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Oct 16, 2017 at 06:37 PM
+-- Generation Time: Nov 18, 2017 at 09:39 AM
 -- Server version: 5.7.19
 -- PHP Version: 5.6.31
 
@@ -43,11 +43,14 @@ CREATE TABLE IF NOT EXISTS `attendance` (
 --
 
 INSERT INTO `attendance` (`date`, `sId`, `inTime`, `offTime`, `otHrs`) VALUES
-('2017-09-27', 1, '21:20', '21:21', 4),
-('2017-09-28', 1, '19:15', '19:40', 2),
-('2017-10-15', 1, '13:32', '18:00', 1),
-('2017-10-16', 1, '11:58', '21:16', 4),
-('2017-10-16', 2, '21:17', '21:21', 4),
+('2017-09-27', 1, '21:20', '22:00', 5),
+('2017-09-28', 1, '19:15', '22:00', 5),
+('2017-10-15', 1, '13:32', '22:00', 5),
+('2017-10-16', 1, '11:58', '22:00', 5),
+('2017-10-29', 1, '12:10', '22:00', 5),
+('2017-11-16', 1, '20:02', '22:00', 5),
+('2017-11-18', 1, '11:32', '22:00', 5),
+('2017-10-16', 2, '21:17', '21:21', 6),
 ('2017-10-15', 3, '11:34', '18:00', 1),
 ('2017-10-04', 4, '10:12', '18:00', 1),
 ('2017-10-16', 4, '08:04', '22:41', 5),
@@ -827,13 +830,13 @@ CREATE TABLE IF NOT EXISTS `requests` (
 --
 
 INSERT INTO `requests` (`sId`, `onDate`, `type`, `forDays`, `amount`, `reqDate`, `status`, `term`) VALUES
+(1, '2017-10-22', 'Salary Advance', NULL, 12000, '2017-10-15', 'APPROVED', NULL),
 (1, '2017-10-24', 'Half Day', NULL, NULL, '2017-10-15', 'DENIED', 0),
 (1, '2017-10-31', 'Day Off', 1, NULL, '2017-10-14', 'DENIED', 0),
 (1, '2017-11-15', 'Loan', NULL, 15000, '2017-10-16', 'APPROVED', NULL),
-(1, '2017-11-23', 'Salary Advance', NULL, 12000, '2017-10-15', 'APPROVED', NULL),
 (2, '2017-11-16', 'Loan', NULL, 10000, '2017-10-15', 'PENDING', 0),
 (2, '2018-01-09', 'Day Off', 1, NULL, '2017-10-15', 'PENDING', 0),
-(3, '2017-11-24', 'Loan', NULL, 50000, '2017-10-15', 'PENDING', 0),
+(3, '2017-11-24', 'Loan', NULL, 50000, '2017-10-15', 'DENIED', 0),
 (5, '2017-10-20', 'Half Day', NULL, NULL, '2017-10-15', 'PENDING', NULL);
 
 -- --------------------------------------------------------
@@ -858,7 +861,10 @@ CREATE TABLE IF NOT EXISTS `returndetails` (
 INSERT INTO `returndetails` (`dno`, `itemNo`, `qty`, `wsp`, `total`) VALUES
 ('1', 111112, 2, 1500, 3000),
 ('1', 111113, 2, 800, 1600),
-('1', 111114, 2, 750, 1500);
+('1', 111114, 2, 750, 1500),
+('2', 111110, 5, 1900, 9500),
+('2', 111115, 5, 800, 4000),
+('2', 111116, 8, 3500, 28000);
 
 -- --------------------------------------------------------
 
@@ -881,7 +887,8 @@ CREATE TABLE IF NOT EXISTS `returns` (
 --
 
 INSERT INTO `returns` (`dno`, `cid`, `created`, `remarks`, `total`) VALUES
-('001', '006', '2017-10-15', 'someo', 6100);
+('001', '006', '2017-10-15', 'someo', 6100),
+('002', '005', '10/29/2017', '', 41500);
 
 -- --------------------------------------------------------
 
@@ -906,7 +913,10 @@ CREATE TABLE IF NOT EXISTS `returnstock` (
 INSERT INTO `returnstock` (`itemCode`, `description`, `pp`, `wsp`, `sp`, `qty`) VALUES
 ('111112', 'Yellow Pants XL male', NULL, 1500, NULL, 2),
 ('111113', 'Pink T-shirt L Female', NULL, 800, NULL, 2),
-('111114', 'Blue T-shirt XL male', NULL, 750, NULL, 2);
+('111114', 'Blue T-shirt XL male', NULL, 750, NULL, 2),
+('111110', 'denim blue L Male', NULL, 1900, NULL, 5),
+('111115', 'Red T-Shirt XL male', NULL, 800, NULL, 5),
+('111116', 'Green Plain saree Female', NULL, 3500, NULL, 8);
 
 -- --------------------------------------------------------
 
@@ -917,7 +927,7 @@ INSERT INTO `returnstock` (`itemCode`, `description`, `pp`, `wsp`, `sp`, `qty`) 
 DROP TABLE IF EXISTS `salary`;
 CREATE TABLE IF NOT EXISTS `salary` (
   `sId` int(2) NOT NULL,
-  `month` char(5) NOT NULL,
+  `month` char(7) NOT NULL,
   `bSal` double DEFAULT NULL,
   `incentive` double DEFAULT NULL,
   `epf` double DEFAULT NULL,
@@ -929,6 +939,17 @@ CREATE TABLE IF NOT EXISTS `salary` (
   `comm` double DEFAULT NULL,
   PRIMARY KEY (`sId`,`month`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `salary`
+--
+
+INSERT INTO `salary` (`sId`, `month`, `bSal`, `incentive`, `epf`, `etf`, `sAdv`, `loan`, `nopay`, `allowance`, `comm`) VALUES
+(1, '2017-10', 124000, 11250, 14880, 9920, NULL, NULL, NULL, NULL, NULL),
+(2, '2017-10', 124000, 4500, 14880, 9920, NULL, NULL, NULL, NULL, NULL),
+(3, '2017-10', 100000, 700, 12000, 8000, NULL, NULL, NULL, NULL, NULL),
+(4, '2017-10', 100000, 4200, 12000, 8000, NULL, NULL, NULL, NULL, NULL),
+(5, '2017-10', 96500, 650, 11580, 7720, NULL, NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -1024,7 +1045,7 @@ CREATE TABLE IF NOT EXISTS `staff` (
 
 INSERT INTO `staff` (`sId`, `uName`, `pass`, `fName`, `lname`, `add1`, `add2`, `religion`, `mob`, `email`, `nic`, `access`, `joined`, `dob`, `desig`, `image`) VALUES
 (0, 'ADMIN', 'admin', NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, 0, NULL, NULL, 0, NULL),
-(1, 'SHAFAN', 'sha', 'SHAFAN', 'NAZIM', '34', 'Grandpass', 3, '755619134', 'mohamed.shafan@my.sliit.lk', '199514303063', 1, '2016-01-04', '1995-05-22', 2, 'C:\\Users\\Shehan Mark Fdo\\Desktop\\InventoryMgt\\EwingInventory\\Resources\\icon_user1.png'),
+(1, 'SHAFAN', 'sha', 'SHAFAN', 'NAZIM', '34', 'Grandpass', 3, '755619134', 'mohamed.shafan@my.sliit.lk', '199514303063', 1, '2016-01-04', '1995-05-22', 2, 'C:\\ASPnet\\forTieration3\\EwingInventory\\Resources\\EwingPP.png'),
 (2, 'JAJE', 'jaje', 'JAJE', 'THANAN', 'adfs', 'adfs', 2, '799856565', 'thanan@gmail.com', '959384321', 2, '2017-01-02', '1995-12-05', 2, NULL),
 (3, 'GOWSHI', 'gowshi', 'GOWSHALINI', 'RAJALINGAM', '87', 'Dehiwala', 3, '776589532', 'gow@shi.com', '199658596586', 1, '1996-12-05', '1996-12-05', 3, 'E:\\Setup\\OP2\\OP2_Backup\\Image_and_Video\\Pictures\\Wallpapers\\20151218063256.jpg'),
 (4, 'MARK', 'mark', 'SHEHAN', 'FERNANDO', '78', 'Kollupitiya', 4, '7685965865', 'she@han.lk', '965833512', 2, '2017-07-01', '1996-09-06', 3, NULL),

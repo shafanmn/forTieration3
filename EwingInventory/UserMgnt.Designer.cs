@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             this.dgvStaff = new System.Windows.Forms.DataGridView();
             this.button1 = new System.Windows.Forms.Button();
             this.txt_serach = new System.Windows.Forms.TextBox();
@@ -150,12 +150,15 @@
             this.dgvReqMg = new System.Windows.Forms.DataGridView();
             this.tabPage4 = new System.Windows.Forms.TabPage();
             this.btn_calSal = new System.Windows.Forms.GroupBox();
-            this.dtp_Salaryfrom = new System.Windows.Forms.DateTimePicker();
-            this.label12 = new System.Windows.Forms.Label();
+            this.dgvStaffSal = new System.Windows.Forms.DataGridView();
+            this.btnCalcSal = new System.Windows.Forms.Button();
+            this.dgvStaffatt = new System.Windows.Forms.DataGridView();
+            this.button6 = new System.Windows.Forms.Button();
             this.label21 = new System.Windows.Forms.Label();
             this.dtp_SalaryTo = new System.Windows.Forms.DateTimePicker();
-            this.button6 = new System.Windows.Forms.Button();
-            this.dgvStaffSal = new System.Windows.Forms.DataGridView();
+            this.label12 = new System.Windows.Forms.Label();
+            this.dtp_Salaryfrom = new System.Windows.Forms.DateTimePicker();
+            this.button7 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvStaff)).BeginInit();
             this.tab_user.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -180,6 +183,7 @@
             this.tabPage4.SuspendLayout();
             this.btn_calSal.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvStaffSal)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvStaffatt)).BeginInit();
             this.SuspendLayout();
             // 
             // dgvStaff
@@ -789,6 +793,7 @@
             this.button5.TabIndex = 41;
             this.button5.Text = "My Attendance";
             this.button5.UseVisualStyleBackColor = false;
+            this.button5.Click += new System.EventHandler(this.button5_Click);
             // 
             // btn_inOut
             // 
@@ -878,14 +883,14 @@
             this.dgvRequest.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgvRequest.BackgroundColor = System.Drawing.SystemColors.GradientInactiveCaption;
             this.dgvRequest.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = System.Drawing.Color.Lime;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Cambria", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgvRequest.DefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle4.BackColor = System.Drawing.Color.Lime;
+            dataGridViewCellStyle4.Font = new System.Drawing.Font("Cambria", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgvRequest.DefaultCellStyle = dataGridViewCellStyle4;
             this.dgvRequest.Location = new System.Drawing.Point(6, 18);
             this.dgvRequest.Name = "dgvRequest";
             this.dgvRequest.ReadOnly = true;
@@ -1381,6 +1386,7 @@
             this.groupBox9.TabIndex = 58;
             this.groupBox9.TabStop = false;
             this.groupBox9.Text = "Previous Attandence";
+            this.groupBox9.Visible = false;
             // 
             // label44
             // 
@@ -1650,12 +1656,15 @@
             this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage4.Size = new System.Drawing.Size(793, 431);
             this.tabPage4.TabIndex = 3;
-            this.tabPage4.Text = "Salary & Liability";
+            this.tabPage4.Text = "Salary & Reports";
             this.tabPage4.UseVisualStyleBackColor = true;
             // 
             // btn_calSal
             // 
+            this.btn_calSal.Controls.Add(this.button7);
             this.btn_calSal.Controls.Add(this.dgvStaffSal);
+            this.btn_calSal.Controls.Add(this.btnCalcSal);
+            this.btn_calSal.Controls.Add(this.dgvStaffatt);
             this.btn_calSal.Controls.Add(this.button6);
             this.btn_calSal.Controls.Add(this.label21);
             this.btn_calSal.Controls.Add(this.dtp_SalaryTo);
@@ -1663,61 +1672,10 @@
             this.btn_calSal.Controls.Add(this.dtp_Salaryfrom);
             this.btn_calSal.Location = new System.Drawing.Point(0, 0);
             this.btn_calSal.Name = "btn_calSal";
-            this.btn_calSal.Size = new System.Drawing.Size(386, 431);
+            this.btn_calSal.Size = new System.Drawing.Size(351, 431);
             this.btn_calSal.TabIndex = 0;
             this.btn_calSal.TabStop = false;
             this.btn_calSal.Text = "Salary";
-            // 
-            // dtp_Salaryfrom
-            // 
-            this.dtp_Salaryfrom.CustomFormat = "yyyy-MM-dd";
-            this.dtp_Salaryfrom.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dtp_Salaryfrom.Location = new System.Drawing.Point(53, 19);
-            this.dtp_Salaryfrom.Name = "dtp_Salaryfrom";
-            this.dtp_Salaryfrom.Size = new System.Drawing.Size(88, 23);
-            this.dtp_Salaryfrom.TabIndex = 0;
-            // 
-            // label12
-            // 
-            this.label12.AutoSize = true;
-            this.label12.Font = new System.Drawing.Font("Cambria", 10F);
-            this.label12.Location = new System.Drawing.Point(8, 22);
-            this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(41, 16);
-            this.label12.TabIndex = 52;
-            this.label12.Text = "From";
-            // 
-            // label21
-            // 
-            this.label21.AutoSize = true;
-            this.label21.Font = new System.Drawing.Font("Cambria", 10F);
-            this.label21.Location = new System.Drawing.Point(165, 22);
-            this.label21.Name = "label21";
-            this.label21.Size = new System.Drawing.Size(22, 16);
-            this.label21.TabIndex = 54;
-            this.label21.Text = "To";
-            // 
-            // dtp_SalaryTo
-            // 
-            this.dtp_SalaryTo.CustomFormat = "yyyy-MM-dd";
-            this.dtp_SalaryTo.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dtp_SalaryTo.Location = new System.Drawing.Point(193, 19);
-            this.dtp_SalaryTo.Name = "dtp_SalaryTo";
-            this.dtp_SalaryTo.Size = new System.Drawing.Size(88, 23);
-            this.dtp_SalaryTo.TabIndex = 53;
-            // 
-            // button6
-            // 
-            this.button6.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
-            this.button6.Font = new System.Drawing.Font("Cambria", 10F);
-            this.button6.ForeColor = System.Drawing.SystemColors.HotTrack;
-            this.button6.Location = new System.Drawing.Point(296, 17);
-            this.button6.Name = "button6";
-            this.button6.Size = new System.Drawing.Size(77, 30);
-            this.button6.TabIndex = 55;
-            this.button6.Text = "Calculate";
-            this.button6.UseVisualStyleBackColor = false;
-            this.button6.Click += new System.EventHandler(this.button6_Click);
             // 
             // dgvStaffSal
             // 
@@ -1728,18 +1686,117 @@
             this.dgvStaffSal.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgvStaffSal.BackgroundColor = System.Drawing.SystemColors.GradientInactiveCaption;
             this.dgvStaffSal.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvStaffSal.ColumnHeadersVisible = false;
             this.dgvStaffSal.Cursor = System.Windows.Forms.Cursors.Hand;
             this.dgvStaffSal.GridColor = System.Drawing.SystemColors.ActiveCaption;
-            this.dgvStaffSal.Location = new System.Drawing.Point(11, 64);
+            this.dgvStaffSal.Location = new System.Drawing.Point(8, 265);
             this.dgvStaffSal.MultiSelect = false;
             this.dgvStaffSal.Name = "dgvStaffSal";
             this.dgvStaffSal.ReadOnly = true;
             this.dgvStaffSal.RowHeadersVisible = false;
             this.dgvStaffSal.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.dgvStaffSal.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvStaffSal.Size = new System.Drawing.Size(176, 260);
-            this.dgvStaffSal.TabIndex = 56;
+            this.dgvStaffSal.Size = new System.Drawing.Size(334, 153);
+            this.dgvStaffSal.TabIndex = 58;
+            // 
+            // btnCalcSal
+            // 
+            this.btnCalcSal.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
+            this.btnCalcSal.Enabled = false;
+            this.btnCalcSal.Font = new System.Drawing.Font("Cambria", 10F);
+            this.btnCalcSal.ForeColor = System.Drawing.SystemColors.HotTrack;
+            this.btnCalcSal.Location = new System.Drawing.Point(225, 223);
+            this.btnCalcSal.Name = "btnCalcSal";
+            this.btnCalcSal.Size = new System.Drawing.Size(117, 36);
+            this.btnCalcSal.TabIndex = 57;
+            this.btnCalcSal.Text = "Calculate Salary";
+            this.btnCalcSal.UseVisualStyleBackColor = false;
+            this.btnCalcSal.Click += new System.EventHandler(this.btnCalcSal_Click);
+            // 
+            // dgvStaffatt
+            // 
+            this.dgvStaffatt.AllowUserToAddRows = false;
+            this.dgvStaffatt.AllowUserToDeleteRows = false;
+            this.dgvStaffatt.AllowUserToResizeColumns = false;
+            this.dgvStaffatt.AllowUserToResizeRows = false;
+            this.dgvStaffatt.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dgvStaffatt.BackgroundColor = System.Drawing.SystemColors.GradientInactiveCaption;
+            this.dgvStaffatt.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvStaffatt.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.dgvStaffatt.GridColor = System.Drawing.SystemColors.ActiveCaption;
+            this.dgvStaffatt.Location = new System.Drawing.Point(8, 64);
+            this.dgvStaffatt.MultiSelect = false;
+            this.dgvStaffatt.Name = "dgvStaffatt";
+            this.dgvStaffatt.ReadOnly = true;
+            this.dgvStaffatt.RowHeadersVisible = false;
+            this.dgvStaffatt.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.dgvStaffatt.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dgvStaffatt.Size = new System.Drawing.Size(334, 153);
+            this.dgvStaffatt.TabIndex = 56;
+            // 
+            // button6
+            // 
+            this.button6.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
+            this.button6.Font = new System.Drawing.Font("Cambria", 8.5F);
+            this.button6.ForeColor = System.Drawing.SystemColors.HotTrack;
+            this.button6.Location = new System.Drawing.Point(253, 25);
+            this.button6.Name = "button6";
+            this.button6.Size = new System.Drawing.Size(89, 36);
+            this.button6.TabIndex = 55;
+            this.button6.Text = "Show Attendance";
+            this.button6.UseVisualStyleBackColor = false;
+            this.button6.Click += new System.EventHandler(this.button6_Click);
+            // 
+            // label21
+            // 
+            this.label21.AutoSize = true;
+            this.label21.Font = new System.Drawing.Font("Cambria", 10F);
+            this.label21.Location = new System.Drawing.Point(138, 32);
+            this.label21.Name = "label21";
+            this.label21.Size = new System.Drawing.Size(22, 16);
+            this.label21.TabIndex = 54;
+            this.label21.Text = "To";
+            // 
+            // dtp_SalaryTo
+            // 
+            this.dtp_SalaryTo.CustomFormat = "yyyy-MM-dd";
+            this.dtp_SalaryTo.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.dtp_SalaryTo.Location = new System.Drawing.Point(160, 29);
+            this.dtp_SalaryTo.Name = "dtp_SalaryTo";
+            this.dtp_SalaryTo.Size = new System.Drawing.Size(88, 23);
+            this.dtp_SalaryTo.TabIndex = 53;
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Font = new System.Drawing.Font("Cambria", 10F);
+            this.label12.Location = new System.Drawing.Point(8, 32);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(41, 16);
+            this.label12.TabIndex = 52;
+            this.label12.Text = "From";
+            // 
+            // dtp_Salaryfrom
+            // 
+            this.dtp_Salaryfrom.CustomFormat = "yyyy-MM-dd";
+            this.dtp_Salaryfrom.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.dtp_Salaryfrom.Location = new System.Drawing.Point(49, 29);
+            this.dtp_Salaryfrom.Name = "dtp_Salaryfrom";
+            this.dtp_Salaryfrom.Size = new System.Drawing.Size(88, 23);
+            this.dtp_Salaryfrom.TabIndex = 0;
+            this.dtp_Salaryfrom.ValueChanged += new System.EventHandler(this.dtp_Salaryfrom_ValueChanged);
+            // 
+            // button7
+            // 
+            this.button7.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
+            this.button7.Font = new System.Drawing.Font("Cambria", 10F);
+            this.button7.ForeColor = System.Drawing.SystemColors.HotTrack;
+            this.button7.Location = new System.Drawing.Point(8, 223);
+            this.button7.Name = "button7";
+            this.button7.Size = new System.Drawing.Size(117, 36);
+            this.button7.TabIndex = 59;
+            this.button7.Text = "Previous Salary";
+            this.button7.UseVisualStyleBackColor = false;
+            this.button7.Click += new System.EventHandler(this.button7_Click);
             // 
             // frm_users
             // 
@@ -1789,6 +1846,7 @@
             this.btn_calSal.ResumeLayout(false);
             this.btn_calSal.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvStaffSal)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvStaffatt)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -1921,6 +1979,9 @@
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.DateTimePicker dtp_Salaryfrom;
         private System.Windows.Forms.Button button6;
+        private System.Windows.Forms.DataGridView dgvStaffatt;
+        private System.Windows.Forms.Button btnCalcSal;
         private System.Windows.Forms.DataGridView dgvStaffSal;
+        private System.Windows.Forms.Button button7;
     }
 }

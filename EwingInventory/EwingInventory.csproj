@@ -132,6 +132,11 @@
     <Compile Include="Customer Management.designer.cs">
       <DependentUpon>Customer Management.cs</DependentUpon>
     </Compile>
+    <Compile Include="Datasets\dsUserAtt.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>dsUserAtt.xsd</DependentUpon>
+    </Compile>
     <Compile Include="Delete.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -167,6 +172,18 @@
     </Compile>
     <Compile Include="payment_history.designer.cs">
       <DependentUpon>payment_history.cs</DependentUpon>
+    </Compile>
+    <Compile Include="RepForms\rptfrmUserAtt.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="RepForms\rptfrmUserAtt.Designer.cs">
+      <DependentUpon>rptfrmUserAtt.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\crUserAtt.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>crUserAtt.rpt</DependentUpon>
+      <SubType>Component</SubType>
     </Compile>
     <Compile Include="Returnmgt.cs">
       <SubType>Form</SubType>
@@ -250,6 +267,13 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="RepForms\rptfrmUserAtt.resx">
+      <DependentUpon>rptfrmUserAtt.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\crUserAtt.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>crUserAtt.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="Returnmgt.resx">
       <DependentUpon>Returnmgt.cs</DependentUpon>
     </EmbeddedResource>
@@ -262,6 +286,17 @@
     <EmbeddedResource Include="UserMgnt.resx">
       <DependentUpon>UserMgnt.cs</DependentUpon>
     </EmbeddedResource>
+    <None Include="Datasets\dsUserAtt.xsc">
+      <DependentUpon>dsUserAtt.xsd</DependentUpon>
+    </None>
+    <None Include="Datasets\dsUserAtt.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>dsUserAtt.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="Datasets\dsUserAtt.xss">
+      <DependentUpon>dsUserAtt.xsd</DependentUpon>
+    </None>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -341,6 +376,10 @@
     <Content Include="SqlServerTypes\x86\SqlServerSpatial140.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Service Include="{C0C07587-41A7-46C8-8FBD-3F9C8EBE2DDC}" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

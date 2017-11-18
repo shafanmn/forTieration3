@@ -205,7 +205,7 @@ namespace EwingInventory
             }
             return r;
         }
-
+                
         public void userDetails()
         {
             MySqlConnection conn = new MySqlConnection(home.connString);
@@ -228,7 +228,6 @@ namespace EwingInventory
                     pic_user.ImageLocation = dr["image"].ToString();
 
                     age.Text = (DateTime.Now.Year - Convert.ToInt32(dr["date"].ToString())).ToString();
-
                 }
                 conn.Close();
 
@@ -322,6 +321,7 @@ namespace EwingInventory
         {
             dateBirth.CustomFormat = "yyyy-MM-dd";
             dateJoined.CustomFormat = "yyyy-MM-dd";
+            //dtp_SalaryTo.MaxDate = DateTime.Now;
 
             if (this.currentUseraccess == "0")
             {
@@ -900,10 +900,11 @@ namespace EwingInventory
                 //Set Salary dtps to current month first and last
                 DateTime now = DateTime.Now;
                 DateTime stDate = new DateTime(now.Year, now.Month, 1);
-                DateTime endDate = stDate.AddMonths(1).AddDays(-1);
+                //DateTime endDate = stDate.AddMonths(1).AddDays(-1);
+                DateTime endDate = now ;
 
                 dtp_Salaryfrom.Value = stDate;
-                dtp_SalaryTo.Value = endDate;
+                //dtp_SalaryTo.Value = endDate;
             }
         }
                 
@@ -1179,11 +1180,114 @@ namespace EwingInventory
         private void button6_Click(object sender, EventArgs e)
         {
             string curMonth = DateTime.Now.ToString("yyyy-MM");
+            string from = dtp_Salaryfrom.Value.ToString("yyyy-MM-dd");
+            string to = dtp_SalaryTo.Value.ToString("yyyy-MM-dd");
 
-            home.LoadToDatagridview(dgvStaffSal, "SELECT a.sId 'ID' , s.fname 'Name', COUNT(*) 'Days' FROM attendance a, staff s WHERE a.sId = s.sid AND a.date like '"+curMonth+"%' GROUP BY a.sId, s.fName ;");
-            dgvStaffSal.Columns[0].Width = 10;
+            home.LoadToDatagridview(dgvStaffatt, "SELECT a.sId 'ID' , s.fname 'Name', COUNT(*) 'Days', SUM(a.otHrs) 'OT Hours' FROM attendance a, staff s WHERE a.sId = s.sid AND a.date BETWEEN '"+from+"' AND '"+to+"' GROUP BY a.sId, s.fName ;");
+            dgvStaffatt.Columns[0].Width = 30;
             //dgvStaffSal.Columns[1].Width = 10;
-            dgvStaffSal.Columns[2].Width = 15;
+            dgvStaffatt.Columns[2].Width = 50;
+            dgvStaffatt.Columns[3].Width = 80;
+
+            btnCalcSal.Enabled = true;
+        }
+
+        private void dtp_Salaryfrom_ValueChanged(object sender, EventArgs e)
+        {
+            DateTime now = dtp_Salaryfrom.Value;
+            DateTime endDate = now.AddMonths(1).AddDays(-1);
+
+            dtp_SalaryTo.Value = endDate;
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            RepForms.rptfrmUserAtt u = new RepForms.rptfrmUserAtt(this.currentUID);
+            u.Show();
+        }
+
+        private void btnCalcSal_Click(object sender, EventArgs e)
+        {
+            int rows = dgvStaffatt.RowCount;
+            
+            for(int i=0; i<rows; i++)
+            {
+                string sid = dgvStaffatt.Rows[i].Cells[0].Value.ToString();
+                string days = dgvStaffatt.Rows[i].Cells[2].Value.ToString();
+                string othts = dgvStaffatt.Rows[i].Cells[3].Value.ToString();
+                string otrate = null;
+                string bsal = null;
+
+                //get user details
+                MySqlCommand cmd = new MySqlCommand("SELECT s.sId 'sid',d.bSal 'bSal',d.otRate 'otRate' FROM staff s, designation d WHERE s.desig = d.id AND s.sId = "+sid+";", conn);
+                MySqlDataReader dr = null;
+
+                try
+                {
+                    conn.Open();
+                    dr = cmd.ExecuteReader();
+
+                    while (dr.Read())
+                    {
+                        bsal = dr[1].ToString();
+                        otrate = dr[2].ToString();
+                    }
+
+                }catch(Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+                finally
+                {
+                    conn.Close();
+                }
+                //End of User Details
+
+                
+
+                //Calculate Salary
+                double otAmt = (Convert.ToDouble(othts) * Convert.ToDouble(otrate));
+
+                MySqlCommand cmd2 = new MySqlCommand("INSERT INTO salary(sId,month,bSal,incentive,epf,etf)"+
+                    "VALUES(@sid,@month,@bsal,@incen,@epf,@etf)",conn);
+
+                cmd2.Parameters.Add("@sid", MySqlDbType.Int32).Value = Convert.ToInt32(sid);
+                cmd2.Parameters.Add("@month", MySqlDbType.VarChar).Value = dtp_Salaryfrom.Value.ToString("yyyy-MM");
+                cmd2.Parameters.Add("@bsal", MySqlDbType.Double).Value = Convert.ToDouble(bsal);
+                cmd2.Parameters.Add("@incen", MySqlDbType.Double).Value = Convert.ToDouble(otAmt);
+                cmd2.Parameters.Add("@epf", MySqlDbType.Double).Value = (Convert.ToDouble(bsal) * 0.12);
+                cmd2.Parameters.Add("@etf", MySqlDbType.Double).Value = (Convert.ToDouble(bsal) * 0.08);
+
+
+                //MessageBox.Show(sid + " " + days + " " + othts + " " + bsal + " " + otrate + " " +otAmt);
+
+                try
+                {
+                    conn.Open();
+                    if (cmd2.ExecuteNonQuery() > 0)
+                        MessageBox.Show(bsal);
+
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+                finally
+                {
+                    conn.Close();
+                }
+                //End of calculate salary
+            }
+
+            //Load Salary Table
+            string month = dtp_Salaryfrom.Value.ToString("yyyy-MM");
+            home.LoadToDatagridview(dgvStaffSal, "SELECT sId, month,bSal,incentive,epf,etf FROM salary WHERE month ="+month+";");
+        }
+
+        private void button7_Click(object sender, EventArgs e)
+        {
+            string month = DateTime.Now.AddMonths(-1).ToString("yyyy-MM");
+            home.LoadToDatagridview(dgvStaffSal, "SELECT sId, month,bSal,incentive,epf,etf FROM salary WHERE month ='"+month+"';");
         }
     }
 }
